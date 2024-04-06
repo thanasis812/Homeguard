@@ -160,6 +160,7 @@ server:
       cookie:
         http-only: true
 
+#Disable management swagger if commented out
 springdoc:
   show-actuator: true
 
@@ -190,7 +191,7 @@ jhipster:
   api-docs:
     default-include-pattern: /api/**
     management-include-pattern: /management/**
-    title: Homeguard API
+    title: Homeguard API lol
     description: Homeguard API documentation
     version: 0.0.1
     terms-of-service-url:
