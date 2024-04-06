@@ -1,0 +1,149 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143027"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "verified",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "squareMeters",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "plotSquareMeters",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "numberOfBathrooms",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfBedrooms",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfKitchens",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfAirConditioner",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "houseRules",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "contractYears",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "nextAvailableDateForRent",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "thumbnail",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "houseType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "floor",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfFlats",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "energyClass",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "construction",
+      "fieldType": "ConstructionEnum",
+      "fieldValues": "APARTMENT,FLAT,MAISONETTE"
+    },
+    {
+      "fieldName": "yearOfManufacture",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "yearOfRenovation",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "propertyCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "furnitured",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "furnituredDescription",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Property",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "location",
+      "relationshipName": "location",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "rentalAgreement",
+      "relationshipName": "rental",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "houseCharacteristics",
+      "relationshipName": "houseCharacteristic",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "review",
+      "relationshipName": "reviews",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "image",
+      "relationshipName": "propertysPhoto",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

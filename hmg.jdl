@@ -1,0 +1,203 @@
+entity Tenant {
+    firstName String required
+    lastName String required
+    gender Integer max(1)
+    afm Integer
+    email String pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)
+    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+    category UserCategoryEnum
+    createdDate LocalDate
+    status UserStatusEnum
+    settingsMetadata String
+    subscriptionType SubscriptionEnum
+    deleted Boolean
+}
+
+enum SubscriptionEnum {
+    BASIC, ADVANCED
+}
+
+entity LandLord {
+    firstName String required
+    lastName String required
+    gender Integer max(1)
+    email String pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)
+    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+    category UserCategoryEnum
+    createdDate LocalDate
+    status UserStatusEnum required
+    settingsMetadata String
+    deleted Boolean
+}
+
+enum UserStatusEnum {
+    ACTIVE, INACTIVE, PENDING_VERIFY
+}
+
+entity Location {
+    streetAddress String required,
+    apartmentUnit String,
+    city String required,
+    stateProvinceRegion String,
+    postalCode String required,
+    country String required,
+    latitude Double required,
+    longitude Double required,
+    localGeographicDivision String,
+    municipalCommunity String,
+    additionalNotes TextBlob,
+    number String,
+    zipCode Integer required,
+    floor Integer,
+    directions String
+}
+
+entity Property {
+    verified Boolean ,
+    name String,
+    description String,
+    price BigDecimal required,
+    squareMeters BigDecimal,
+    plotSquareMeters BigDecimal,
+    numberOfBathrooms Integer,
+    numberOfBedrooms Integer,
+    numberOfKitchens Integer,
+    numberOfAirConditioner Integer,
+    houseRules TextBlob,
+    contractYears Integer,
+
+    nextAvailableDateForRent LocalDate, // note this must be validate with RentalAgreement
+    thumbnail Long,
+    houseType String,
+    floor Integer,
+    numberOfFlats Integer,
+    energyClass String,
+    construction ConstructionEnum
+    yearOfManufacture Integer,
+    yearOfRenovation Integer,
+    propertyCode String,
+    furnitured Boolean,
+    furnituredDescription String
+    deleted Boolean
+}
+enum ConstructionEnum {
+    APARTMENT,FLAT,MAISONETTE
+}
+
+enum EnergyClassEnum {
+    A,B,C
+}
+
+entity TenantPropertyPreferences {
+    favorite Boolean,
+    favoriteDate LocalDate,
+    reminder Boolean,
+    reminderDate LocalDate,
+    deleted Boolean
+}
+
+entity RentalAgreement {
+    agreements TextBlob required,
+    deliveryProtocol TextBlob ,
+    tenantSign Boolean required
+    landLordSigned Boolean
+    status RentalAgreementStatusEnum required
+    expirationDate LocalDate required
+    createdDate LocalDate required
+    latest LocalDate required
+    deleted Boolean
+}
+enum RentalAgreementStatusEnum {
+    EXPIRED, CANCELED, PENDING_LANDLORD_SIGN, BOOKED, EXPIRED_RENEWED
+}
+
+
+enum UserCategoryEnum {
+    NORMAL, OTHER
+}
+entity HouseCharacteristics {
+    code HouseCharacteristicsEnum required,
+    group HouseCharacteristicsGroupEnum ,
+    primaryToUser Boolean,
+    deleted Boolean
+}
+enum HouseCharacteristicsEnum {
+    FREEZER, OVEN, FIREPLACE,ACCESSIBILITY,ALARM,BBQ,PARKING,AIR_CONDITIONING, GEOTHERMAL
+}
+enum HouseCharacteristicsGroupEnum {
+    PARKING, HOUSE, OUTDOOR,EQUIPMENT,HEATING_SYSTEM
+}
+
+entity Review {
+    description String
+    stars Integer required
+    createdDate LocalDate required
+    updatedDate LocalDate
+    deleted Boolean
+}
+
+entity Payment {
+    price Float
+    createdDate LocalDate
+    extendedDate LocalDate
+    payedDate Instant
+    status PaymentStatusEnum
+    retry Integer
+    paymentID String // revolut maybe?
+}
+
+enum PaymentStatusEnum {
+    PAYED, CANCELED, RETRYING, EXTENDED, EXPIRED
+}
+
+entity Image {
+    path String //path of image url on server
+    createdDate LocalDate,
+    updatedDate LocalDate
+    updatedDate ImageBlob
+
+}
+
+relationship OneToOne {
+    //Hold data of Property location
+    Tenant to User with builtInEntity
+    LandLord to User with builtInEntity
+
+    Property{location} to Location,
+    Tenant{location} to Location,
+    // Holds
+    TenantPropertyPreferences{property} to Property
+    LandLord{owner} to Tenant
+    Tenant{tenantImage} to Image,
+    LandLord{landLordImage} to Image,
+}
+
+relationship OneToMany {
+    //Hold data of RentalAgreements of the Property
+    Property{rental} to RentalAgreement,
+    //Tenants can save an property to favorites
+    Tenant{propertyPreferences} to TenantPropertyPreferences
+    Property{houseCharacteristic} to HouseCharacteristics,
+    Property{reviews} to Review,
+    Property{propertysPhoto} to Image,
+//    Tenant{rentedProperty} to Property, //why? do i need that?
+    Tenant{apartmentReview} to Review,
+    LandLord{tenantReview} to Review,
+    Review{images} to Image,
+    RentalAgreement{payment} to Payment,
+    Tenant{rentedPropertysAgreement} to RentalAgreement{tenant}
+    LandLord{rentalAgreement} to RentalAgreement{propertyOwner}
+}
+
+service * with serviceClass
+service * with serviceImpl
+dto * with mapstruct
+filter Property
+paginate * with pagination
+
+
+
+
+
+
+

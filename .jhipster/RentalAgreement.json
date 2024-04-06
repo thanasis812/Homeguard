@@ -1,0 +1,80 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143029"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "agreements",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deliveryProtocol",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "tenantSign",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "landLordSigned",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "RentalAgreementStatusEnum",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EXPIRED,CANCELED,PENDING_LANDLORD_SIGN,BOOKED,EXPIRED_RENEWED"
+    },
+    {
+      "fieldName": "expirationDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "latest",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "RentalAgreement",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "payment",
+      "relationshipName": "payment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tenant",
+      "otherEntityRelationshipName": "rentedPropertysAgreement",
+      "relationshipName": "tenant",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "landLord",
+      "otherEntityRelationshipName": "rentalAgreement",
+      "relationshipName": "propertyOwner",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

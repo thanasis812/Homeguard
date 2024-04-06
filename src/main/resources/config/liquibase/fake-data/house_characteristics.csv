@@ -1,0 +1,11 @@
+id;code;jhi_group;primary_to_user;deleted
+1;FREEZER;OUTDOOR;true;true
+2;ALARM;HEATING_SYSTEM;true;true
+3;PARKING;HEATING_SYSTEM;true;true
+4;GEOTHERMAL;OUTDOOR;false;false
+5;FIREPLACE;HEATING_SYSTEM;true;true
+6;PARKING;HOUSE;false;true
+7;PARKING;PARKING;true;true
+8;FIREPLACE;PARKING;false;true
+9;ALARM;HEATING_SYSTEM;true;false
+10;FIREPLACE;PARKING;false;true

@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143030"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "HouseCharacteristicsEnum",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "FREEZER,OVEN,FIREPLACE,ACCESSIBILITY,ALARM,BBQ,PARKING,AIR_CONDITIONING,GEOTHERMAL"
+    },
+    {
+      "fieldName": "group",
+      "fieldType": "HouseCharacteristicsGroupEnum",
+      "fieldValues": "PARKING,HOUSE,OUTDOOR,EQUIPMENT,HEATING_SYSTEM"
+    },
+    {
+      "fieldName": "primaryToUser",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "HouseCharacteristics",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -41,6 +41,27 @@ public class CacheConfiguration {
             createCache(cm, com.hg.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, com.hg.repository.UserRepository.USERS_BY_EMAIL_CACHE);
             createCache(cm, com.hg.domain.Authority.class.getName());
+            createCache(cm, com.hg.domain.Tenant.class.getName());
+            createCache(cm, com.hg.domain.Tenant.class.getName() + ".propertyPreferences");
+            createCache(cm, com.hg.domain.Tenant.class.getName() + ".apartmentReviews");
+            createCache(cm, com.hg.domain.Tenant.class.getName() + ".rentedPropertysAgreements");
+            createCache(cm, com.hg.domain.LandLord.class.getName());
+            createCache(cm, com.hg.domain.LandLord.class.getName() + ".tenantReviews");
+            createCache(cm, com.hg.domain.LandLord.class.getName() + ".rentalAgreements");
+            createCache(cm, com.hg.domain.Location.class.getName());
+            createCache(cm, com.hg.domain.Property.class.getName());
+            createCache(cm, com.hg.domain.Property.class.getName() + ".rentals");
+            createCache(cm, com.hg.domain.Property.class.getName() + ".houseCharacteristics");
+            createCache(cm, com.hg.domain.Property.class.getName() + ".reviews");
+            createCache(cm, com.hg.domain.Property.class.getName() + ".propertysPhotos");
+            createCache(cm, com.hg.domain.TenantPropertyPreferences.class.getName());
+            createCache(cm, com.hg.domain.RentalAgreement.class.getName());
+            createCache(cm, com.hg.domain.RentalAgreement.class.getName() + ".payments");
+            createCache(cm, com.hg.domain.HouseCharacteristics.class.getName());
+            createCache(cm, com.hg.domain.Review.class.getName());
+            createCache(cm, com.hg.domain.Review.class.getName() + ".images");
+            createCache(cm, com.hg.domain.Payment.class.getName());
+            createCache(cm, com.hg.domain.Image.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

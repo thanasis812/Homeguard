@@ -103,3 +103,5 @@ jhipster:
 # ===================================================================
 
 # application:
+springdoc:
+  show-login-endpoint: true

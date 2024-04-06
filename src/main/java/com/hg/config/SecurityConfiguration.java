@@ -3,9 +3,11 @@ package com.hg.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.hg.security.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -50,12 +52,15 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/**")).authenticated()
-                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
                     .requestMatchers(mvc.pattern("/management/health")).permitAll()
                     .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
                     .requestMatchers(mvc.pattern("/management/info")).permitAll()
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
+                    .anyRequest()
+                    .authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(

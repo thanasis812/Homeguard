@@ -1,0 +1,99 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143025"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["max"],
+      "fieldValidateRulesMax": "1"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "UserCategoryEnum",
+      "fieldValues": "NORMAL,OTHER"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "UserStatusEnum",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVE,INACTIVE,PENDING_VERIFY"
+    },
+    {
+      "fieldName": "settingsMetadata",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "LandLord",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "landLord",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "tenant",
+      "relationshipName": "owner",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "image",
+      "relationshipName": "landLordImage",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "review",
+      "relationshipName": "tenantReview",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "rentalAgreement",
+      "otherEntityRelationshipName": "propertyOwner",
+      "relationshipName": "rentalAgreement",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

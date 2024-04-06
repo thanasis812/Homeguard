@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143028"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "favorite",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "favoriteDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "reminder",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "reminderDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "TenantPropertyPreferences",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "property",
+      "relationshipName": "property",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

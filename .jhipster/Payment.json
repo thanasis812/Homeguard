@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143032"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "price",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "extendedDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "payedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "PaymentStatusEnum",
+      "fieldValues": "PAYED,CANCELED,RETRYING,EXTENDED,EXPIRED"
+    },
+    {
+      "fieldName": "retry",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "paymentID",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Payment",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

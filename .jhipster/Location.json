@@ -1,0 +1,82 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143026"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "streetAddress",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "apartmentUnit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "stateProvinceRegion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postalCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "latitude",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "longitude",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "localGeographicDivision",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "municipalCommunity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "additionalNotes",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zipCode",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "floor",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "directions",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Location",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

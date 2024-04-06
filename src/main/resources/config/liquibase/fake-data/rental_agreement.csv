@@ -1,0 +1,11 @@
+id;agreements;delivery_protocol;tenant_sign;land_lord_signed;status;expiration_date;created_date;latest;deleted
+1;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;true;false;PENDING_LANDLORD_SIGN;2024-04-06;2024-04-06;2024-04-05;false
+2;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;true;true;EXPIRED;2024-04-06;2024-04-05;2024-04-05;false
+3;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;false;false;CANCELED;2024-04-06;2024-04-06;2024-04-06;false
+4;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;false;false;BOOKED;2024-04-06;2024-04-05;2024-04-06;true
+5;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;false;false;PENDING_LANDLORD_SIGN;2024-04-05;2024-04-05;2024-04-05;true
+6;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;false;false;EXPIRED;2024-04-06;2024-04-06;2024-04-06;true
+7;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;true;false;EXPIRED;2024-04-06;2024-04-06;2024-04-06;false
+8;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;true;true;EXPIRED;2024-04-05;2024-04-06;2024-04-06;true
+9;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;true;true;BOOKED;2024-04-06;2024-04-05;2024-04-05;true
+10;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;false;false;CANCELED;2024-04-05;2024-04-06;2024-04-05;false

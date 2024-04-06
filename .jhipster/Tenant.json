@@ -1,0 +1,113 @@
+{
+  "annotations": {
+    "changelogDate": "20240406143024"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["max"],
+      "fieldValidateRulesMax": "1"
+    },
+    {
+      "fieldName": "afm",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "UserCategoryEnum",
+      "fieldValues": "NORMAL,OTHER"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "UserStatusEnum",
+      "fieldValues": "ACTIVE,INACTIVE,PENDING_VERIFY"
+    },
+    {
+      "fieldName": "settingsMetadata",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subscriptionType",
+      "fieldType": "SubscriptionEnum",
+      "fieldValues": "BASIC,ADVANCED"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "Tenant",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "tenant",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "location",
+      "relationshipName": "location",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "image",
+      "relationshipName": "tenantImage",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "tenantPropertyPreferences",
+      "relationshipName": "propertyPreferences",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "review",
+      "relationshipName": "apartmentReview",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "rentalAgreement",
+      "otherEntityRelationshipName": "tenant",
+      "relationshipName": "rentedPropertysAgreement",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
