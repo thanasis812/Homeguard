@@ -28,12 +28,20 @@ public interface PaymentMapper extends EntityMapper<PaymentDTO, Payment> {
 
     @Mapping(target = "houseId", source = "payment", qualifiedByName = "extractHouseId")
     @Mapping(target = "paymentDate", source = "payedDate", qualifiedByName = "instantToLocalDate")
+    @Mapping(target = "name", source = "payment", qualifiedByName = "extractLandLordName")
     UserPaymentDTO toUserPaymentDTO(Payment payment);
 
     @Named("extractHouseId")
     default Long extractHouseId(Payment payment) {
         return payment != null && payment.getRentalAgreement() != null && payment.getRentalAgreement().getProperty() != null
             ? payment.getRentalAgreement().getProperty().getId()
+            : null;
+    }
+
+    @Named("extractLandLordName")
+    default String extractLandLordName(Payment payment) {
+        return payment != null && payment.getRentalAgreement() != null && payment.getRentalAgreement().getProperty() != null
+            ? payment.getRentalAgreement().getPropertyOwner().getFirstName()
             : null;
     }
 

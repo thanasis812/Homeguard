@@ -3,6 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.PaymentRepository;
 import com.hg.service.PaymentService;
 import com.hg.service.dto.PaymentDTO;
+import com.hg.service.dto.mydto.UserPaymentDTO;
 import com.hg.web.rest.errors.BaseException;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.net.URI;
@@ -175,5 +176,18 @@ public class PaymentResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET  /payments/:id} : get the "id" payment.
+     *
+     * @param tenantId the id of the tenant to retrieve paymets.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the paymentDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("tenant/{tenantId}")
+    public ResponseEntity<List<UserPaymentDTO>> getUserPaymentByTenantId(@PathVariable("tenantId") Long tenantId) {
+        log.debug("REST request to get Payment : {}", tenantId);
+        List<UserPaymentDTO> paymentDTO = paymentService.findUserPayments(tenantId);
+        return ResponseUtil.wrapOrNotFound(Optional.of(paymentDTO));
     }
 }

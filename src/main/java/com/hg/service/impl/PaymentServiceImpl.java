@@ -4,11 +4,14 @@ import com.hg.domain.Payment;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.repository.PaymentRepository;
 import com.hg.repository.RentalAgreementRepository;
+import com.hg.repository.TenantRepository;
 import com.hg.service.PaymentService;
 import com.hg.service.dto.PaymentDTO;
-import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.UserPaymentDTO;
 import com.hg.service.mapper.PaymentMapper;
 import com.hg.web.rest.errors.NotFoundException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     private final PaymentRepository paymentRepository;
+    private final TenantRepository tenantRepository;
 
     private final PaymentMapper paymentMapper;
 
@@ -34,10 +38,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentServiceImpl(
         PaymentRepository paymentRepository,
+        TenantRepository tenantRepository,
         PaymentMapper paymentMapper,
         RentalAgreementRepository rentalAgreementRepository
     ) {
         this.paymentRepository = paymentRepository;
+        this.tenantRepository = tenantRepository;
         this.paymentMapper = paymentMapper;
         this.rentalAgreementRepository = rentalAgreementRepository;
     }
@@ -95,15 +101,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<RentalAgreementDTO> findLatestActiveByTenant(Long tenantId) {
-        log.debug("Request to get latest RentalAgreement for tenant id : {}", tenantId);
+    public List<UserPaymentDTO> findUserPayments(Long tenantId) {
+        log.debug("Request to get getUserPayments List for tenant id : {}", tenantId);
+
         return rentalAgreementRepository
             .findByStatusAndTenant(
                 RentalAgreementStatusEnum.ACTIVE,
                 tenantRepository
                     .findById(tenantId)
-                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId)))
+                    .orElseThrow(() -> new NotFoundException(String.format("Can't find Tenant with Tenant id: %d", tenantId)))
             )
-            .map(rentalAgreementMapper::toDto);
+            .map(x -> paymentMapper.toUserPaymentDTOList(x.getPayments().stream().toList()))
+            .orElse(Collections.emptyList());
     }
 }
