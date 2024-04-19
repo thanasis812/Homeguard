@@ -55,4 +55,6 @@ public interface RentalAgreementService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<RentalAgreementDTO> findLatestActiveByTenant(Long tenantId);
 }

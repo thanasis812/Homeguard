@@ -3,7 +3,8 @@ package com.hg.web.rest;
 import com.hg.repository.PaymentRepository;
 import com.hg.service.PaymentService;
 import com.hg.service.dto.PaymentDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
+import io.swagger.v3.oas.annotations.Hidden;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -25,6 +26,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Payment}.
  */
+@Hidden
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentResource {
@@ -56,7 +58,7 @@ public class PaymentResource {
     public ResponseEntity<PaymentDTO> createPayment(@RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         log.debug("REST request to save Payment : {}", paymentDTO);
         if (paymentDTO.getId() != null) {
-            throw new BadRequestAlertException("A new payment cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new payment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         paymentDTO = paymentService.save(paymentDTO);
         return ResponseEntity.created(new URI("/api/payments/" + paymentDTO.getId()))
@@ -81,14 +83,14 @@ public class PaymentResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Payment : {}, {}", id, paymentDTO);
         if (paymentDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, paymentDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!paymentRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         paymentDTO = paymentService.update(paymentDTO);
@@ -115,14 +117,14 @@ public class PaymentResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Payment partially : {}, {}", id, paymentDTO);
         if (paymentDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, paymentDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!paymentRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<PaymentDTO> result = paymentService.partialUpdate(paymentDTO);

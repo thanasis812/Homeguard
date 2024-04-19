@@ -57,7 +57,7 @@ public class Property implements Serializable {
     @Column(name = "number_of_air_conditioner")
     private Integer numberOfAirConditioner;
 
-    @Lob
+    //    @Lob
     @Column(name = "house_rules")
     private String houseRules;
 

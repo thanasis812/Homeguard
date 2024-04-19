@@ -3,7 +3,8 @@ package com.hg.web.rest;
 import com.hg.repository.LocationRepository;
 import com.hg.service.LocationService;
 import com.hg.service.dto.LocationDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -28,6 +29,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Location}.
  */
+@Hidden
 @RestController
 @RequestMapping("/api/locations")
 public class LocationResource {
@@ -59,7 +61,7 @@ public class LocationResource {
     public ResponseEntity<LocationDTO> createLocation(@Valid @RequestBody LocationDTO locationDTO) throws URISyntaxException {
         log.debug("REST request to save Location : {}", locationDTO);
         if (locationDTO.getId() != null) {
-            throw new BadRequestAlertException("A new location cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new location cannot already have an ID", ENTITY_NAME, "idexists");
         }
         locationDTO = locationService.save(locationDTO);
         return ResponseEntity.created(new URI("/api/locations/" + locationDTO.getId()))
@@ -84,14 +86,14 @@ public class LocationResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Location : {}, {}", id, locationDTO);
         if (locationDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, locationDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!locationRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         locationDTO = locationService.update(locationDTO);
@@ -118,14 +120,14 @@ public class LocationResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Location partially : {}, {}", id, locationDTO);
         if (locationDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, locationDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!locationRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<LocationDTO> result = locationService.partialUpdate(locationDTO);

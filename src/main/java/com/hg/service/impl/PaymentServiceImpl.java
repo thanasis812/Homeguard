@@ -1,10 +1,14 @@
 package com.hg.service.impl;
 
 import com.hg.domain.Payment;
+import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.repository.PaymentRepository;
+import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.PaymentService;
 import com.hg.service.dto.PaymentDTO;
+import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.mapper.PaymentMapper;
+import com.hg.web.rest.errors.NotFoundException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +30,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentMapper paymentMapper;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    private final RentalAgreementRepository rentalAgreementRepository;
+
+    public PaymentServiceImpl(
+        PaymentRepository paymentRepository,
+        PaymentMapper paymentMapper,
+        RentalAgreementRepository rentalAgreementRepository
+    ) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
     @Override
@@ -80,5 +91,19 @@ public class PaymentServiceImpl implements PaymentService {
     public void delete(Long id) {
         log.debug("Request to delete Payment : {}", id);
         paymentRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<RentalAgreementDTO> findLatestActiveByTenant(Long tenantId) {
+        log.debug("Request to get latest RentalAgreement for tenant id : {}", tenantId);
+        return rentalAgreementRepository
+            .findByStatusAndTenant(
+                RentalAgreementStatusEnum.ACTIVE,
+                tenantRepository
+                    .findById(tenantId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId)))
+            )
+            .map(rentalAgreementMapper::toDto);
     }
 }

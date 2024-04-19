@@ -1,10 +1,12 @@
 package com.hg.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,8 +44,12 @@ public class RentalAgreementDTO implements Serializable {
 
     private TenantDTO tenant;
 
+    private List<PaymentDTO> payments;
+
+    @JsonIgnore
     private LandLordDTO propertyOwner;
 
+    @JsonIgnore
     private PropertyDTO property;
 
     public Long getId() {
@@ -148,6 +154,14 @@ public class RentalAgreementDTO implements Serializable {
 
     public void setProperty(PropertyDTO property) {
         this.property = property;
+    }
+
+    public List<PaymentDTO> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<PaymentDTO> payments) {
+        this.payments = payments;
     }
 
     @Override

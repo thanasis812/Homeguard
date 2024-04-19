@@ -219,13 +219,13 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     }
 
     private HttpHeaders buildHeaders(Throwable err) {
-        return err instanceof BadRequestAlertException badRequestAlertException
+        return err instanceof BaseException baseException
             ? HeaderUtil.createFailureAlert(
                 applicationName,
                 true,
-                badRequestAlertException.getEntityName(),
-                badRequestAlertException.getErrorKey(),
-                badRequestAlertException.getMessage()
+                baseException.getEntityName(),
+                baseException.getErrorKey(),
+                baseException.getMessage()
             )
             : null;
     }

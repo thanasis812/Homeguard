@@ -25,11 +25,9 @@ public class RentalAgreement implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Lob
-    @Column(name = "agreements", nullable = false)
+    @Column(name = "agreements", nullable = false, columnDefinition = "TEXT")
     private String agreements;
 
-    @Lob
     @Column(name = "delivery_protocol")
     private String deliveryProtocol;
 

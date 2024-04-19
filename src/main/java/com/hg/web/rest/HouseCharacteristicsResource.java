@@ -3,7 +3,8 @@ package com.hg.web.rest;
 import com.hg.repository.HouseCharacteristicsRepository;
 import com.hg.service.HouseCharacteristicsService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -27,6 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.HouseCharacteristics}.
  */
+@Hidden
 @RestController
 @RequestMapping("/api/house-characteristics")
 public class HouseCharacteristicsResource {
@@ -63,7 +65,7 @@ public class HouseCharacteristicsResource {
     ) throws URISyntaxException {
         log.debug("REST request to save HouseCharacteristics : {}", houseCharacteristicsDTO);
         if (houseCharacteristicsDTO.getId() != null) {
-            throw new BadRequestAlertException("A new houseCharacteristics cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new houseCharacteristics cannot already have an ID", ENTITY_NAME, "idexists");
         }
         houseCharacteristicsDTO = houseCharacteristicsService.save(houseCharacteristicsDTO);
         return ResponseEntity.created(new URI("/api/house-characteristics/" + houseCharacteristicsDTO.getId()))
@@ -88,14 +90,14 @@ public class HouseCharacteristicsResource {
     ) throws URISyntaxException {
         log.debug("REST request to update HouseCharacteristics : {}, {}", id, houseCharacteristicsDTO);
         if (houseCharacteristicsDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, houseCharacteristicsDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!houseCharacteristicsRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         houseCharacteristicsDTO = houseCharacteristicsService.update(houseCharacteristicsDTO);
@@ -122,14 +124,14 @@ public class HouseCharacteristicsResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update HouseCharacteristics partially : {}, {}", id, houseCharacteristicsDTO);
         if (houseCharacteristicsDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, houseCharacteristicsDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!houseCharacteristicsRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<HouseCharacteristicsDTO> result = houseCharacteristicsService.partialUpdate(houseCharacteristicsDTO);

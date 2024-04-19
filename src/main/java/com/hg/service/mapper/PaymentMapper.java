@@ -18,4 +18,9 @@ public interface PaymentMapper extends EntityMapper<PaymentDTO, Payment> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     RentalAgreementDTO toDtoRentalAgreementId(RentalAgreement rentalAgreement);
+
+    @Named("rentalAgreementId")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    Payment toDtoRentalAgreementId(RentalAgreement rentalAgreement);
 }

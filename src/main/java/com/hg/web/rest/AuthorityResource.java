@@ -2,7 +2,7 @@ package com.hg.web.rest;
 
 import com.hg.domain.Authority;
 import com.hg.repository.AuthorityRepository;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -51,7 +51,7 @@ public class AuthorityResource {
     public ResponseEntity<Authority> createAuthority(@Valid @RequestBody Authority authority) throws URISyntaxException {
         log.debug("REST request to save Authority : {}", authority);
         if (authorityRepository.existsById(authority.getName())) {
-            throw new BadRequestAlertException("authority already exists", ENTITY_NAME, "idexists");
+            throw new BaseException("authority already exists", ENTITY_NAME, "idexists");
         }
         authority = authorityRepository.save(authority);
         return ResponseEntity.created(new URI("/api/authorities/" + authority.getName()))

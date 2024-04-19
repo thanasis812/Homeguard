@@ -7,7 +7,7 @@ import com.hg.security.AuthoritiesConstants;
 import com.hg.service.MailService;
 import com.hg.service.UserService;
 import com.hg.service.dto.AdminUserDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
 import com.hg.web.rest.errors.EmailAlreadyUsedException;
 import com.hg.web.rest.errors.LoginAlreadyUsedException;
 import jakarta.validation.Valid;
@@ -103,7 +103,7 @@ public class UserResource {
      * @param userDTO the user to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new user, or with status {@code 400 (Bad Request)} if the login or email is already in use.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
-     * @throws BadRequestAlertException {@code 400 (Bad Request)} if the login or email is already in use.
+     * @throws BaseException {@code 400 (Bad Request)} if the login or email is already in use.
      */
     @PostMapping("/users")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
@@ -111,7 +111,7 @@ public class UserResource {
         log.debug("REST request to save User : {}", userDTO);
 
         if (userDTO.getId() != null) {
-            throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+            throw new BaseException("A new user cannot already have an ID", "userManagement", "idexists");
             // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
