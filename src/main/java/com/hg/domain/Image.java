@@ -97,6 +97,7 @@ public class Image implements Serializable {
         this.createdDate = createdDate;
     }
 
+    //todo rename this to image?
     public byte[] getUpdatedDate() {
         return this.updatedDate;
     }

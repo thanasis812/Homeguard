@@ -3,6 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.ReviewRepository;
 import com.hg.service.ReviewService;
 import com.hg.service.dto.ReviewDTO;
+import com.hg.service.dto.mydto.UserReviewDTO;
 import com.hg.web.rest.errors.BaseException;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
@@ -177,5 +178,18 @@ public class ReviewResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code GET  /reviews/tenant/id} : get all the reviews for selected tenant.
+     *
+     * @param tenantId the tenant id to fetch from.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reviews in body.
+     */
+    @GetMapping("tenant/{tenantId}")
+    public ResponseEntity<List<UserReviewDTO>> findReviewsByTenantId(@PathVariable Long tenantId) {
+        log.debug("REST request to get tenant reviews");
+        List<UserReviewDTO> reviews = reviewService.findUserReviews(tenantId);
+        return ResponseUtil.wrapOrNotFound(Optional.of(reviews));
     }
 }

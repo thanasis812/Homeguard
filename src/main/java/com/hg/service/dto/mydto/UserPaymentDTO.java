@@ -2,6 +2,9 @@ package com.hg.service.dto.mydto;
 
 import java.time.LocalDate;
 
+/**
+ * A User DTO for the {@link com.hg.domain.Payment} entity.
+ */
 public class UserPaymentDTO {
 
     private Long id;
