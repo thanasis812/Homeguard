@@ -1,7 +1,6 @@
 package com.hg.service.impl;
 
 import com.hg.domain.Review;
-import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.repository.ReviewRepository;
 import com.hg.repository.TenantRepository;
 import com.hg.service.ReviewService;
@@ -9,7 +8,6 @@ import com.hg.service.dto.ReviewDTO;
 import com.hg.service.dto.mydto.UserReviewDTO;
 import com.hg.service.mapper.ReviewMapper;
 import com.hg.web.rest.errors.NotFoundException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
