@@ -17,10 +17,12 @@ public class ImageDTO implements Serializable {
 
     private LocalDate createdDate;
 
-    @Lob
-    private byte[] updatedDate;
+    private LocalDate updatedDate;
 
-    private String updatedDateContentType;
+    @Lob
+    private byte[] imageFile;
+
+    private String imageFileContentType;
 
     private PropertyDTO property;
 
@@ -50,20 +52,28 @@ public class ImageDTO implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public byte[] getUpdatedDate() {
+    public LocalDate getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(byte[] updatedDate) {
+    public void setUpdatedDate(LocalDate updatedDate) {
         this.updatedDate = updatedDate;
     }
 
-    public String getUpdatedDateContentType() {
-        return updatedDateContentType;
+    public byte[] getImageFile() {
+        return imageFile;
     }
 
-    public void setUpdatedDateContentType(String updatedDateContentType) {
-        this.updatedDateContentType = updatedDateContentType;
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public String getImageFileContentType() {
+        return imageFileContentType;
+    }
+
+    public void setImageFileContentType(String imageFileContentType) {
+        this.imageFileContentType = imageFileContentType;
     }
 
     public PropertyDTO getProperty() {
@@ -111,6 +121,7 @@ public class ImageDTO implements Serializable {
             ", path='" + getPath() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
+            ", imageFile='" + getImageFile() + "'" +
             ", property=" + getProperty() +
             ", review=" + getReview() +
             "}";

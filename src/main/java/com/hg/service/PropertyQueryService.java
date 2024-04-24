@@ -186,6 +186,11 @@ public class PropertyQueryService extends QueryService<Property> {
                     )
                 );
             }
+            if (criteria.getLandLordId() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getLandLordId(), root -> root.join(Property_.landLord, JoinType.LEFT).get(LandLord_.id))
+                );
+            }
             if (criteria.getTenantPropertyPreferencesId() != null) {
                 specification = specification.and(
                     buildSpecification(

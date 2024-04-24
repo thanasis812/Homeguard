@@ -3,9 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.ReviewRepository;
 import com.hg.service.ReviewService;
 import com.hg.service.dto.ReviewDTO;
-import com.hg.service.dto.mydto.UserReviewDTO;
-import com.hg.web.rest.errors.BaseException;
-import io.swagger.v3.oas.annotations.Hidden;
+import com.hg.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -29,7 +27,6 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Review}.
  */
-@Hidden
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewResource {
@@ -61,7 +58,7 @@ public class ReviewResource {
     public ResponseEntity<ReviewDTO> createReview(@Valid @RequestBody ReviewDTO reviewDTO) throws URISyntaxException {
         log.debug("REST request to save Review : {}", reviewDTO);
         if (reviewDTO.getId() != null) {
-            throw new BaseException("A new review cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new review cannot already have an ID", ENTITY_NAME, "idexists");
         }
         reviewDTO = reviewService.save(reviewDTO);
         return ResponseEntity.created(new URI("/api/reviews/" + reviewDTO.getId()))
@@ -86,14 +83,14 @@ public class ReviewResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Review : {}, {}", id, reviewDTO);
         if (reviewDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, reviewDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!reviewRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         reviewDTO = reviewService.update(reviewDTO);
@@ -120,14 +117,14 @@ public class ReviewResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Review partially : {}, {}", id, reviewDTO);
         if (reviewDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, reviewDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!reviewRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<ReviewDTO> result = reviewService.partialUpdate(reviewDTO);
@@ -178,18 +175,5 @@ public class ReviewResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    /**
-     * {@code GET  /reviews/tenant/id} : get all the reviews for selected tenant.
-     *
-     * @param tenantId the tenant id to fetch from.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reviews in body.
-     */
-    @GetMapping("tenant/{tenantId}")
-    public ResponseEntity<List<UserReviewDTO>> findReviewsByTenantId(@PathVariable Long tenantId) {
-        log.debug("REST request to get tenant reviews");
-        List<UserReviewDTO> reviews = reviewService.findUserReviews(tenantId);
-        return ResponseUtil.wrapOrNotFound(Optional.of(reviews));
     }
 }

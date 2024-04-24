@@ -16,5 +16,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="location"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="land_lord_id"
+                                 baseTableName="property"
+                                 constraintName="fk_property__land_lord_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="land_lord"
+                                 />
     </changeSet>
 </databaseChangeLog>

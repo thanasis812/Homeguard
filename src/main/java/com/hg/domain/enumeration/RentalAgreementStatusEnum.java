@@ -9,5 +9,4 @@ public enum RentalAgreementStatusEnum {
     PENDING_LANDLORD_SIGN,
     BOOKED,
     EXPIRED_RENEWED,
-    ACTIVE,
 }

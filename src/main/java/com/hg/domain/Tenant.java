@@ -97,7 +97,10 @@ public class Tenant implements Serializable {
     @JsonIgnoreProperties(value = { "payments", "tenant", "propertyOwner", "property" }, allowSetters = true)
     private Set<RentalAgreement> rentedPropertysAgreements = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "user", "owner", "landLordImage", "tenantReviews", "rentalAgreements" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
+        allowSetters = true
+    )
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "owner")
     private LandLord landLord;
 

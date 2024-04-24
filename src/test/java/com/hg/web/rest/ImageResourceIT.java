@@ -42,10 +42,13 @@ class ImageResourceIT {
     private static final LocalDate DEFAULT_CREATED_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CREATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final byte[] DEFAULT_UPDATED_DATE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_UPDATED_DATE = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_UPDATED_DATE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_UPDATED_DATE_CONTENT_TYPE = "image/png";
+    private static final LocalDate DEFAULT_UPDATED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final byte[] DEFAULT_IMAGE_FILE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE_FILE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_FILE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_FILE_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/images";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -81,7 +84,8 @@ class ImageResourceIT {
             .path(DEFAULT_PATH)
             .createdDate(DEFAULT_CREATED_DATE)
             .updatedDate(DEFAULT_UPDATED_DATE)
-            .updatedDateContentType(DEFAULT_UPDATED_DATE_CONTENT_TYPE);
+            .imageFile(DEFAULT_IMAGE_FILE)
+            .imageFileContentType(DEFAULT_IMAGE_FILE_CONTENT_TYPE);
         return image;
     }
 
@@ -96,7 +100,8 @@ class ImageResourceIT {
             .path(UPDATED_PATH)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .updatedDateContentType(UPDATED_UPDATED_DATE_CONTENT_TYPE);
+            .imageFile(UPDATED_IMAGE_FILE)
+            .imageFileContentType(UPDATED_IMAGE_FILE_CONTENT_TYPE);
         return image;
     }
 
@@ -159,8 +164,9 @@ class ImageResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(image.getId().intValue())))
             .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDateContentType").value(hasItem(DEFAULT_UPDATED_DATE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_UPDATED_DATE))));
+            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].imageFileContentType").value(hasItem(DEFAULT_IMAGE_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imageFile").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE_FILE))));
     }
 
     @Test
@@ -177,8 +183,9 @@ class ImageResourceIT {
             .andExpect(jsonPath("$.id").value(image.getId().intValue()))
             .andExpect(jsonPath("$.path").value(DEFAULT_PATH))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
-            .andExpect(jsonPath("$.updatedDateContentType").value(DEFAULT_UPDATED_DATE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.updatedDate").value(Base64.getEncoder().encodeToString(DEFAULT_UPDATED_DATE)));
+            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()))
+            .andExpect(jsonPath("$.imageFileContentType").value(DEFAULT_IMAGE_FILE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.imageFile").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE_FILE)));
     }
 
     @Test
@@ -204,7 +211,8 @@ class ImageResourceIT {
             .path(UPDATED_PATH)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .updatedDateContentType(UPDATED_UPDATED_DATE_CONTENT_TYPE);
+            .imageFile(UPDATED_IMAGE_FILE)
+            .imageFileContentType(UPDATED_IMAGE_FILE_CONTENT_TYPE);
         ImageDTO imageDTO = imageMapper.toDto(updatedImage);
 
         restImageMockMvc
@@ -290,8 +298,6 @@ class ImageResourceIT {
         Image partialUpdatedImage = new Image();
         partialUpdatedImage.setId(image.getId());
 
-        partialUpdatedImage.path(UPDATED_PATH);
-
         restImageMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedImage.getId())
@@ -322,7 +328,8 @@ class ImageResourceIT {
             .path(UPDATED_PATH)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .updatedDateContentType(UPDATED_UPDATED_DATE_CONTENT_TYPE);
+            .imageFile(UPDATED_IMAGE_FILE)
+            .imageFileContentType(UPDATED_IMAGE_FILE_CONTENT_TYPE);
 
         restImageMockMvc
             .perform(

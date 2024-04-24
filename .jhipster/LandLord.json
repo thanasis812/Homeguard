@@ -81,6 +81,12 @@
       "relationshipType": "one-to-one"
     },
     {
+      "otherEntityName": "property",
+      "relationshipName": "propertys",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "review",
       "relationshipName": "tenantReview",
       "relationshipSide": "left",

@@ -27,12 +27,15 @@ public class Image implements Serializable {
     @Column(name = "created_date")
     private LocalDate createdDate;
 
-    @Lob
     @Column(name = "updated_date")
-    private byte[] updatedDate;
+    private LocalDate updatedDate;
 
-    @Column(name = "updated_date_content_type")
-    private String updatedDateContentType;
+    @Lob
+    @Column(name = "image_file")
+    private byte[] imageFile;
+
+    @Column(name = "image_file_content_type")
+    private String imageFileContentType;
 
     @JsonIgnoreProperties(
         value = { "user", "location", "tenantImage", "propertyPreferences", "apartmentReviews", "rentedPropertysAgreements", "landLord" },
@@ -41,13 +44,16 @@ public class Image implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "tenantImage")
     private Tenant tenant;
 
-    @JsonIgnoreProperties(value = { "user", "owner", "landLordImage", "tenantReviews", "rentalAgreements" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
+        allowSetters = true
+    )
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "landLordImage")
     private LandLord landLord;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "tenantPropertyPreferences" },
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
         allowSetters = true
     )
     private Property property;
@@ -97,31 +103,43 @@ public class Image implements Serializable {
         this.createdDate = createdDate;
     }
 
-    //todo rename this to image?
-    public byte[] getUpdatedDate() {
+    public LocalDate getUpdatedDate() {
         return this.updatedDate;
     }
 
-    public Image updatedDate(byte[] updatedDate) {
+    public Image updatedDate(LocalDate updatedDate) {
         this.setUpdatedDate(updatedDate);
         return this;
     }
 
-    public void setUpdatedDate(byte[] updatedDate) {
+    public void setUpdatedDate(LocalDate updatedDate) {
         this.updatedDate = updatedDate;
     }
 
-    public String getUpdatedDateContentType() {
-        return this.updatedDateContentType;
+    public byte[] getImageFile() {
+        return this.imageFile;
     }
 
-    public Image updatedDateContentType(String updatedDateContentType) {
-        this.updatedDateContentType = updatedDateContentType;
+    public Image imageFile(byte[] imageFile) {
+        this.setImageFile(imageFile);
         return this;
     }
 
-    public void setUpdatedDateContentType(String updatedDateContentType) {
-        this.updatedDateContentType = updatedDateContentType;
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public String getImageFileContentType() {
+        return this.imageFileContentType;
+    }
+
+    public Image imageFileContentType(String imageFileContentType) {
+        this.imageFileContentType = imageFileContentType;
+        return this;
+    }
+
+    public void setImageFileContentType(String imageFileContentType) {
+        this.imageFileContentType = imageFileContentType;
     }
 
     public Tenant getTenant() {
@@ -215,7 +233,8 @@ public class Image implements Serializable {
             ", path='" + getPath() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
-            ", updatedDateContentType='" + getUpdatedDateContentType() + "'" +
+            ", imageFile='" + getImageFile() + "'" +
+            ", imageFileContentType='" + getImageFileContentType() + "'" +
             "}";
     }
 }

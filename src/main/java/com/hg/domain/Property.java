@@ -57,7 +57,7 @@ public class Property implements Serializable {
     @Column(name = "number_of_air_conditioner")
     private Integer numberOfAirConditioner;
 
-    //    @Lob
+    @Lob
     @Column(name = "house_rules")
     private String houseRules;
 
@@ -124,6 +124,13 @@ public class Property implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "property")
     @JsonIgnoreProperties(value = { "tenant", "landLord", "property", "review" }, allowSetters = true)
     private Set<Image> propertysPhotos = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(
+        value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
+        allowSetters = true
+    )
+    private LandLord landLord;
 
     @JsonIgnoreProperties(value = { "property", "tenant" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "property")
@@ -603,6 +610,19 @@ public class Property implements Serializable {
     public Property removePropertysPhoto(Image image) {
         this.propertysPhotos.remove(image);
         image.setProperty(null);
+        return this;
+    }
+
+    public LandLord getLandLord() {
+        return this.landLord;
+    }
+
+    public void setLandLord(LandLord landLord) {
+        this.landLord = landLord;
+    }
+
+    public Property landLord(LandLord landLord) {
+        this.setLandLord(landLord);
         return this;
     }
 

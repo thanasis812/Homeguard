@@ -50,11 +50,9 @@ public class ImageAsserts {
             .satisfies(e -> assertThat(e.getPath()).as("check path").isEqualTo(actual.getPath()))
             .satisfies(e -> assertThat(e.getCreatedDate()).as("check createdDate").isEqualTo(actual.getCreatedDate()))
             .satisfies(e -> assertThat(e.getUpdatedDate()).as("check updatedDate").isEqualTo(actual.getUpdatedDate()))
+            .satisfies(e -> assertThat(e.getImageFile()).as("check imageFile").isEqualTo(actual.getImageFile()))
             .satisfies(
-                e ->
-                    assertThat(e.getUpdatedDateContentType())
-                        .as("check updatedDate contenty type")
-                        .isEqualTo(actual.getUpdatedDateContentType())
+                e -> assertThat(e.getImageFileContentType()).as("check imageFile contenty type").isEqualTo(actual.getImageFileContentType())
             );
     }
 

@@ -53,12 +53,15 @@ public class Review implements Serializable {
     private Tenant tenant;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "user", "owner", "landLordImage", "tenantReviews", "rentalAgreements" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
+        allowSetters = true
+    )
     private LandLord landLord;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "tenantPropertyPreferences" },
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
         allowSetters = true
     )
     private Property property;

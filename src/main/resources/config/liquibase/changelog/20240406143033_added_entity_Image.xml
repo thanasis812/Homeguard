@@ -20,10 +20,13 @@
             <column name="created_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="updated_date" type="${blobType}">
+            <column name="updated_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="updated_date_content_type" type="varchar(255)">
+            <column name="image_file" type="${blobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_file_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="property_id" type="bigint">
@@ -55,8 +58,9 @@
             <column name="id" type="numeric"/>
             <column name="path" type="string"/>
             <column name="created_date" type="date"/>
-            <column name="updated_date" type="blob"/>
-            <column name="updated_date_content_type" type="string"/>
+            <column name="updated_date" type="date"/>
+            <column name="image_file" type="blob"/>
+            <column name="image_file_content_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -15,6 +15,10 @@
     },
     {
       "fieldName": "updatedDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "imageFile",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image"
     }

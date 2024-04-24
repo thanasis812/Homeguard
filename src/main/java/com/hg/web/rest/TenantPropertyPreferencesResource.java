@@ -3,8 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.TenantPropertyPreferencesRepository;
 import com.hg.service.TenantPropertyPreferencesService;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
-import com.hg.web.rest.errors.BaseException;
-import io.swagger.v3.oas.annotations.Hidden;
+import com.hg.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -26,7 +25,6 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.TenantPropertyPreferences}.
  */
-@Hidden
 @RestController
 @RequestMapping("/api/tenant-property-preferences")
 public class TenantPropertyPreferencesResource {
@@ -63,7 +61,7 @@ public class TenantPropertyPreferencesResource {
     ) throws URISyntaxException {
         log.debug("REST request to save TenantPropertyPreferences : {}", tenantPropertyPreferencesDTO);
         if (tenantPropertyPreferencesDTO.getId() != null) {
-            throw new BaseException("A new tenantPropertyPreferences cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new tenantPropertyPreferences cannot already have an ID", ENTITY_NAME, "idexists");
         }
         tenantPropertyPreferencesDTO = tenantPropertyPreferencesService.save(tenantPropertyPreferencesDTO);
         return ResponseEntity.created(new URI("/api/tenant-property-preferences/" + tenantPropertyPreferencesDTO.getId()))
@@ -90,14 +88,14 @@ public class TenantPropertyPreferencesResource {
     ) throws URISyntaxException {
         log.debug("REST request to update TenantPropertyPreferences : {}, {}", id, tenantPropertyPreferencesDTO);
         if (tenantPropertyPreferencesDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, tenantPropertyPreferencesDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!tenantPropertyPreferencesRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         tenantPropertyPreferencesDTO = tenantPropertyPreferencesService.update(tenantPropertyPreferencesDTO);
@@ -126,14 +124,14 @@ public class TenantPropertyPreferencesResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update TenantPropertyPreferences partially : {}, {}", id, tenantPropertyPreferencesDTO);
         if (tenantPropertyPreferencesDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, tenantPropertyPreferencesDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!tenantPropertyPreferencesRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<TenantPropertyPreferencesDTO> result = tenantPropertyPreferencesService.partialUpdate(tenantPropertyPreferencesDTO);

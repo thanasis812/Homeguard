@@ -82,7 +82,7 @@ public class Location implements Serializable {
     private Tenant tenant;
 
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "tenantPropertyPreferences" },
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
         allowSetters = true
     )
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")

@@ -25,9 +25,11 @@ public class RentalAgreement implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "agreements", nullable = false, columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "agreements", nullable = false)
     private String agreements;
 
+    @Lob
     @Column(name = "delivery_protocol")
     private String deliveryProtocol;
 
@@ -70,12 +72,15 @@ public class RentalAgreement implements Serializable {
     private Tenant tenant;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "user", "owner", "landLordImage", "tenantReviews", "rentalAgreements" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
+        allowSetters = true
+    )
     private LandLord propertyOwner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "tenantPropertyPreferences" },
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
         allowSetters = true
     )
     private Property property;

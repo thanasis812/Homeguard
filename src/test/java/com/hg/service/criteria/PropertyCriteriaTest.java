@@ -104,6 +104,7 @@ class PropertyCriteriaTest {
         propertyCriteria.houseCharacteristicId();
         propertyCriteria.reviewsId();
         propertyCriteria.propertysPhotoId();
+        propertyCriteria.landLordId();
         propertyCriteria.tenantPropertyPreferencesId();
         propertyCriteria.distinct();
     }
@@ -141,6 +142,7 @@ class PropertyCriteriaTest {
                 condition.apply(criteria.getHouseCharacteristicId()) &&
                 condition.apply(criteria.getReviewsId()) &&
                 condition.apply(criteria.getPropertysPhotoId()) &&
+                condition.apply(criteria.getLandLordId()) &&
                 condition.apply(criteria.getTenantPropertyPreferencesId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
@@ -180,6 +182,7 @@ class PropertyCriteriaTest {
                 condition.apply(criteria.getHouseCharacteristicId(), copy.getHouseCharacteristicId()) &&
                 condition.apply(criteria.getReviewsId(), copy.getReviewsId()) &&
                 condition.apply(criteria.getPropertysPhotoId(), copy.getPropertysPhotoId()) &&
+                condition.apply(criteria.getLandLordId(), copy.getLandLordId()) &&
                 condition.apply(criteria.getTenantPropertyPreferencesId(), copy.getTenantPropertyPreferencesId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"

@@ -82,6 +82,13 @@ public class LandLord implements Serializable {
     private Image landLordImage;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "landLord")
+    @JsonIgnoreProperties(
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
+        allowSetters = true
+    )
+    private Set<Property> propertys = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "landLord")
     @JsonIgnoreProperties(value = { "images", "tenant", "landLord", "property" }, allowSetters = true)
     private Set<Review> tenantReviews = new HashSet<>();
 
@@ -270,6 +277,37 @@ public class LandLord implements Serializable {
 
     public LandLord landLordImage(Image image) {
         this.setLandLordImage(image);
+        return this;
+    }
+
+    public Set<Property> getPropertys() {
+        return this.propertys;
+    }
+
+    public void setPropertys(Set<Property> properties) {
+        if (this.propertys != null) {
+            this.propertys.forEach(i -> i.setLandLord(null));
+        }
+        if (properties != null) {
+            properties.forEach(i -> i.setLandLord(this));
+        }
+        this.propertys = properties;
+    }
+
+    public LandLord propertys(Set<Property> properties) {
+        this.setPropertys(properties);
+        return this;
+    }
+
+    public LandLord addPropertys(Property property) {
+        this.propertys.add(property);
+        property.setLandLord(this);
+        return this;
+    }
+
+    public LandLord removePropertys(Property property) {
+        this.propertys.remove(property);
+        property.setLandLord(null);
         return this;
     }
 

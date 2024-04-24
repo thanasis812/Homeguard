@@ -92,6 +92,9 @@
             <column name="location_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_property__location_id" />
             </column>
+            <column name="land_lord_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

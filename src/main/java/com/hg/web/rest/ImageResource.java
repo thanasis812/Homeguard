@@ -3,8 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.ImageRepository;
 import com.hg.service.ImageService;
 import com.hg.service.dto.ImageDTO;
-import com.hg.web.rest.errors.BaseException;
-import io.swagger.v3.oas.annotations.Hidden;
+import com.hg.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -27,7 +26,6 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Image}.
  */
-@Hidden
 @RestController
 @RequestMapping("/api/images")
 public class ImageResource {
@@ -59,7 +57,7 @@ public class ImageResource {
     public ResponseEntity<ImageDTO> createImage(@RequestBody ImageDTO imageDTO) throws URISyntaxException {
         log.debug("REST request to save Image : {}", imageDTO);
         if (imageDTO.getId() != null) {
-            throw new BaseException("A new image cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new image cannot already have an ID", ENTITY_NAME, "idexists");
         }
         imageDTO = imageService.save(imageDTO);
         return ResponseEntity.created(new URI("/api/images/" + imageDTO.getId()))
@@ -84,14 +82,14 @@ public class ImageResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Image : {}, {}", id, imageDTO);
         if (imageDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, imageDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!imageRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         imageDTO = imageService.update(imageDTO);
@@ -118,14 +116,14 @@ public class ImageResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Image partially : {}, {}", id, imageDTO);
         if (imageDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, imageDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!imageRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<ImageDTO> result = imageService.partialUpdate(imageDTO);

@@ -2,13 +2,9 @@ package com.hg.service.impl;
 
 import com.hg.domain.Review;
 import com.hg.repository.ReviewRepository;
-import com.hg.repository.TenantRepository;
 import com.hg.service.ReviewService;
 import com.hg.service.dto.ReviewDTO;
-import com.hg.service.dto.mydto.UserReviewDTO;
 import com.hg.service.mapper.ReviewMapper;
-import com.hg.web.rest.errors.NotFoundException;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +23,11 @@ public class ReviewServiceImpl implements ReviewService {
     private final Logger log = LoggerFactory.getLogger(ReviewServiceImpl.class);
 
     private final ReviewRepository reviewRepository;
-    private final TenantRepository tenantRepository;
 
     private final ReviewMapper reviewMapper;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, TenantRepository tenantRepository, ReviewMapper reviewMapper) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper) {
         this.reviewRepository = reviewRepository;
-        this.tenantRepository = tenantRepository;
         this.reviewMapper = reviewMapper;
     }
 
@@ -86,18 +80,5 @@ public class ReviewServiceImpl implements ReviewService {
     public void delete(Long id) {
         log.debug("Request to delete Review : {}", id);
         reviewRepository.deleteById(id);
-    }
-
-    @Override
-    public List<UserReviewDTO> findUserReviews(Long tenantId) {
-        log.debug("Request to findUserReviews for tenant : {}", tenantId);
-        return reviewMapper.toUserDTOList(
-            reviewRepository.findByTenantAndDeletedOrderByCreatedDate(
-                tenantRepository
-                    .findById(tenantId)
-                    .orElseThrow(() -> new NotFoundException(String.format("Can't find Tenant with Tenant id: %d", tenantId))),
-                false
-            )
-        );
     }
 }

@@ -100,6 +100,8 @@ public class PropertyCriteria implements Serializable, Criteria {
 
     private LongFilter propertysPhotoId;
 
+    private LongFilter landLordId;
+
     private LongFilter tenantPropertyPreferencesId;
 
     private Boolean distinct;
@@ -137,6 +139,7 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.houseCharacteristicId = other.optionalHouseCharacteristicId().map(LongFilter::copy).orElse(null);
         this.reviewsId = other.optionalReviewsId().map(LongFilter::copy).orElse(null);
         this.propertysPhotoId = other.optionalPropertysPhotoId().map(LongFilter::copy).orElse(null);
+        this.landLordId = other.optionalLandLordId().map(LongFilter::copy).orElse(null);
         this.tenantPropertyPreferencesId = other.optionalTenantPropertyPreferencesId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
@@ -716,6 +719,25 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.propertysPhotoId = propertysPhotoId;
     }
 
+    public LongFilter getLandLordId() {
+        return landLordId;
+    }
+
+    public Optional<LongFilter> optionalLandLordId() {
+        return Optional.ofNullable(landLordId);
+    }
+
+    public LongFilter landLordId() {
+        if (landLordId == null) {
+            setLandLordId(new LongFilter());
+        }
+        return landLordId;
+    }
+
+    public void setLandLordId(LongFilter landLordId) {
+        this.landLordId = landLordId;
+    }
+
     public LongFilter getTenantPropertyPreferencesId() {
         return tenantPropertyPreferencesId;
     }
@@ -794,6 +816,7 @@ public class PropertyCriteria implements Serializable, Criteria {
             Objects.equals(houseCharacteristicId, that.houseCharacteristicId) &&
             Objects.equals(reviewsId, that.reviewsId) &&
             Objects.equals(propertysPhotoId, that.propertysPhotoId) &&
+            Objects.equals(landLordId, that.landLordId) &&
             Objects.equals(tenantPropertyPreferencesId, that.tenantPropertyPreferencesId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -832,6 +855,7 @@ public class PropertyCriteria implements Serializable, Criteria {
             houseCharacteristicId,
             reviewsId,
             propertysPhotoId,
+            landLordId,
             tenantPropertyPreferencesId,
             distinct
         );
@@ -871,6 +895,7 @@ public class PropertyCriteria implements Serializable, Criteria {
             optionalHouseCharacteristicId().map(f -> "houseCharacteristicId=" + f + ", ").orElse("") +
             optionalReviewsId().map(f -> "reviewsId=" + f + ", ").orElse("") +
             optionalPropertysPhotoId().map(f -> "propertysPhotoId=" + f + ", ").orElse("") +
+            optionalLandLordId().map(f -> "landLordId=" + f + ", ").orElse("") +
             optionalTenantPropertyPreferencesId().map(f -> "tenantPropertyPreferencesId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

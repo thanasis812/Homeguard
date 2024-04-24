@@ -1,11 +1,11 @@
-id;path;created_date;updated_date;updated_date_content_type
-1;reoccur;2024-04-06;../fake-data/blob/hipster.png;image/png
-2;over;2024-04-06;../fake-data/blob/hipster.png;image/png
-3;baffle integrate aside;2024-04-05;../fake-data/blob/hipster.png;image/png
-4;counsellor graph relationship;2024-04-05;../fake-data/blob/hipster.png;image/png
-5;flytrap bah;2024-04-06;../fake-data/blob/hipster.png;image/png
-6;neat though while;2024-04-05;../fake-data/blob/hipster.png;image/png
-7;jeans romp suburban;2024-04-05;../fake-data/blob/hipster.png;image/png
-8;qua;2024-04-06;../fake-data/blob/hipster.png;image/png
-9;ack while;2024-04-05;../fake-data/blob/hipster.png;image/png
-10;mortified;2024-04-06;../fake-data/blob/hipster.png;image/png
+id;path;created_date;updated_date;image_file;image_file_content_type
+1;reoccur;2024-04-06;2024-04-06;../fake-data/blob/hipster.png;image/png
+2;oxidize uh-huh donor;2024-04-06;2024-04-05;../fake-data/blob/hipster.png;image/png
+3;skewer counsellor;2024-04-06;2024-04-05;../fake-data/blob/hipster.png;image/png
+4;instead;2024-04-06;2024-04-06;../fake-data/blob/hipster.png;image/png
+5;declutter;2024-04-06;2024-04-06;../fake-data/blob/hipster.png;image/png
+6;bah via;2024-04-05;2024-04-06;../fake-data/blob/hipster.png;image/png
+7;wild er;2024-04-05;2024-04-06;../fake-data/blob/hipster.png;image/png
+8;phew colleague adventurous;2024-04-05;2024-04-06;../fake-data/blob/hipster.png;image/png
+9;astride musician;2024-04-05;2024-04-06;../fake-data/blob/hipster.png;image/png
+10;furthermore;2024-04-06;2024-04-05;../fake-data/blob/hipster.png;image/png

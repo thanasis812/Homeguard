@@ -154,7 +154,7 @@ entity Image {
     path String //path of image url on server
     createdDate LocalDate,
     updatedDate LocalDate
-    updatedDate ImageBlob
+    imageFile ImageBlob
 
 }
 
@@ -175,6 +175,7 @@ relationship OneToOne {
 relationship OneToMany {
     //Hold data of RentalAgreements of the Property
     Property{rental} to RentalAgreement,
+    LandLord{propertys} to Property,
     //Tenants can save an property to favorites
     Tenant{propertyPreferences} to TenantPropertyPreferences
     Property{houseCharacteristic} to HouseCharacteristics,

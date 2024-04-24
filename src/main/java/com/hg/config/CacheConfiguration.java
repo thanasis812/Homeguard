@@ -62,6 +62,7 @@ public class CacheConfiguration {
             createCache(cm, com.hg.domain.Review.class.getName() + ".images");
             createCache(cm, com.hg.domain.Payment.class.getName());
             createCache(cm, com.hg.domain.Image.class.getName());
+            createCache(cm, com.hg.domain.LandLord.class.getName() + ".propertys");
             // jhipster-needle-ehcache-add-entry
         };
     }

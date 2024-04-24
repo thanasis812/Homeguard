@@ -70,6 +70,8 @@ public class PropertyDTO implements Serializable {
 
     private LocationDTO location;
 
+    private LandLordDTO landLord;
+
     public Long getId() {
         return id;
     }
@@ -286,6 +288,14 @@ public class PropertyDTO implements Serializable {
         this.location = location;
     }
 
+    public LandLordDTO getLandLord() {
+        return landLord;
+    }
+
+    public void setLandLord(LandLordDTO landLord) {
+        this.landLord = landLord;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -338,6 +348,7 @@ public class PropertyDTO implements Serializable {
             ", furnituredDescription='" + getFurnituredDescription() + "'" +
             ", deleted='" + getDeleted() + "'" +
             ", location=" + getLocation() +
+            ", landLord=" + getLandLord() +
             "}";
     }
 }

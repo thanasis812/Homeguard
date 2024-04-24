@@ -5,7 +5,7 @@ import com.hg.service.PropertyQueryService;
 import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.PropertyDTO;
-import com.hg.web.rest.errors.BaseException;
+import com.hg.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -67,7 +67,7 @@ public class PropertyResource {
     public ResponseEntity<PropertyDTO> createProperty(@Valid @RequestBody PropertyDTO propertyDTO) throws URISyntaxException {
         log.debug("REST request to save Property : {}", propertyDTO);
         if (propertyDTO.getId() != null) {
-            throw new BaseException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
         }
         propertyDTO = propertyService.save(propertyDTO);
         return ResponseEntity.created(new URI("/api/properties/" + propertyDTO.getId()))
@@ -92,14 +92,14 @@ public class PropertyResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Property : {}, {}", id, propertyDTO);
         if (propertyDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, propertyDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!propertyRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         propertyDTO = propertyService.update(propertyDTO);
@@ -126,14 +126,14 @@ public class PropertyResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Property partially : {}, {}", id, propertyDTO);
         if (propertyDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, propertyDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!propertyRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<PropertyDTO> result = propertyService.partialUpdate(propertyDTO);
@@ -145,13 +145,13 @@ public class PropertyResource {
     }
 
     /**
-     * {@code GET  /properties} : get all the properties by criteria
+     * {@code GET  /properties} : get all the properties.
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
      */
-    @GetMapping("search")
+    @GetMapping("")
     public ResponseEntity<List<PropertyDTO>> getAllProperties(
         PropertyCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable

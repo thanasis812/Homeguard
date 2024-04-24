@@ -3,8 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
-import com.hg.web.rest.errors.BaseException;
-import io.swagger.v3.oas.annotations.Hidden;
+import com.hg.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -60,7 +59,7 @@ public class RentalAgreementResource {
         throws URISyntaxException {
         log.debug("REST request to save RentalAgreement : {}", rentalAgreementDTO);
         if (rentalAgreementDTO.getId() != null) {
-            throw new BaseException("A new rentalAgreement cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new rentalAgreement cannot already have an ID", ENTITY_NAME, "idexists");
         }
         rentalAgreementDTO = rentalAgreementService.save(rentalAgreementDTO);
         return ResponseEntity.created(new URI("/api/rental-agreements/" + rentalAgreementDTO.getId()))
@@ -85,14 +84,14 @@ public class RentalAgreementResource {
     ) throws URISyntaxException {
         log.debug("REST request to update RentalAgreement : {}, {}", id, rentalAgreementDTO);
         if (rentalAgreementDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, rentalAgreementDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!rentalAgreementRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         rentalAgreementDTO = rentalAgreementService.update(rentalAgreementDTO);
@@ -119,14 +118,14 @@ public class RentalAgreementResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update RentalAgreement partially : {}, {}", id, rentalAgreementDTO);
         if (rentalAgreementDTO.getId() == null) {
-            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, rentalAgreementDTO.getId())) {
-            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!rentalAgreementRepository.existsById(id)) {
-            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<RentalAgreementDTO> result = rentalAgreementService.partialUpdate(rentalAgreementDTO);
@@ -154,6 +153,19 @@ public class RentalAgreementResource {
     }
 
     /**
+     * {@code GET  /rental-agreements/:id} : get the "id" rentalAgreement.
+     *
+     * @param id the id of the rentalAgreementDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<RentalAgreementDTO> getRentalAgreement(@PathVariable("id") Long id) {
+        log.debug("REST request to get RentalAgreement : {}", id);
+        Optional<RentalAgreementDTO> rentalAgreementDTO = rentalAgreementService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(rentalAgreementDTO);
+    }
+
+    /**
      * {@code DELETE  /rental-agreements/:id} : delete the "id" rentalAgreement.
      *
      * @param id the id of the rentalAgreementDTO to delete.
@@ -166,24 +178,5 @@ public class RentalAgreementResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    /**
-     * My endpoints
-     */
-
-    /**
-     * {@code GET  /rental-agreements/:tenantId} : get the rentalAgreement for selected tenant.
-     *
-     * @param tenantId the id of the rentalAgreementDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
-     */
-    @GetMapping("/{tenantId}")
-    public ResponseEntity<RentalAgreementDTO> getRentalAgreementByTenantId(
-        @PathVariable(value = "tenantId", required = false) final Long tenantId
-    ) throws URISyntaxException {
-        log.debug("REST request to get RentalAgreement by tenant id : {}", tenantId);
-        Optional<RentalAgreementDTO> rentalAgreementDTO = rentalAgreementService.findLatestActiveByTenant(tenantId);
-        return ResponseUtil.wrapOrNotFound(rentalAgreementDTO);
     }
 }

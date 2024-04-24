@@ -108,6 +108,7 @@ public class PropertyAsserts {
     public static void assertPropertyUpdatableRelationshipsEquals(Property expected, Property actual) {
         assertThat(expected)
             .as("Verify Property relationships")
-            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()));
+            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()))
+            .satisfies(e -> assertThat(e.getLandLord()).as("check landLord").isEqualTo(actual.getLandLord()));
     }
 }

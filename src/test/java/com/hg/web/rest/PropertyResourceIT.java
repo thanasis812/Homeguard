@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hg.IntegrationTest;
+import com.hg.domain.LandLord;
 import com.hg.domain.Location;
 import com.hg.domain.Property;
 import com.hg.domain.enumeration.ConstructionEnum;
@@ -2005,6 +2006,28 @@ class PropertyResourceIT {
 
         // Get all the propertyList where location equals to (locationId + 1)
         defaultPropertyShouldNotBeFound("locationId.equals=" + (locationId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPropertiesByLandLordIsEqualToSomething() throws Exception {
+        LandLord landLord;
+        if (TestUtil.findAll(em, LandLord.class).isEmpty()) {
+            propertyRepository.saveAndFlush(property);
+            landLord = LandLordResourceIT.createEntity(em);
+        } else {
+            landLord = TestUtil.findAll(em, LandLord.class).get(0);
+        }
+        em.persist(landLord);
+        em.flush();
+        property.setLandLord(landLord);
+        propertyRepository.saveAndFlush(property);
+        Long landLordId = landLord.getId();
+        // Get all the propertyList where landLord equals to landLordId
+        defaultPropertyShouldBeFound("landLordId.equals=" + landLordId);
+
+        // Get all the propertyList where landLord equals to (landLordId + 1)
+        defaultPropertyShouldNotBeFound("landLordId.equals=" + (landLordId + 1));
     }
 
     private void defaultPropertyFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {

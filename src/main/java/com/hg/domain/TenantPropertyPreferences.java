@@ -37,7 +37,7 @@ public class TenantPropertyPreferences implements Serializable {
     private Boolean deleted;
 
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "tenantPropertyPreferences" },
+        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
         allowSetters = true
     )
     @OneToOne(fetch = FetchType.LAZY)

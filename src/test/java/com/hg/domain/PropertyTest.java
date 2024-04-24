@@ -2,6 +2,7 @@ package com.hg.domain;
 
 import static com.hg.domain.HouseCharacteristicsTestSamples.*;
 import static com.hg.domain.ImageTestSamples.*;
+import static com.hg.domain.LandLordTestSamples.*;
 import static com.hg.domain.LocationTestSamples.*;
 import static com.hg.domain.PropertyTestSamples.*;
 import static com.hg.domain.RentalAgreementTestSamples.*;
@@ -128,6 +129,18 @@ class PropertyTest {
         property.setPropertysPhotos(new HashSet<>());
         assertThat(property.getPropertysPhotos()).doesNotContain(imageBack);
         assertThat(imageBack.getProperty()).isNull();
+    }
+
+    @Test
+    void landLordTest() throws Exception {
+        Property property = getPropertyRandomSampleGenerator();
+        LandLord landLordBack = getLandLordRandomSampleGenerator();
+
+        property.setLandLord(landLordBack);
+        assertThat(property.getLandLord()).isEqualTo(landLordBack);
+
+        property.landLord(null);
+        assertThat(property.getLandLord()).isNull();
     }
 
     @Test

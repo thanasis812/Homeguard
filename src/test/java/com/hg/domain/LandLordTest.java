@@ -2,6 +2,7 @@ package com.hg.domain;
 
 import static com.hg.domain.ImageTestSamples.*;
 import static com.hg.domain.LandLordTestSamples.*;
+import static com.hg.domain.PropertyTestSamples.*;
 import static com.hg.domain.RentalAgreementTestSamples.*;
 import static com.hg.domain.ReviewTestSamples.*;
 import static com.hg.domain.TenantTestSamples.*;
@@ -50,6 +51,28 @@ class LandLordTest {
 
         landLord.landLordImage(null);
         assertThat(landLord.getLandLordImage()).isNull();
+    }
+
+    @Test
+    void propertysTest() throws Exception {
+        LandLord landLord = getLandLordRandomSampleGenerator();
+        Property propertyBack = getPropertyRandomSampleGenerator();
+
+        landLord.addPropertys(propertyBack);
+        assertThat(landLord.getPropertys()).containsOnly(propertyBack);
+        assertThat(propertyBack.getLandLord()).isEqualTo(landLord);
+
+        landLord.removePropertys(propertyBack);
+        assertThat(landLord.getPropertys()).doesNotContain(propertyBack);
+        assertThat(propertyBack.getLandLord()).isNull();
+
+        landLord.propertys(new HashSet<>(Set.of(propertyBack)));
+        assertThat(landLord.getPropertys()).containsOnly(propertyBack);
+        assertThat(propertyBack.getLandLord()).isEqualTo(landLord);
+
+        landLord.setPropertys(new HashSet<>());
+        assertThat(landLord.getPropertys()).doesNotContain(propertyBack);
+        assertThat(propertyBack.getLandLord()).isNull();
     }
 
     @Test
