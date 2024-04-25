@@ -3,6 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import com.hg.web.rest.errors.BaseException;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
@@ -169,10 +170,6 @@ public class RentalAgreementResource {
     }
 
     /**
-     * My endpoints
-     */
-
-    /**
      * {@code GET  /rental-agreements/:tenantId} : get the rentalAgreement for selected tenant.
      *
      * @param tenantId the id of the rentalAgreementDTO to retrieve.
@@ -184,6 +181,23 @@ public class RentalAgreementResource {
     ) throws URISyntaxException {
         log.debug("REST request to get RentalAgreement by tenant id : {}", tenantId);
         Optional<RentalAgreementDTO> rentalAgreementDTO = rentalAgreementService.findLatestActiveByTenant(tenantId);
+        return ResponseUtil.wrapOrNotFound(rentalAgreementDTO);
+    }
+
+    /**
+     * {@code GET  /rental-agreements/checkRentApplication/{tenantId}/property/{propertyId} : get rental agreement status for selected tenant and property
+     *
+     * @param tenantId the id of the tenant id to retrieve.
+     * @param propertyId the id of the property to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/checkRentApplication/{tenantId}/property/{propertyId}")
+    public ResponseEntity<RentalApplicationStatusDTO> getRentalAgreementByTenantId(
+        @PathVariable(value = "tenantId") final Long tenantId,
+        @PathVariable(value = "propertyId") final Long propertyId
+    ) {
+        log.debug("REST request to get checkRentApplication  by tenant id : {} and property id {}", tenantId, propertyId);
+        Optional<RentalApplicationStatusDTO> rentalAgreementDTO = rentalAgreementService.checkRentApplication(tenantId, propertyId);
         return ResponseUtil.wrapOrNotFound(rentalAgreementDTO);
     }
 }

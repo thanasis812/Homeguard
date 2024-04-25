@@ -1,5 +1,6 @@
 package com.hg.repository;
 
+import com.hg.domain.Property;
 import com.hg.domain.RentalAgreement;
 import com.hg.domain.Tenant;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
@@ -14,4 +15,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RentalAgreementRepository extends JpaRepository<RentalAgreement, Long> {
     Optional<RentalAgreement> findByStatusAndTenant(RentalAgreementStatusEnum status, Tenant tenant);
+    Optional<RentalAgreement> findByTenantAndProperty(Tenant tenant, Property property);
 }

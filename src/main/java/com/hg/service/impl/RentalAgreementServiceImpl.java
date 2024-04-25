@@ -2,12 +2,13 @@ package com.hg.service.impl;
 
 import com.hg.domain.RentalAgreement;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
+import com.hg.repository.PropertyRepository;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.repository.TenantRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import com.hg.service.mapper.RentalAgreementMapper;
-import com.hg.web.rest.errors.BaseException;
 import com.hg.web.rest.errors.NotFoundException;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -30,15 +31,18 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
 
     private final RentalAgreementMapper rentalAgreementMapper;
     private final TenantRepository tenantRepository;
+    private final PropertyRepository propertyRepository;
 
     public RentalAgreementServiceImpl(
         RentalAgreementRepository rentalAgreementRepository,
         RentalAgreementMapper rentalAgreementMapper,
-        TenantRepository tenantRepository
+        TenantRepository tenantRepository,
+        PropertyRepository propertyRepository
     ) {
         this.rentalAgreementRepository = rentalAgreementRepository;
         this.rentalAgreementMapper = rentalAgreementMapper;
         this.tenantRepository = tenantRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     @Override
@@ -104,5 +108,26 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
                     .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId)))
             )
             .map(rentalAgreementMapper::toDto);
+    }
+
+    @Override
+    public Optional<RentalApplicationStatusDTO> checkRentApplication(Long tenantId, Long propertyId) {
+        return rentalAgreementRepository
+            .findByTenantAndProperty(
+                tenantRepository
+                    .findById(tenantId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId))),
+                propertyRepository
+                    .findById(tenantId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Property with property id : %d", propertyId)))
+            )
+            .map(rentalStatus -> {
+                RentalApplicationStatusDTO rentalApplicationStatusDTO = new RentalApplicationStatusDTO();
+                rentalApplicationStatusDTO.setCreditCard(RentalAgreementStatusEnum.ACTIVE);
+                rentalApplicationStatusDTO.setSalaryCertificate(RentalAgreementStatusEnum.BOOKED);
+                rentalApplicationStatusDTO.setPrivateAgreement(RentalAgreementStatusEnum.CANCELED);
+                rentalApplicationStatusDTO.setPrivateAgreement(RentalAgreementStatusEnum.PENDING_LANDLORD_SIGN);
+                return rentalApplicationStatusDTO;
+            });
     }
 }

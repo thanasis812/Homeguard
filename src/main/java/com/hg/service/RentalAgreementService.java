@@ -1,6 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,4 +58,12 @@ public interface RentalAgreementService {
     void delete(Long id);
 
     Optional<RentalAgreementDTO> findLatestActiveByTenant(Long tenantId);
+
+    /**
+     * Check the rental application status
+     * @param tenantId for
+     * @param propertyId for
+     * @return RentalApplicationStatusDTO with the status of rental
+     */
+    Optional<RentalApplicationStatusDTO> checkRentApplication(Long tenantId, Long propertyId);
 }
