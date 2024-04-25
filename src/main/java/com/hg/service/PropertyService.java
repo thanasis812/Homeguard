@@ -66,7 +66,15 @@ public interface PropertyService {
     /**
      *
      * @param landlordId landlord id to fetches properties for
-     * @return
+     * @return list of property's that belong to this landlord
      */
     List<PropertyDossierDTO> getUserProperties(Long landlordId);
+
+    /**
+     *
+     * @param propertyId
+     * @param landlordId
+     * @return
+     */
+    Boolean isCertified(Long propertyId, Long landlordId);
 }

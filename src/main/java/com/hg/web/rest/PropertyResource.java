@@ -243,7 +243,6 @@ public class PropertyResource {
 
     /**
      * {@code GET  /properties/landlord/:landlordId} : get all the property's of landlord
-     * This differs from /properties/:id with fetching the vanilla object
      *
      * @param landlordId the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
@@ -252,6 +251,22 @@ public class PropertyResource {
     public ResponseEntity<List<PropertyDossierDTO>> getUsersHouses(@PathVariable("landlordId") Long landlordId) {
         log.debug("REST request to get Propertys for Land Lord id : {}", landlordId);
         List<PropertyDossierDTO> propertyDTO = propertyService.getUserProperties(landlordId);
+        return ResponseUtil.wrapOrNotFound(Optional.of(propertyDTO));
+    }
+
+    /**
+     * {@code GET  /properties/:propertyId/landlord/:landlordId} : get if landlord is certified
+     * @param propertyId the property ID whom to fetch for
+     * @param landlordId the landlord ID  whom to fetch for
+     * @return Boolean value if property and landlord is certified
+     */
+    @GetMapping("{propertyId}/landlord/{landlordId}")
+    public ResponseEntity<Boolean> checkLandlordId(
+        @PathVariable("propertyId") Long propertyId,
+        @PathVariable("landlordId") Long landlordId
+    ) {
+        log.debug("REST request to get check land lord for property {} and for landlord id  : {}", propertyId, landlordId);
+        Boolean propertyDTO = propertyService.isCertified(propertyId, landlordId);
         return ResponseUtil.wrapOrNotFound(Optional.of(propertyDTO));
     }
 }

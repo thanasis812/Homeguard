@@ -1,5 +1,6 @@
 package com.hg.service.impl;
 
+import com.hg.domain.LandLord;
 import com.hg.domain.Property;
 import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
@@ -118,5 +119,16 @@ public class PropertyServiceImpl implements PropertyService {
             .stream()
             .map(propertyMapper::toUiDto)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean isCertified(Long propertyId, Long landlordId) {
+        return propertyRepository
+            .findById(propertyId)
+            .map(property -> {
+                LandLord landlord = property.getLandLord();
+                return landlord != null && landlord.getId() != null && landlord.getId().equals(landlordId);
+            })
+            .orElse(false);
     }
 }
