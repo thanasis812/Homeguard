@@ -1,10 +1,14 @@
 package com.hg.service.impl;
 
 import com.hg.domain.RentalAgreement;
+import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.repository.RentalAgreementRepository;
+import com.hg.repository.TenantRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.mapper.RentalAgreementMapper;
+import com.hg.web.rest.errors.BaseException;
+import com.hg.web.rest.errors.NotFoundException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +29,16 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
     private final RentalAgreementRepository rentalAgreementRepository;
 
     private final RentalAgreementMapper rentalAgreementMapper;
+    private final TenantRepository tenantRepository;
 
-    public RentalAgreementServiceImpl(RentalAgreementRepository rentalAgreementRepository, RentalAgreementMapper rentalAgreementMapper) {
+    public RentalAgreementServiceImpl(
+        RentalAgreementRepository rentalAgreementRepository,
+        RentalAgreementMapper rentalAgreementMapper,
+        TenantRepository tenantRepository
+    ) {
         this.rentalAgreementRepository = rentalAgreementRepository;
         this.rentalAgreementMapper = rentalAgreementMapper;
+        this.tenantRepository = tenantRepository;
     }
 
     @Override
@@ -80,5 +90,19 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
     public void delete(Long id) {
         log.debug("Request to delete RentalAgreement : {}", id);
         rentalAgreementRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<RentalAgreementDTO> findLatestActiveByTenant(Long tenantId) {
+        log.debug("Request to get latest RentalAgreement for tenant id : {}", tenantId);
+        return rentalAgreementRepository
+            .findByStatusAndTenant(
+                RentalAgreementStatusEnum.ACTIVE,
+                tenantRepository
+                    .findById(tenantId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId)))
+            )
+            .map(rentalAgreementMapper::toDto);
     }
 }

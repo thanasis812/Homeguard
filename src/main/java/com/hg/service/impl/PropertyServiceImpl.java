@@ -1,10 +1,13 @@
 package com.hg.service.impl;
 
 import com.hg.domain.Property;
+import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
 import com.hg.service.PropertyService;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.mapper.PropertyMapper;
+import com.hg.web.rest.errors.NotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +28,17 @@ public class PropertyServiceImpl implements PropertyService {
     private final Logger log = LoggerFactory.getLogger(PropertyServiceImpl.class);
 
     private final PropertyRepository propertyRepository;
+    private final LandLordRepository landlordRepository;
 
     private final PropertyMapper propertyMapper;
 
-    public PropertyServiceImpl(PropertyRepository propertyRepository, PropertyMapper propertyMapper) {
+    public PropertyServiceImpl(
+        PropertyRepository propertyRepository,
+        LandLordRepository landlordRepository,
+        PropertyMapper propertyMapper
+    ) {
         this.propertyRepository = propertyRepository;
+        this.landlordRepository = landlordRepository;
         this.propertyMapper = propertyMapper;
     }
 
@@ -65,8 +74,9 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     /**
-     *  Get all the properties where TenantPropertyPreferences is {@code null}.
-     *  @return the list of entities.
+     * Get all the properties where TenantPropertyPreferences is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<PropertyDTO> findAllWhereTenantPropertyPreferencesIsNull() {
@@ -85,8 +95,28 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public Optional<PropertyDossierDTO> getPropertyById(Long id) {
+        log.debug("Request to get Property : {}", id);
+        return propertyRepository.findById(id).map(propertyMapper::toUiDto);
+    }
+
+    @Override
     public void delete(Long id) {
         log.debug("Request to delete Property : {}", id);
         propertyRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PropertyDossierDTO> getUserProperties(Long landlordId) {
+        log.debug("Request to get getUserProperties for landlordId : {}", landlordId);
+        return propertyRepository
+            .findByLandLord(
+                landlordRepository
+                    .findById(landlordId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Can't find Tenant with Tenant id: %d", landlordId)))
+            )
+            .stream()
+            .map(propertyMapper::toUiDto)
+            .collect(Collectors.toList());
     }
 }

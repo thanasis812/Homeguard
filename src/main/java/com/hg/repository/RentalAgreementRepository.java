@@ -1,6 +1,9 @@
 package com.hg.repository;
 
 import com.hg.domain.RentalAgreement;
+import com.hg.domain.Tenant;
+import com.hg.domain.enumeration.RentalAgreementStatusEnum;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface RentalAgreementRepository extends JpaRepository<RentalAgreement, Long> {}
+public interface RentalAgreementRepository extends JpaRepository<RentalAgreement, Long> {
+    Optional<RentalAgreement> findByStatusAndTenant(RentalAgreementStatusEnum status, Tenant tenant);
+}

@@ -90,6 +90,7 @@ public class HomeguardApp {
 
             ----------------------------------------------------------
             \tApplication '{}' is running! Access URLs:
+            \tSwagger: \thttp://localhost:8080/swagger-ui/index.html?urls.primaryName=springdocDefault
             \tLocal: \t\t{}://localhost:{}{}
             \tExternal: \t{}://{}:{}{}
             \tProfile(s): \t{}

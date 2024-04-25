@@ -1,11 +1,12 @@
 package com.hg.service.dto.mydto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * A User DTO for the {@link com.hg.domain.Payment} entity.
  */
-public class UserPaymentDTO {
+public class UserPaymentDTO implements Serializable {
 
     private Long id;
     private Float price;

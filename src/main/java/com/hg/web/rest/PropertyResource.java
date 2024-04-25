@@ -5,7 +5,8 @@ import com.hg.service.PropertyQueryService;
 import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.PropertyDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
+import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -67,7 +68,7 @@ public class PropertyResource {
     public ResponseEntity<PropertyDTO> createProperty(@Valid @RequestBody PropertyDTO propertyDTO) throws URISyntaxException {
         log.debug("REST request to save Property : {}", propertyDTO);
         if (propertyDTO.getId() != null) {
-            throw new BadRequestAlertException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
         }
         propertyDTO = propertyService.save(propertyDTO);
         return ResponseEntity.created(new URI("/api/properties/" + propertyDTO.getId()))
@@ -92,14 +93,14 @@ public class PropertyResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Property : {}, {}", id, propertyDTO);
         if (propertyDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, propertyDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!propertyRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         propertyDTO = propertyService.update(propertyDTO);
@@ -126,14 +127,14 @@ public class PropertyResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Property partially : {}, {}", id, propertyDTO);
         if (propertyDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, propertyDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!propertyRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<PropertyDTO> result = propertyService.partialUpdate(propertyDTO);
@@ -145,7 +146,7 @@ public class PropertyResource {
     }
 
     /**
-     * {@code GET  /properties} : get all the properties.
+     * {@code GET  /properties} : get all the properties by criteria
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
@@ -176,12 +177,13 @@ public class PropertyResource {
     }
 
     /**
-     * {@code GET  /properties/:id} : get the "id" property.
+     * {@code GET  /properties/crud/:id} : get the "id" property.
+     * This differs from /properties/:id with fetching the vanilla object
      *
      * @param id the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("crud/{id}")
     public ResponseEntity<PropertyDTO> getProperty(@PathVariable("id") Long id) {
         log.debug("REST request to get Property : {}", id);
         Optional<PropertyDTO> propertyDTO = propertyService.findOne(id);
@@ -201,5 +203,55 @@ public class PropertyResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * This might be used in the future
+     */
+
+    //    /**
+    //     * {@code GET  /properties/search} : get all the properties by criteria
+    //     *
+    //     * @param pageable the pagination information.
+    //     * @param criteria the criteria which the requested entities should match.
+    //     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
+    //     */
+    //    @GetMapping("search")
+    //    public ResponseEntity<List<PropertyDTO>> searchProperties(
+    //        PropertyCriteria criteria,
+    //        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    //    ) {
+    //        log.debug("REST request to get Properties by criteria: {}", criteria);
+    //
+    //        Page<PropertyDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
+    //        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    //        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    //    }
+
+    /**
+     * {@code GET  /properties/:id} : get the "id" property.
+     *
+     * @param id the id of the propertyDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<PropertyDossierDTO> getPropertyById(@PathVariable("id") Long id) {
+        log.debug("REST request to get Property : {}", id);
+        Optional<PropertyDossierDTO> propertyDTO = propertyService.getPropertyById(id);
+        return ResponseUtil.wrapOrNotFound(propertyDTO);
+    }
+
+    /**
+     * {@code GET  /properties/landlord/:landlordId} : get all the property's of landlord
+     * This differs from /properties/:id with fetching the vanilla object
+     *
+     * @param landlordId the id of the propertyDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/landlord/{landlordId}")
+    public ResponseEntity<List<PropertyDossierDTO>> getUsersHouses(@PathVariable("landlordId") Long landlordId) {
+        log.debug("REST request to get Propertys for Land Lord id : {}", landlordId);
+        List<PropertyDossierDTO> propertyDTO = propertyService.getUserProperties(landlordId);
+        return ResponseUtil.wrapOrNotFound(Optional.of(propertyDTO));
     }
 }

@@ -30,7 +30,6 @@ public class Image implements Serializable {
     @Column(name = "updated_date")
     private LocalDate updatedDate;
 
-    @Lob
     @Column(name = "image_file")
     private byte[] imageFile;
 

@@ -3,7 +3,8 @@ package com.hg.web.rest;
 import com.hg.repository.TenantRepository;
 import com.hg.service.TenantService;
 import com.hg.service.dto.TenantDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -28,6 +29,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Tenant}.
  */
+@Hidden
 @RestController
 @RequestMapping("/api/tenants")
 public class TenantResource {
@@ -59,7 +61,7 @@ public class TenantResource {
     public ResponseEntity<TenantDTO> createTenant(@Valid @RequestBody TenantDTO tenantDTO) throws URISyntaxException {
         log.debug("REST request to save Tenant : {}", tenantDTO);
         if (tenantDTO.getId() != null) {
-            throw new BadRequestAlertException("A new tenant cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new tenant cannot already have an ID", ENTITY_NAME, "idexists");
         }
         tenantDTO = tenantService.save(tenantDTO);
         return ResponseEntity.created(new URI("/api/tenants/" + tenantDTO.getId()))
@@ -84,14 +86,14 @@ public class TenantResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Tenant : {}, {}", id, tenantDTO);
         if (tenantDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, tenantDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!tenantRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         tenantDTO = tenantService.update(tenantDTO);
@@ -118,14 +120,14 @@ public class TenantResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update Tenant partially : {}, {}", id, tenantDTO);
         if (tenantDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, tenantDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!tenantRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<TenantDTO> result = tenantService.partialUpdate(tenantDTO);

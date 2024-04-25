@@ -3,7 +3,8 @@ package com.hg.web.rest;
 import com.hg.repository.LandLordRepository;
 import com.hg.service.LandLordService;
 import com.hg.service.dto.LandLordDTO;
-import com.hg.web.rest.errors.BadRequestAlertException;
+import com.hg.web.rest.errors.BaseException;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -27,6 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.LandLord}.
  */
+@Hidden
 @RestController
 @RequestMapping("/api/land-lords")
 public class LandLordResource {
@@ -58,7 +60,7 @@ public class LandLordResource {
     public ResponseEntity<LandLordDTO> createLandLord(@Valid @RequestBody LandLordDTO landLordDTO) throws URISyntaxException {
         log.debug("REST request to save LandLord : {}", landLordDTO);
         if (landLordDTO.getId() != null) {
-            throw new BadRequestAlertException("A new landLord cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BaseException("A new landLord cannot already have an ID", ENTITY_NAME, "idexists");
         }
         landLordDTO = landLordService.save(landLordDTO);
         return ResponseEntity.created(new URI("/api/land-lords/" + landLordDTO.getId()))
@@ -83,14 +85,14 @@ public class LandLordResource {
     ) throws URISyntaxException {
         log.debug("REST request to update LandLord : {}, {}", id, landLordDTO);
         if (landLordDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, landLordDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!landLordRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         landLordDTO = landLordService.update(landLordDTO);
@@ -117,14 +119,14 @@ public class LandLordResource {
     ) throws URISyntaxException {
         log.debug("REST request to partial update LandLord partially : {}, {}", id, landLordDTO);
         if (landLordDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, landLordDTO.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
         if (!landLordRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<LandLordDTO> result = landLordService.partialUpdate(landLordDTO);

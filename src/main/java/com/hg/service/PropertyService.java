@@ -1,6 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +49,24 @@ public interface PropertyService {
     Optional<PropertyDTO> findOne(Long id);
 
     /**
+     * Get the "id" of the property with the UI schema.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    Optional<PropertyDossierDTO> getPropertyById(Long id);
+
+    /**
      * Delete the "id" property.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     *
+     * @param landlordId landlord id to fetches properties for
+     * @return
+     */
+    List<PropertyDossierDTO> getUserProperties(Long landlordId);
 }

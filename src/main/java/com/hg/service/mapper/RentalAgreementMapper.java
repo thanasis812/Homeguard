@@ -1,13 +1,7 @@
 package com.hg.service.mapper;
 
-import com.hg.domain.LandLord;
-import com.hg.domain.Property;
-import com.hg.domain.RentalAgreement;
-import com.hg.domain.Tenant;
-import com.hg.service.dto.LandLordDTO;
-import com.hg.service.dto.PropertyDTO;
-import com.hg.service.dto.RentalAgreementDTO;
-import com.hg.service.dto.TenantDTO;
+import com.hg.domain.*;
+import com.hg.service.dto.*;
 import org.mapstruct.*;
 
 /**
@@ -19,6 +13,9 @@ public interface RentalAgreementMapper extends EntityMapper<RentalAgreementDTO, 
     @Mapping(target = "propertyOwner", source = "propertyOwner", qualifiedByName = "landLordId")
     @Mapping(target = "property", source = "property", qualifiedByName = "propertyId")
     RentalAgreementDTO toDto(RentalAgreement s);
+
+    @Mapping(target = "rentalAgreement", ignore = true)
+    PaymentDTO toDtoPayment(Payment payment);
 
     @Named("tenantId")
     @BeanMapping(ignoreByDefault = true)
