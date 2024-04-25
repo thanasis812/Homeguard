@@ -39,7 +39,6 @@ public class LocationDTO implements Serializable {
 
     private String municipalCommunity;
 
-    @Lob
     private String additionalNotes;
 
     private String number;

@@ -57,7 +57,6 @@ public class Location implements Serializable {
     @Column(name = "municipal_community")
     private String municipalCommunity;
 
-    @Lob
     @Column(name = "additional_notes")
     private String additionalNotes;
 

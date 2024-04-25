@@ -1,6 +1,8 @@
 package com.hg.repository;
 
+import com.hg.domain.LandLord;
 import com.hg.domain.Property;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSpecificationExecutor<Property> {}
+public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSpecificationExecutor<Property> {
+    List<Property> findByLandLord(LandLord landlordId);
+}
