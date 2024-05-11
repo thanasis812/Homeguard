@@ -230,7 +230,7 @@ public class PropertyResource {
 
     /**
      * {@code GET  /properties/:id} : get the "id" property.
-     *
+     * environment.endpoints.houses.houseDetails + "/" + ":id",
      * @param id the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
