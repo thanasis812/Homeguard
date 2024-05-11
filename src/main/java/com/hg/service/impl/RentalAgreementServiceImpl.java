@@ -118,7 +118,7 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
                     .findById(tenantId)
                     .orElseThrow(() -> new NotFoundException(String.format("Cant find Tenant with Tenant id : %d", tenantId))),
                 propertyRepository
-                    .findById(tenantId)
+                    .findById(propertyId)
                     .orElseThrow(() -> new NotFoundException(String.format("Cant find Property with property id : %d", propertyId)))
             )
             .map(rentalStatus -> {
@@ -129,5 +129,17 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
                 rentalApplicationStatusDTO.setPrivateAgreement(RentalAgreementStatusEnum.PENDING_LANDLORD_SIGN);
                 return rentalApplicationStatusDTO;
             });
+    }
+
+    @Override
+    public String getPrivateAgreementsTerms(Long propertyId) {
+        return rentalAgreementRepository
+            .findFirstByPropertyOrderByCreatedDateDesc(
+                propertyRepository
+                    .findById(propertyId)
+                    .orElseThrow(() -> new NotFoundException(String.format("Cant find Property with property id : %d", propertyId)))
+            )
+            .map(RentalAgreement::getAgreements)
+            .orElseThrow(() -> new NotFoundException(String.format("Cant find Rental Agreement with property id : %d", propertyId)));
     }
 }

@@ -16,4 +16,5 @@ import org.springframework.stereotype.Repository;
 public interface RentalAgreementRepository extends JpaRepository<RentalAgreement, Long> {
     Optional<RentalAgreement> findByStatusAndTenant(RentalAgreementStatusEnum status, Tenant tenant);
     Optional<RentalAgreement> findByTenantAndProperty(Tenant tenant, Property property);
+    Optional<RentalAgreement> findFirstByPropertyOrderByCreatedDateDesc(Property property);
 }

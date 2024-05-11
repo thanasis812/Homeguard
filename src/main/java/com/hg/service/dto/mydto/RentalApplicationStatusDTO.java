@@ -1,14 +1,7 @@
 package com.hg.service.dto.mydto;
 
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
-import com.hg.service.dto.LandLordDTO;
-import com.hg.service.dto.PropertyDTO;
-import com.hg.service.dto.TenantDTO;
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * A DTO for the {@link com.hg.domain.RentalAgreement} entity.

@@ -66,4 +66,12 @@ public interface RentalAgreementService {
      * @return RentalApplicationStatusDTO with the status of rental
      */
     Optional<RentalApplicationStatusDTO> checkRentApplication(Long tenantId, Long propertyId);
+
+    /**
+     * Get getPrivateAgreementsTerms for selected property
+     *
+     * @param propertyId the property id
+     * @return the private agreement terms
+     */
+    String getPrivateAgreementsTerms(Long propertyId);
 }

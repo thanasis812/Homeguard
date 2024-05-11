@@ -5,7 +5,6 @@ import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import com.hg.web.rest.errors.BaseException;
-import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -199,5 +198,18 @@ public class RentalAgreementResource {
         log.debug("REST request to get checkRentApplication  by tenant id : {} and property id {}", tenantId, propertyId);
         Optional<RentalApplicationStatusDTO> rentalAgreementDTO = rentalAgreementService.checkRentApplication(tenantId, propertyId);
         return ResponseUtil.wrapOrNotFound(rentalAgreementDTO);
+    }
+
+    /**
+     * {@code GET  /rental-agreements/privateAgreementsTerms/{propertyId} : get private agreement terms for selected property
+     * @param tenantId the id of the tenant id to retrieve.
+     * @param propertyId the id of the property to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/privateAgreementsTerms/{propertyId}")
+    public ResponseEntity<String> getPrivateAgreementsTerms(@PathVariable(value = "propertyId") final Long propertyId) {
+        log.debug("REST request to get getPrivateAgreementsTerms property id {}", propertyId);
+        String rentalAgreement = rentalAgreementService.getPrivateAgreementsTerms(propertyId);
+        return ResponseEntity.ok(rentalAgreement);
     }
 }
