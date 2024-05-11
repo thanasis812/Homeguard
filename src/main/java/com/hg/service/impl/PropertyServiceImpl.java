@@ -96,9 +96,9 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Optional<PropertyDossierDTO> getPropertyById(Long id) {
-        log.debug("Request to get Property : {}", id);
-        return propertyRepository.findById(id).map(propertyMapper::toUiDto);
+    public Optional<PropertyDossierDTO> getPropertyById(Long tenantId) {
+        log.debug("Request to get Property for tenant Id : {}", tenantId);
+        return propertyRepository.findById(tenantId).map(propertyMapper::toUiDto);
     }
 
     @Override

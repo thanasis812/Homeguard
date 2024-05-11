@@ -3,6 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
@@ -211,5 +212,18 @@ public class RentalAgreementResource {
         log.debug("REST request to get getPrivateAgreementsTerms property id {}", propertyId);
         String rentalAgreement = rentalAgreementService.getPrivateAgreementsTerms(propertyId);
         return ResponseEntity.ok(rentalAgreement);
+    }
+
+    /**
+     * {@code GET  /properties/tenant/:tenantId} : get the "tenantId" property.
+     *  environment.endpoints.houses.userHouses + "/" + ":id",
+     * @param tenantId the id of the propertyDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("property/tenant/{tenantId}")
+    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(@PathVariable("tenantId") Long tenantId) {
+        log.debug("REST request to get Property for tenantId : {}", tenantId);
+        Optional<PropertyDossierDTO> propertyDTO = rentalAgreementService.getPropertyByTenantId(tenantId);
+        return ResponseUtil.wrapOrNotFound(propertyDTO);
     }
 }

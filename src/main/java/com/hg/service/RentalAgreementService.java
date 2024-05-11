@@ -1,6 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.RentalAgreementDTO;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -74,4 +75,12 @@ public interface RentalAgreementService {
      * @return the private agreement terms
      */
     String getPrivateAgreementsTerms(Long propertyId);
+
+    /**
+     * Get getPropertyById for selected tenantid
+     *
+     * @param tenantId the tenant id
+     * @return the property he owns
+     */
+    Optional<PropertyDossierDTO> getPropertyByTenantId(Long tenantId);
 }
