@@ -6,6 +6,7 @@ import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
 import com.hg.service.PropertyService;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.mapper.PropertyMapper;
 import com.hg.web.rest.errors.NotFoundException;
@@ -130,5 +131,10 @@ public class PropertyServiceImpl implements PropertyService {
                 return landlord != null && landlord.getId() != null && landlord.getId().equals(landlordId);
             })
             .orElse(false);
+    }
+
+    @Override
+    public NewHouseRequestDTO save(NewHouseRequestDTO newHouseRequestDTO) {
+        return propertyMapper.toUiDto2(propertyRepository.save(propertyMapper.toEntity(newHouseRequestDTO)));
     }
 }

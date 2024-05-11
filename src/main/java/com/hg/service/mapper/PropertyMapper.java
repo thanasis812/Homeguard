@@ -1,19 +1,20 @@
 package com.hg.service.mapper;
 
-import com.hg.domain.HouseCharacteristics;
 import com.hg.domain.Location;
 import com.hg.domain.Property;
 import com.hg.domain.RentalAgreement;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
-import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.LocationDTO;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.Optional;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link Property} and its DTO {@link PropertyDTO}.
@@ -36,6 +37,10 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     //    @Mapping(target = "monthsPaid", source = "property", qualifiedByName = "mapMonthsPaid")
     //    @Mapping(target = "reviews", source = "reviews", qualifiedByName = "toUserDtoList")
     PropertyDossierDTO toUiDto(Property property);
+
+    NewHouseRequestDTO toUiDto2(Property property);
+
+    // TODO: 5/11/2024 rename this
 
     @Named("extractLandLordId")
     default Long extractLandLordId(Property property) {
@@ -65,4 +70,6 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
         }
         return availability;
     }
+
+    Property toEntity(NewHouseRequestDTO newHouseRequestDTO);
 }

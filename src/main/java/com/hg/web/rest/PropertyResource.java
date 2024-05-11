@@ -5,6 +5,7 @@ import com.hg.service.PropertyQueryService;
 import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
@@ -58,14 +59,15 @@ public class PropertyResource {
     }
 
     /**
-     * {@code POST  /properties} : Create a new property.
+     * THIS IS THE DIRECT SAVE THE OLD ONE
+     * {@code POST  /properties/crud} : Create a new property with db schema.
      *
      * @param propertyDTO the propertyDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new propertyDTO, or with status {@code 400 (Bad Request)} if the property has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
-    public ResponseEntity<PropertyDTO> createProperty(@Valid @RequestBody PropertyDTO propertyDTO) throws URISyntaxException {
+    @PostMapping("OLD")
+    public ResponseEntity<PropertyDTO> createPropertyCrud(@Valid @RequestBody PropertyDTO propertyDTO) throws URISyntaxException {
         log.debug("REST request to save Property : {}", propertyDTO);
         if (propertyDTO.getId() != null) {
             throw new BaseException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
@@ -74,6 +76,26 @@ public class PropertyResource {
         return ResponseEntity.created(new URI("/api/properties/" + propertyDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, propertyDTO.getId().toString()))
             .body(propertyDTO);
+    }
+
+    /**
+     * {@code POST  /properties} : Create a new property.
+     *
+     * @param newHouseRequestDTO the propertyDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new propertyDTO, or with status {@code 400 (Bad Request)} if the property has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("")
+    public ResponseEntity<NewHouseRequestDTO> createProperty(@Valid @RequestBody NewHouseRequestDTO newHouseRequestDTO)
+        throws URISyntaxException {
+        log.debug("REST request to save Property : {}", newHouseRequestDTO.toString());
+        if (newHouseRequestDTO.getId() != null) {
+            throw new BaseException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        newHouseRequestDTO = propertyService.save(newHouseRequestDTO);
+        return ResponseEntity.created(new URI("/api/properties/" + newHouseRequestDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, newHouseRequestDTO.getId().toString()))
+            .body(newHouseRequestDTO);
     }
 
     /**

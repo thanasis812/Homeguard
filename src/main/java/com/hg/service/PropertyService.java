@@ -1,6 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import java.util.List;
 import java.util.Optional;
@@ -64,17 +65,24 @@ public interface PropertyService {
     void delete(Long id);
 
     /**
-     *
      * @param landlordId landlord id to fetches properties for
      * @return list of property's that belong to this landlord
      */
     List<PropertyDossierDTO> getUserProperties(Long landlordId);
 
     /**
+     * Checks if a property is certified for a given landlord.
      *
-     * @param propertyId
-     * @param landlordId
-     * @return
+     * @param propertyId the id of the property to check.
+     * @param landlordId the id of the landlord to check for.
+     * @return true if the property is certified for the landlord, false otherwise.
      */
     Boolean isCertified(Long propertyId, Long landlordId);
+
+    /**
+     * Saves a new house request to the database.
+     * @param newHouseRequestDTO the new house request data to be saved.
+     * @return the persisted new house request data.
+     */
+    NewHouseRequestDTO save(NewHouseRequestDTO newHouseRequestDTO);
 }

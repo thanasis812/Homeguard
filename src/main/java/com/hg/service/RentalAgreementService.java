@@ -62,7 +62,8 @@ public interface RentalAgreementService {
 
     /**
      * Check the rental application status
-     * @param tenantId for
+     *
+     * @param tenantId   for
      * @param propertyId for
      * @return RentalApplicationStatusDTO with the status of rental
      */
@@ -83,4 +84,12 @@ public interface RentalAgreementService {
      * @return the property he owns
      */
     Optional<PropertyDossierDTO> getPropertyByTenantId(Long tenantId);
+
+    /**
+     * Saves the id of the landlord associated with the specified property.
+     *
+     * @param landLordIdm the id of the landlord to be associated with the property.
+     * @param propertyId  the id of the property to which the landlord is being associated.
+     */
+    void saveLandLordId(Long landLordIdm, Long propertyId);
 }

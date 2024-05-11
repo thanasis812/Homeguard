@@ -1,7 +1,9 @@
 package com.hg.service.impl;
 
+import com.hg.domain.LandLord;
 import com.hg.domain.RentalAgreement;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
+import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.repository.TenantRepository;
@@ -34,6 +36,7 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
     private final RentalAgreementMapper rentalAgreementMapper;
     private final PropertyMapper propertyMapper;
     private final TenantRepository tenantRepository;
+    private final LandLordRepository landLordRepository;
     private final PropertyRepository propertyRepository;
 
     public RentalAgreementServiceImpl(
@@ -41,12 +44,14 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
         RentalAgreementMapper rentalAgreementMapper,
         PropertyMapper propertyMapper,
         TenantRepository tenantRepository,
+        LandLordRepository landLordRepository,
         PropertyRepository propertyRepository
     ) {
         this.rentalAgreementRepository = rentalAgreementRepository;
         this.rentalAgreementMapper = rentalAgreementMapper;
         this.propertyMapper = propertyMapper;
         this.tenantRepository = tenantRepository;
+        this.landLordRepository = landLordRepository;
         this.propertyRepository = propertyRepository;
     }
 
@@ -160,5 +165,28 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
             )
             .map(RentalAgreement::getProperty)
             .map(propertyMapper::toUiDto);
+    }
+
+    @Override
+    public void saveLandLordId(Long landLordIdm, Long propertyId) {
+        Optional<RentalAgreement> rentalAgreementOptional = rentalAgreementRepository.findFirstByPropertyOrderByCreatedDateDesc(
+            propertyRepository
+                .findById(propertyId)
+                .orElseThrow(() -> new NotFoundException(String.format("Cant find Property with property id : %d", propertyId)))
+        );
+
+        if (rentalAgreementOptional.isPresent()) {
+            RentalAgreement rentalAgreement = rentalAgreementOptional.get();
+            Optional<LandLord> landLordOptional = landLordRepository.findById(landLordIdm);
+
+            if (landLordOptional.isPresent()) {
+                rentalAgreement.setPropertyOwner(landLordOptional.get());
+                rentalAgreementRepository.save(rentalAgreement);
+            } else {
+                throw new NotFoundException(String.format("Cant find LandLord with landlord id : %d", landLordIdm));
+            }
+        } else {
+            throw new NotFoundException(String.format("Cant find Rental Agreement with property id : %d", propertyId));
+        }
     }
 }

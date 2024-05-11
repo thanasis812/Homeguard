@@ -4,6 +4,7 @@ import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
+import com.hg.service.dto.mydto.RentalAgreementSaveDTO;
 import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
 import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
@@ -72,7 +73,7 @@ public class RentalAgreementResource {
     /**
      * {@code PUT  /rental-agreements/:id} : Updates an existing rentalAgreement.
      *
-     * @param id the id of the rentalAgreementDTO to save.
+     * @param id                 the id of the rentalAgreementDTO to save.
      * @param rentalAgreementDTO the rentalAgreementDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rentalAgreementDTO,
      * or with status {@code 400 (Bad Request)} if the rentalAgreementDTO is not valid,
@@ -105,7 +106,7 @@ public class RentalAgreementResource {
     /**
      * {@code PATCH  /rental-agreements/:id} : Partial updates given fields of an existing rentalAgreement, field will ignore if it is null
      *
-     * @param id the id of the rentalAgreementDTO to save.
+     * @param id                 the id of the rentalAgreementDTO to save.
      * @param rentalAgreementDTO the rentalAgreementDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rentalAgreementDTO,
      * or with status {@code 400 (Bad Request)} if the rentalAgreementDTO is not valid,
@@ -187,7 +188,7 @@ public class RentalAgreementResource {
     /**
      * {@code GET  /rental-agreements/checkRentApplication/{tenantId}/property/{propertyId} : get rental agreement status for selected tenant and property
      *
-     * @param tenantId the id of the tenant id to retrieve.
+     * @param tenantId   the id of the tenant id to retrieve.
      * @param propertyId the id of the property to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
      */
@@ -203,7 +204,8 @@ public class RentalAgreementResource {
 
     /**
      * {@code GET  /rental-agreements/privateAgreementsTerms/{propertyId} : get private agreement terms for selected property
-     * @param tenantId the id of the tenant id to retrieve.
+     *
+     * @param tenantId   the id of the tenant id to retrieve.
      * @param propertyId the id of the property to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
      */
@@ -216,7 +218,8 @@ public class RentalAgreementResource {
 
     /**
      * {@code GET  /properties/tenant/:tenantId} : get the "tenantId" property.
-     *  environment.endpoints.houses.userHouses + "/" + ":id",
+     * environment.endpoints.houses.userHouses + "/" + ":id",
+     *
      * @param tenantId the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
@@ -225,5 +228,24 @@ public class RentalAgreementResource {
         log.debug("REST request to get Property for tenantId : {}", tenantId);
         Optional<PropertyDossierDTO> propertyDTO = rentalAgreementService.getPropertyByTenantId(tenantId);
         return ResponseUtil.wrapOrNotFound(propertyDTO);
+    }
+
+    /**
+     * Saves the landlord id and property id.
+     * environment.endpoints.houses.saveLandlordId
+     * @param rentalAgreementSaveDTO the {@link com.hg.service.dto.mydto.RentalAgreementSaveDTO} containing the landlord id and property id to save.
+     * @return the {@link ResponseEntity} with status {@code 200 (Created)} and with body the new.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/landLordId")
+    public ResponseEntity<Void> saveLandlordId(@Valid @RequestBody RentalAgreementSaveDTO rentalAgreementSaveDTO)
+        throws URISyntaxException {
+        log.debug(
+            "REST request to save LandLord id with ID: {} and property id {}",
+            rentalAgreementSaveDTO.landLordId(),
+            rentalAgreementSaveDTO.propertyId()
+        );
+        rentalAgreementService.saveLandLordId(rentalAgreementSaveDTO.landLordId(), rentalAgreementSaveDTO.propertyId());
+        return ResponseEntity.ok().build();
     }
 }
