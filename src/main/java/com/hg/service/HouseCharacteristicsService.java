@@ -1,6 +1,8 @@
 package com.hg.service;
 
+import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import com.hg.service.dto.HouseCharacteristicsDTO;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,4 +57,13 @@ public interface HouseCharacteristicsService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Get all the houseCharacteristics where Property is {@code null}.
+     *
+     * @param id    the id of the houseCharacteristics.
+     * @param group the characteristics group to filter by.
+     * @return the list of houseCharacteristicsDTOs where the specified property is null.
+     */
+    List<HouseCharacteristicsDTO> findByCharacteristicsByGroupAndProperty(Long id, HouseCharacteristicsGroupEnum group);
 }

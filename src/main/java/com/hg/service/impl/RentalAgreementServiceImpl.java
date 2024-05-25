@@ -176,11 +176,11 @@ public class RentalAgreementServiceImpl implements RentalAgreementService {
         );
 
         if (rentalAgreementOptional.isPresent()) {
-            RentalAgreement rentalAgreement = rentalAgreementOptional.get();
+            RentalAgreement rentalAgreement = rentalAgreementOptional.orElseThrow();
             Optional<LandLord> landLordOptional = landLordRepository.findById(landLordIdm);
 
             if (landLordOptional.isPresent()) {
-                rentalAgreement.setPropertyOwner(landLordOptional.get());
+                rentalAgreement.setPropertyOwner(landLordOptional.orElseThrow());
                 rentalAgreementRepository.save(rentalAgreement);
             } else {
                 throw new NotFoundException(String.format("Cant find LandLord with landlord id : %d", landLordIdm));

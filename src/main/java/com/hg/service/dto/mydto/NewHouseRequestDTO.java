@@ -1,7 +1,5 @@
 package com.hg.service.dto.mydto;
 
-import com.hg.service.dto.ImageDTO;
-import com.hg.service.dto.LocationDTO;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,12 +14,23 @@ public class NewHouseRequestDTO implements Serializable {
     private Long id;
     private BigDecimal price;
     private String name;
-    private LocationDTO location;
+    private String address;
+    private Integer zipCode;
+    private String city;
+    private String country;
+    private String streetAddress;
+    private String postalCode;
+    private Double longitude;
+    private Double latitude;
+    private UploadImageDTO energyClassId;
+    private String houseType;
+
+    private String energyClass;
     private String description;
     private BigDecimal squareMeters;
     private LocalDate startedRentingDate;
-    private ImageDTO thumbnail;
-    private List<ImageDTO> houseImages;
+    //    private ImageDTO thumbnail;
+    private List<UploadImageDTO> images; //// TODO: 5/25/2024
     private Integer numberOfBathrooms;
     private Integer numberOfBedrooms;
     private Integer numberOfKitchens;
@@ -33,7 +42,132 @@ public class NewHouseRequestDTO implements Serializable {
     private Integer floor;
     private Boolean furnitured;
     private String furnituredDescription;
-    private NewHouseCharacteristicsDTO characteristics;
+    private NewHouseCharacteristicsDTO characteristics = new NewHouseCharacteristicsDTO();
+
+    private PrivateAgreementsTermsRequestDTO privateAgreement;
+
+    private String ownerName;
+    private Long ownerId;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public Integer getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(Integer zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public UploadImageDTO getEnergyClassId() {
+        return energyClassId;
+    }
+
+    public void setEnergyClassId(UploadImageDTO energyClassId) {
+        this.energyClassId = energyClassId;
+    }
+
+    public String getHouseType() {
+        return houseType;
+    }
+
+    public void setHouseType(String houseType) {
+        this.houseType = houseType;
+    }
+
+    public String getEnergyClass() {
+        return energyClass;
+    }
+
+    public void setEnergyClass(String energyClass) {
+        this.energyClass = energyClass;
+    }
+
+    public List<UploadImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(List<UploadImageDTO> images) {
+        this.images = images;
+    }
+
+    public PrivateAgreementsTermsRequestDTO getPrivateAgreement() {
+        return privateAgreement;
+    }
+
+    public void setPrivateAgreement(PrivateAgreementsTermsRequestDTO privateAgreement) {
+        this.privateAgreement = privateAgreement;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -58,14 +192,6 @@ public class NewHouseRequestDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LocationDTO getLocation() {
-        return location;
-    }
-
-    public void setLocation(LocationDTO location) {
-        this.location = location;
     }
 
     public Integer getNumberOfBathrooms() {
@@ -180,19 +306,11 @@ public class NewHouseRequestDTO implements Serializable {
         this.startedRentingDate = startedRentingDate;
     }
 
-    public ImageDTO getThumbnail() {
-        return thumbnail;
+    public NewHouseCharacteristicsDTO getCharacteristics() {
+        return characteristics;
     }
 
-    public void setThumbnail(ImageDTO thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public List<ImageDTO> getHouseImages() {
-        return houseImages;
-    }
-
-    public void setHouseImages(List<ImageDTO> houseImages) {
-        this.houseImages = houseImages;
+    public void setCharacteristics(NewHouseCharacteristicsDTO characteristics) {
+        this.characteristics = characteristics;
     }
 }

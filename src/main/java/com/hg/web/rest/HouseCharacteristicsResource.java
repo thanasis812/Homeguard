@@ -1,5 +1,6 @@
 package com.hg.web.rest;
 
+import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import com.hg.repository.HouseCharacteristicsRepository;
 import com.hg.service.HouseCharacteristicsService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
@@ -76,7 +77,7 @@ public class HouseCharacteristicsResource {
     /**
      * {@code PUT  /house-characteristics/:id} : Updates an existing houseCharacteristics.
      *
-     * @param id the id of the houseCharacteristicsDTO to save.
+     * @param id                      the id of the houseCharacteristicsDTO to save.
      * @param houseCharacteristicsDTO the houseCharacteristicsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated houseCharacteristicsDTO,
      * or with status {@code 400 (Bad Request)} if the houseCharacteristicsDTO is not valid,
@@ -109,7 +110,7 @@ public class HouseCharacteristicsResource {
     /**
      * {@code PATCH  /house-characteristics/:id} : Partial updates given fields of an existing houseCharacteristics, field will ignore if it is null
      *
-     * @param id the id of the houseCharacteristicsDTO to save.
+     * @param id                      the id of the houseCharacteristicsDTO to save.
      * @param houseCharacteristicsDTO the houseCharacteristicsDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated houseCharacteristicsDTO,
      * or with status {@code 400 (Bad Request)} if the houseCharacteristicsDTO is not valid,
@@ -184,5 +185,25 @@ public class HouseCharacteristicsResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * Retrieves the HouseCharacteristics for a specific property and group.
+     *
+     * @param id    the id of the property
+     * @param group the group of characteristics to retrieve
+     * @return a ResponseEntity containing a list of HouseCharacteristicsDTOs for the specified property and group
+     */
+    @GetMapping("houseChar/{id}")
+    public ResponseEntity<List<HouseCharacteristicsDTO>> getHouseCharacteristicsByGroupAndProperty(
+        @PathVariable("id") Long id,
+        HouseCharacteristicsGroupEnum group
+    ) {
+        log.debug("REST request to get HouseCharacteristics for property : {} and group {}", id, group.toString());
+        List<HouseCharacteristicsDTO> houseCharacteristicsDTO = houseCharacteristicsService.findByCharacteristicsByGroupAndProperty(
+            id,
+            group
+        );
+        return ResponseEntity.ok(houseCharacteristicsDTO);
     }
 }

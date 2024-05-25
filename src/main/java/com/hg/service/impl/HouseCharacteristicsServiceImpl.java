@@ -1,10 +1,13 @@
 package com.hg.service.impl;
 
 import com.hg.domain.HouseCharacteristics;
+import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import com.hg.repository.HouseCharacteristicsRepository;
+import com.hg.repository.PropertyRepository;
 import com.hg.service.HouseCharacteristicsService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.mapper.HouseCharacteristicsMapper;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +28,16 @@ public class HouseCharacteristicsServiceImpl implements HouseCharacteristicsServ
     private final HouseCharacteristicsRepository houseCharacteristicsRepository;
 
     private final HouseCharacteristicsMapper houseCharacteristicsMapper;
+    private final PropertyRepository propertyRepository;
 
     public HouseCharacteristicsServiceImpl(
         HouseCharacteristicsRepository houseCharacteristicsRepository,
-        HouseCharacteristicsMapper houseCharacteristicsMapper
+        HouseCharacteristicsMapper houseCharacteristicsMapper,
+        PropertyRepository propertyRepository
     ) {
         this.houseCharacteristicsRepository = houseCharacteristicsRepository;
         this.houseCharacteristicsMapper = houseCharacteristicsMapper;
+        this.propertyRepository = propertyRepository;
     }
 
     @Override
@@ -83,5 +89,11 @@ public class HouseCharacteristicsServiceImpl implements HouseCharacteristicsServ
     public void delete(Long id) {
         log.debug("Request to delete HouseCharacteristics : {}", id);
         houseCharacteristicsRepository.deleteById(id);
+    }
+
+    @Override
+    public List<HouseCharacteristicsDTO> findByCharacteristicsByGroupAndProperty(Long id, HouseCharacteristicsGroupEnum group) {
+        log.debug("Request to get HouseCharacteristics for property : {} for group {} ", id, group.toString());
+        return houseCharacteristicsRepository.findHouseCharacteristicsByPropertyAndGroup(id, group);
     }
 }

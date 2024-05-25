@@ -104,7 +104,7 @@ public class Property implements Serializable {
     private Boolean deleted;
 
     @JsonIgnoreProperties(value = { "tenant", "property" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Location location;
 

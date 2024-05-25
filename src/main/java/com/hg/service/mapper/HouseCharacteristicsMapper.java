@@ -23,6 +23,12 @@ public interface HouseCharacteristicsMapper extends EntityMapper<HouseCharacteri
         return s.stream().map(this::toDto).collect(Collectors.toSet());
     }
 
+    @Named("toDtoList")
+    @Mapping(target = "property", ignore = true)
+    default Set<HouseCharacteristicsDTO> toDtoList(List<HouseCharacteristics> s) {
+        return s.stream().map(this::toDto).collect(Collectors.toSet());
+    }
+
     @Named("propertyId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")

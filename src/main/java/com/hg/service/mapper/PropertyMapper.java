@@ -1,5 +1,6 @@
 package com.hg.service.mapper;
 
+import com.hg.domain.LandLord;
 import com.hg.domain.Location;
 import com.hg.domain.Property;
 import com.hg.domain.RentalAgreement;
@@ -38,10 +39,6 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     //    @Mapping(target = "reviews", source = "reviews", qualifiedByName = "toUserDtoList")
     PropertyDossierDTO toUiDto(Property property);
 
-    NewHouseRequestDTO toUiDto2(Property property);
-
-    // TODO: 5/11/2024 rename this
-
     @Named("extractLandLordId")
     default Long extractLandLordId(Property property) {
         return property != null && property.getLandLord() != null && property.getLandLord().getId() != null
@@ -71,5 +68,24 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
         return availability;
     }
 
-    Property toEntity(NewHouseRequestDTO newHouseRequestDTO);
+    @Mapping(source = "newHouseRequestDTO", target = "location", qualifiedByName = "mapToLocation")
+    Property toInternalSchemaNewProperty(NewHouseRequestDTO newHouseRequestDTO);
+
+    NewHouseRequestDTO toExternalSchemaNewProperty(Property property);
+
+    @Named("mapToLocation")
+    default Location mapToLocation(NewHouseRequestDTO source) {
+        if (source == null) {
+            return null;
+        }
+        Location location = new Location();
+        location.setCity(source.getCity());
+        location.setPostalCode(source.getPostalCode());
+        location.setLongitude(source.getLongitude());
+        location.setLatitude(source.getLatitude());
+        location.setZipCode(source.getZipCode());
+        location.setCountry(source.getCountry());
+        location.setStreetAddress(source.getAddress());
+        return location;
+    }
 }
