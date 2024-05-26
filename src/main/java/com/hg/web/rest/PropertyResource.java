@@ -175,13 +175,13 @@ public class PropertyResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<PropertyDTO>> getAllProperties(
+    public ResponseEntity<List<PropertyDossierDTO>> getAllProperties(
         PropertyCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Properties by criteria: {}", criteria);
 
-        Page<PropertyDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
+        Page<PropertyDossierDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -231,24 +231,24 @@ public class PropertyResource {
      * This might be used in the future
      */
 
-    //    /**
-    //     * {@code GET  /properties/search} : get all the properties by criteria
-    //     *
-    //     * @param pageable the pagination information.
-    //     * @param criteria the criteria which the requested entities should match.
-    //     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
-    //     */
-    //    @GetMapping("search")
-    //    public ResponseEntity<List<PropertyDTO>> searchProperties(
-    //        PropertyCriteria criteria,
-    //        @org.springdoc.core.annotations.ParameterObject Pageable pageable
-    //    ) {
-    //        log.debug("REST request to get Properties by criteria: {}", criteria);
-    //
-    //        Page<PropertyDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
-    //        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-    //        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    //    }
+    /**
+     * {@code GET  /properties/search} : get all the properties by criteria
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
+     */
+    @GetMapping("search")
+    public ResponseEntity<List<PropertyDossierDTO>> searchProperties(
+        PropertyCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Properties by criteria: {}", criteria);
+
+        Page<PropertyDossierDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 
     /**
      * {@code GET  /properties/:id} : get the "id" property.

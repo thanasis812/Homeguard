@@ -5,6 +5,7 @@ import com.hg.domain.Property;
 import com.hg.repository.PropertyRepository;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.mapper.PropertyMapper;
 import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
@@ -38,16 +39,16 @@ public class PropertyQueryService extends QueryService<Property> {
     }
 
     /**
-     * Return a {@link Page} of {@link PropertyDTO} which matches the criteria from the database.
+     * Return a {@link Page} of {@link PropertyDossierDTO} which matches the criteria from the database.
      * @param criteria The object which holds all the filters, which the entities should match.
      * @param page The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
-    public Page<PropertyDTO> findByCriteria(PropertyCriteria criteria, Pageable page) {
+    public Page<PropertyDossierDTO> findByCriteria(PropertyCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Property> specification = createSpecification(criteria);
-        return propertyRepository.findAll(specification, page).map(propertyMapper::toDto);
+        return propertyRepository.findAll(specification, page).map(propertyMapper::toUiDto);
     }
 
     /**
@@ -73,9 +74,6 @@ public class PropertyQueryService extends QueryService<Property> {
             // This has to be called first, because the distinct method returns null
             if (criteria.getDistinct() != null) {
                 specification = specification.and(distinct(criteria.getDistinct()));
-            }
-            if (criteria.getId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getId(), Property_.id));
             }
             if (criteria.getVerified() != null) {
                 specification = specification.and(buildSpecification(criteria.getVerified(), Property_.verified));
@@ -117,9 +115,6 @@ public class PropertyQueryService extends QueryService<Property> {
                     buildRangeSpecification(criteria.getNextAvailableDateForRent(), Property_.nextAvailableDateForRent)
                 );
             }
-            if (criteria.getThumbnail() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getThumbnail(), Property_.thumbnail));
-            }
             if (criteria.getHouseType() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getHouseType(), Property_.houseType));
             }
@@ -160,40 +155,35 @@ public class PropertyQueryService extends QueryService<Property> {
                     buildSpecification(criteria.getLocationId(), root -> root.join(Property_.location, JoinType.LEFT).get(Location_.id))
                 );
             }
-            if (criteria.getRentalId() != null) {
-                specification = specification.and(
-                    buildSpecification(criteria.getRentalId(), root -> root.join(Property_.rentals, JoinType.LEFT).get(RentalAgreement_.id))
-                );
-            }
-            if (criteria.getHouseCharacteristicId() != null) {
-                specification = specification.and(
-                    buildSpecification(
-                        criteria.getHouseCharacteristicId(),
-                        root -> root.join(Property_.houseCharacteristics, JoinType.LEFT).get(HouseCharacteristics_.id)
-                    )
-                );
-            }
-            if (criteria.getReviewsId() != null) {
-                specification = specification.and(
-                    buildSpecification(criteria.getReviewsId(), root -> root.join(Property_.reviews, JoinType.LEFT).get(Review_.id))
-                );
-            }
-            if (criteria.getPropertysPhotoId() != null) {
-                specification = specification.and(
-                    buildSpecification(
-                        criteria.getPropertysPhotoId(),
-                        root -> root.join(Property_.propertysPhotos, JoinType.LEFT).get(Image_.id)
-                    )
-                );
-            }
-            if (criteria.getTenantPropertyPreferencesId() != null) {
-                specification = specification.and(
-                    buildSpecification(
-                        criteria.getTenantPropertyPreferencesId(),
-                        root -> root.join(Property_.tenantPropertyPreferences, JoinType.LEFT).get(TenantPropertyPreferences_.id)
-                    )
-                );
-            }
+            //            if (criteria.getHouseCharacteristicId() != null) {
+            //                specification = specification.and(
+            //                    buildSpecification(
+            //                        criteria.getHouseCharacteristicId(),
+            //                        root -> root.join(Property_.houseCharacteristics, JoinType.LEFT).get(HouseCharacteristics_.id)
+            //                    )
+            //                );
+            //            }
+            //            if (criteria.getReviewsId() != null) {
+            //                specification = specification.and(
+            //                    buildSpecification(criteria.getReviewsId(), root -> root.join(Property_.reviews, JoinType.LEFT).get(Review_.id))
+            //                );
+            //            }
+            //            if (criteria.getPropertysPhotoId() != null) {
+            //                specification = specification.and(
+            //                    buildSpecification(
+            //                        criteria.getPropertysPhotoId(),
+            //                        root -> root.join(Property_.propertysPhotos, JoinType.LEFT).get(Image_.id)
+            //                    )
+            //                );
+            //            }
+            //            if (criteria.getTenantPropertyPreferencesId() != null) {
+            //                specification = specification.and(
+            //                    buildSpecification(
+            //                        criteria.getTenantPropertyPreferencesId(),
+            //                        root -> root.join(Property_.tenantPropertyPreferences, JoinType.LEFT).get(TenantPropertyPreferences_.id)
+            //                    )
+            //                );
+            //            }
         }
         return specification;
     }

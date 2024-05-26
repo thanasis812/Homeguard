@@ -40,8 +40,6 @@ public class PropertyCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;
 
-    private LongFilter id;
-
     private BooleanFilter verified;
 
     private StringFilter name;
@@ -65,8 +63,6 @@ public class PropertyCriteria implements Serializable, Criteria {
     private IntegerFilter contractYears;
 
     private LocalDateFilter nextAvailableDateForRent;
-
-    private LongFilter thumbnail;
 
     private StringFilter houseType;
 
@@ -92,24 +88,11 @@ public class PropertyCriteria implements Serializable, Criteria {
 
     private LongFilter locationId;
 
-    private LongFilter rentalId;
-
-    private LongFilter houseCharacteristicId;
-
-    private LongFilter reviewsId;
-
-    private LongFilter propertysPhotoId;
-
-    private LongFilter landLordId;
-
-    private LongFilter tenantPropertyPreferencesId;
-
     private Boolean distinct;
 
     public PropertyCriteria() {}
 
     public PropertyCriteria(PropertyCriteria other) {
-        this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.verified = other.optionalVerified().map(BooleanFilter::copy).orElse(null);
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
@@ -122,7 +105,6 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.numberOfAirConditioner = other.optionalNumberOfAirConditioner().map(IntegerFilter::copy).orElse(null);
         this.contractYears = other.optionalContractYears().map(IntegerFilter::copy).orElse(null);
         this.nextAvailableDateForRent = other.optionalNextAvailableDateForRent().map(LocalDateFilter::copy).orElse(null);
-        this.thumbnail = other.optionalThumbnail().map(LongFilter::copy).orElse(null);
         this.houseType = other.optionalHouseType().map(StringFilter::copy).orElse(null);
         this.floor = other.optionalFloor().map(IntegerFilter::copy).orElse(null);
         this.numberOfFlats = other.optionalNumberOfFlats().map(IntegerFilter::copy).orElse(null);
@@ -135,37 +117,12 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.furnituredDescription = other.optionalFurnituredDescription().map(StringFilter::copy).orElse(null);
         this.deleted = other.optionalDeleted().map(BooleanFilter::copy).orElse(null);
         this.locationId = other.optionalLocationId().map(LongFilter::copy).orElse(null);
-        this.rentalId = other.optionalRentalId().map(LongFilter::copy).orElse(null);
-        this.houseCharacteristicId = other.optionalHouseCharacteristicId().map(LongFilter::copy).orElse(null);
-        this.reviewsId = other.optionalReviewsId().map(LongFilter::copy).orElse(null);
-        this.propertysPhotoId = other.optionalPropertysPhotoId().map(LongFilter::copy).orElse(null);
-        this.landLordId = other.optionalLandLordId().map(LongFilter::copy).orElse(null);
-        this.tenantPropertyPreferencesId = other.optionalTenantPropertyPreferencesId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
     @Override
     public PropertyCriteria copy() {
         return new PropertyCriteria(this);
-    }
-
-    public LongFilter getId() {
-        return id;
-    }
-
-    public Optional<LongFilter> optionalId() {
-        return Optional.ofNullable(id);
-    }
-
-    public LongFilter id() {
-        if (id == null) {
-            setId(new LongFilter());
-        }
-        return id;
-    }
-
-    public void setId(LongFilter id) {
-        this.id = id;
     }
 
     public BooleanFilter getVerified() {
@@ -396,25 +353,6 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.nextAvailableDateForRent = nextAvailableDateForRent;
     }
 
-    public LongFilter getThumbnail() {
-        return thumbnail;
-    }
-
-    public Optional<LongFilter> optionalThumbnail() {
-        return Optional.ofNullable(thumbnail);
-    }
-
-    public LongFilter thumbnail() {
-        if (thumbnail == null) {
-            setThumbnail(new LongFilter());
-        }
-        return thumbnail;
-    }
-
-    public void setThumbnail(LongFilter thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
     public StringFilter getHouseType() {
         return houseType;
     }
@@ -643,120 +581,6 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.locationId = locationId;
     }
 
-    public LongFilter getRentalId() {
-        return rentalId;
-    }
-
-    public Optional<LongFilter> optionalRentalId() {
-        return Optional.ofNullable(rentalId);
-    }
-
-    public LongFilter rentalId() {
-        if (rentalId == null) {
-            setRentalId(new LongFilter());
-        }
-        return rentalId;
-    }
-
-    public void setRentalId(LongFilter rentalId) {
-        this.rentalId = rentalId;
-    }
-
-    public LongFilter getHouseCharacteristicId() {
-        return houseCharacteristicId;
-    }
-
-    public Optional<LongFilter> optionalHouseCharacteristicId() {
-        return Optional.ofNullable(houseCharacteristicId);
-    }
-
-    public LongFilter houseCharacteristicId() {
-        if (houseCharacteristicId == null) {
-            setHouseCharacteristicId(new LongFilter());
-        }
-        return houseCharacteristicId;
-    }
-
-    public void setHouseCharacteristicId(LongFilter houseCharacteristicId) {
-        this.houseCharacteristicId = houseCharacteristicId;
-    }
-
-    public LongFilter getReviewsId() {
-        return reviewsId;
-    }
-
-    public Optional<LongFilter> optionalReviewsId() {
-        return Optional.ofNullable(reviewsId);
-    }
-
-    public LongFilter reviewsId() {
-        if (reviewsId == null) {
-            setReviewsId(new LongFilter());
-        }
-        return reviewsId;
-    }
-
-    public void setReviewsId(LongFilter reviewsId) {
-        this.reviewsId = reviewsId;
-    }
-
-    public LongFilter getPropertysPhotoId() {
-        return propertysPhotoId;
-    }
-
-    public Optional<LongFilter> optionalPropertysPhotoId() {
-        return Optional.ofNullable(propertysPhotoId);
-    }
-
-    public LongFilter propertysPhotoId() {
-        if (propertysPhotoId == null) {
-            setPropertysPhotoId(new LongFilter());
-        }
-        return propertysPhotoId;
-    }
-
-    public void setPropertysPhotoId(LongFilter propertysPhotoId) {
-        this.propertysPhotoId = propertysPhotoId;
-    }
-
-    public LongFilter getLandLordId() {
-        return landLordId;
-    }
-
-    public Optional<LongFilter> optionalLandLordId() {
-        return Optional.ofNullable(landLordId);
-    }
-
-    public LongFilter landLordId() {
-        if (landLordId == null) {
-            setLandLordId(new LongFilter());
-        }
-        return landLordId;
-    }
-
-    public void setLandLordId(LongFilter landLordId) {
-        this.landLordId = landLordId;
-    }
-
-    public LongFilter getTenantPropertyPreferencesId() {
-        return tenantPropertyPreferencesId;
-    }
-
-    public Optional<LongFilter> optionalTenantPropertyPreferencesId() {
-        return Optional.ofNullable(tenantPropertyPreferencesId);
-    }
-
-    public LongFilter tenantPropertyPreferencesId() {
-        if (tenantPropertyPreferencesId == null) {
-            setTenantPropertyPreferencesId(new LongFilter());
-        }
-        return tenantPropertyPreferencesId;
-    }
-
-    public void setTenantPropertyPreferencesId(LongFilter tenantPropertyPreferencesId) {
-        this.tenantPropertyPreferencesId = tenantPropertyPreferencesId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -786,7 +610,6 @@ public class PropertyCriteria implements Serializable, Criteria {
         }
         final PropertyCriteria that = (PropertyCriteria) o;
         return (
-            Objects.equals(id, that.id) &&
             Objects.equals(verified, that.verified) &&
             Objects.equals(name, that.name) &&
             Objects.equals(description, that.description) &&
@@ -799,7 +622,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             Objects.equals(numberOfAirConditioner, that.numberOfAirConditioner) &&
             Objects.equals(contractYears, that.contractYears) &&
             Objects.equals(nextAvailableDateForRent, that.nextAvailableDateForRent) &&
-            Objects.equals(thumbnail, that.thumbnail) &&
             Objects.equals(houseType, that.houseType) &&
             Objects.equals(floor, that.floor) &&
             Objects.equals(numberOfFlats, that.numberOfFlats) &&
@@ -812,12 +634,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             Objects.equals(furnituredDescription, that.furnituredDescription) &&
             Objects.equals(deleted, that.deleted) &&
             Objects.equals(locationId, that.locationId) &&
-            Objects.equals(rentalId, that.rentalId) &&
-            Objects.equals(houseCharacteristicId, that.houseCharacteristicId) &&
-            Objects.equals(reviewsId, that.reviewsId) &&
-            Objects.equals(propertysPhotoId, that.propertysPhotoId) &&
-            Objects.equals(landLordId, that.landLordId) &&
-            Objects.equals(tenantPropertyPreferencesId, that.tenantPropertyPreferencesId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -825,7 +641,6 @@ public class PropertyCriteria implements Serializable, Criteria {
     @Override
     public int hashCode() {
         return Objects.hash(
-            id,
             verified,
             name,
             description,
@@ -838,7 +653,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             numberOfAirConditioner,
             contractYears,
             nextAvailableDateForRent,
-            thumbnail,
             houseType,
             floor,
             numberOfFlats,
@@ -851,12 +665,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             furnituredDescription,
             deleted,
             locationId,
-            rentalId,
-            houseCharacteristicId,
-            reviewsId,
-            propertysPhotoId,
-            landLordId,
-            tenantPropertyPreferencesId,
             distinct
         );
     }
@@ -865,7 +673,6 @@ public class PropertyCriteria implements Serializable, Criteria {
     @Override
     public String toString() {
         return "PropertyCriteria{" +
-            optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalVerified().map(f -> "verified=" + f + ", ").orElse("") +
             optionalName().map(f -> "name=" + f + ", ").orElse("") +
             optionalDescription().map(f -> "description=" + f + ", ").orElse("") +
@@ -878,7 +685,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             optionalNumberOfAirConditioner().map(f -> "numberOfAirConditioner=" + f + ", ").orElse("") +
             optionalContractYears().map(f -> "contractYears=" + f + ", ").orElse("") +
             optionalNextAvailableDateForRent().map(f -> "nextAvailableDateForRent=" + f + ", ").orElse("") +
-            optionalThumbnail().map(f -> "thumbnail=" + f + ", ").orElse("") +
             optionalHouseType().map(f -> "houseType=" + f + ", ").orElse("") +
             optionalFloor().map(f -> "floor=" + f + ", ").orElse("") +
             optionalNumberOfFlats().map(f -> "numberOfFlats=" + f + ", ").orElse("") +
@@ -891,12 +697,6 @@ public class PropertyCriteria implements Serializable, Criteria {
             optionalFurnituredDescription().map(f -> "furnituredDescription=" + f + ", ").orElse("") +
             optionalDeleted().map(f -> "deleted=" + f + ", ").orElse("") +
             optionalLocationId().map(f -> "locationId=" + f + ", ").orElse("") +
-            optionalRentalId().map(f -> "rentalId=" + f + ", ").orElse("") +
-            optionalHouseCharacteristicId().map(f -> "houseCharacteristicId=" + f + ", ").orElse("") +
-            optionalReviewsId().map(f -> "reviewsId=" + f + ", ").orElse("") +
-            optionalPropertysPhotoId().map(f -> "propertysPhotoId=" + f + ", ").orElse("") +
-            optionalLandLordId().map(f -> "landLordId=" + f + ", ").orElse("") +
-            optionalTenantPropertyPreferencesId().map(f -> "tenantPropertyPreferencesId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }
