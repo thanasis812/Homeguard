@@ -1,6 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.ImageDTO;
+import com.hg.service.dto.mydto.UploadImageDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -62,6 +63,14 @@ public interface ImageService {
      * @return the entity.
      */
     Optional<ImageDTO> findOne(Long id);
+
+    /**
+     * Get the "id" image.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    Optional<UploadImageDTO> findOneShared(Long id);
 
     /**
      * Delete the "id" image.

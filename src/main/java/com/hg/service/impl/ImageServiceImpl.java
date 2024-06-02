@@ -4,6 +4,7 @@ import com.hg.domain.Image;
 import com.hg.repository.ImageRepository;
 import com.hg.service.ImageService;
 import com.hg.service.dto.ImageDTO;
+import com.hg.service.dto.mydto.UploadImageDTO;
 import com.hg.service.mapper.ImageMapper;
 import java.util.LinkedList;
 import java.util.List;
@@ -104,6 +105,12 @@ public class ImageServiceImpl implements ImageService {
     public Optional<ImageDTO> findOne(Long id) {
         log.debug("Request to get Image : {}", id);
         return imageRepository.findById(id).map(imageMapper::toDto);
+    }
+
+    @Override
+    public Optional<UploadImageDTO> findOneShared(Long id) {
+        log.debug("Request to get Image : {}", id);
+        return imageRepository.findById(id).map(imageMapper::toSharedDto);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.ImageDTO;
 import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.ReviewDTO;
+import com.hg.service.dto.mydto.UploadImageDTO;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -44,4 +45,9 @@ public interface ImageMapper extends EntityMapper<ImageDTO, Image> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     ReviewDTO toDtoReviewId(Review review);
+
+    @Mapping(target = "objectURL", source = "path")
+    @Mapping(target = "lastModified", source = "updatedDate")
+    @Mapping(target = "type", source = "imageFileContentType")
+    UploadImageDTO toSharedDto(Image image);
 }

@@ -181,10 +181,10 @@ public class PaymentResource {
     /**
      * {@code GET  /payments/:id} : get the "id" payment.
      *
-     * @param tenantId the id of the tenant to retrieve paymets.
+     * @param tenantId the id of the tenant to retrieve payments.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the paymentDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("tenant/{tenantId}")
+    @GetMapping("userPayments/{tenantId}")
     public ResponseEntity<List<UserPaymentDTO>> getUserPaymentByTenantId(@PathVariable("tenantId") Long tenantId) {
         log.debug("REST request to get Payment : {}", tenantId);
         List<UserPaymentDTO> paymentDTO = paymentService.findUserPayments(tenantId);

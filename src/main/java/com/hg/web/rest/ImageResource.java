@@ -3,6 +3,7 @@ package com.hg.web.rest;
 import com.hg.repository.ImageRepository;
 import com.hg.service.ImageService;
 import com.hg.service.dto.ImageDTO;
+import com.hg.service.dto.mydto.UploadImageDTO;
 import com.hg.web.rest.errors.BaseException;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.net.URI;
@@ -173,6 +174,19 @@ public class ImageResource {
     public ResponseEntity<ImageDTO> getImage(@PathVariable("id") Long id) {
         log.debug("REST request to get Image : {}", id);
         Optional<ImageDTO> imageDTO = imageService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(imageDTO);
+    }
+
+    /**
+     * {@code GET  /images/:id} : get the "id" image.
+     * shared/image
+     * @param id the id of the imageDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the imageDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/shared/{id}")
+    public ResponseEntity<UploadImageDTO> getSharedImage(@PathVariable("id") Long id) {
+        log.debug("REST request to get Image : {}", id);
+        Optional<UploadImageDTO> imageDTO = imageService.findOneShared(id);
         return ResponseUtil.wrapOrNotFound(imageDTO);
     }
 

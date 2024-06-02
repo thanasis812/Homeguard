@@ -1,11 +1,11 @@
 package com.hg.repository;
 
 import com.hg.domain.HouseCharacteristics;
-import com.hg.domain.Property;
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import java.util.List;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
