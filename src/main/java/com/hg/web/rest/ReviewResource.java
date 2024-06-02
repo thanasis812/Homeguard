@@ -182,7 +182,7 @@ public class ReviewResource {
 
     /**
      * {@code GET  /reviews/tenant/id} : get all the reviews for selected tenant.
-     *
+     * /users/reviews
      * @param tenantId the tenant id to fetch from.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reviews in body.
      */

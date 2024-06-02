@@ -4,8 +4,12 @@ import com.hg.domain.TenantPropertyPreferences;
 import com.hg.repository.TenantPropertyPreferencesRepository;
 import com.hg.service.TenantPropertyPreferencesService;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
+import com.hg.service.dto.mydto.FavoritePropertyDTO;
+import com.hg.service.mapper.PropertyMapper;
 import com.hg.service.mapper.TenantPropertyPreferencesMapper;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,13 +29,16 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
     private final TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository;
 
     private final TenantPropertyPreferencesMapper tenantPropertyPreferencesMapper;
+    private final PropertyMapper propertyMapper;
 
     public TenantPropertyPreferencesServiceImpl(
         TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository,
-        TenantPropertyPreferencesMapper tenantPropertyPreferencesMapper
+        TenantPropertyPreferencesMapper tenantPropertyPreferencesMapper,
+        PropertyMapper propertyMapper
     ) {
         this.tenantPropertyPreferencesRepository = tenantPropertyPreferencesRepository;
         this.tenantPropertyPreferencesMapper = tenantPropertyPreferencesMapper;
+        this.propertyMapper = propertyMapper;
     }
 
     @Override
@@ -83,5 +90,31 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
     public void delete(Long id) {
         log.debug("Request to delete TenantPropertyPreferences : {}", id);
         tenantPropertyPreferencesRepository.deleteById(id);
+    }
+
+    @Override
+    public FavoritePropertyDTO getFavouriteAndAlarmHouses(Long tenantId) {
+        List<TenantPropertyPreferences> tenantPropertyPreferences =
+            tenantPropertyPreferencesRepository.findTenantPropertyPreferencesByTenantId(tenantId);
+        FavoritePropertyDTO favoritePropertyDTO = new FavoritePropertyDTO();
+        favoritePropertyDTO.setAlarm(
+            propertyMapper.toDtoList(
+                tenantPropertyPreferences
+                    .stream()
+                    .filter(TenantPropertyPreferences::getReminder)
+                    .map(TenantPropertyPreferences::getProperty)
+                    .collect(Collectors.toList())
+            )
+        );
+        favoritePropertyDTO.setFavourites(
+            propertyMapper.toDtoList(
+                tenantPropertyPreferences
+                    .stream()
+                    .filter(TenantPropertyPreferences::getFavorite)
+                    .map(TenantPropertyPreferences::getProperty)
+                    .collect(Collectors.toList())
+            )
+        );
+        return favoritePropertyDTO;
     }
 }

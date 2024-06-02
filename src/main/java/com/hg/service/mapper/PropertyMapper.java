@@ -10,8 +10,10 @@ import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,6 +40,11 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     //    @Mapping(target = "monthsPaid", source = "property", qualifiedByName = "mapMonthsPaid")
     //    @Mapping(target = "reviews", source = "reviews", qualifiedByName = "toUserDtoList")
     PropertyDossierDTO toUiDto(Property property);
+
+    @Named("toDtoList")
+    default List<PropertyDossierDTO> toDtoList(List<Property> source) {
+        return source.stream().map(this::toUiDto).collect(Collectors.toList());
+    }
 
     @Named("extractLandLordId")
     default Long extractLandLordId(Property property) {
