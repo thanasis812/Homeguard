@@ -1,12 +1,15 @@
 package com.hg.service.impl;
 
 import com.hg.domain.TenantPropertyPreferences;
+import com.hg.repository.PropertyRepository;
 import com.hg.repository.TenantPropertyPreferencesRepository;
+import com.hg.repository.TenantRepository;
 import com.hg.service.TenantPropertyPreferencesService;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
 import com.hg.service.dto.mydto.FavoritePropertyDTO;
 import com.hg.service.mapper.PropertyMapper;
 import com.hg.service.mapper.TenantPropertyPreferencesMapper;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,15 +33,21 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
 
     private final TenantPropertyPreferencesMapper tenantPropertyPreferencesMapper;
     private final PropertyMapper propertyMapper;
+    private final TenantRepository tenantRepository;
+    private final PropertyRepository propertyRepository;
 
     public TenantPropertyPreferencesServiceImpl(
         TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository,
         TenantPropertyPreferencesMapper tenantPropertyPreferencesMapper,
-        PropertyMapper propertyMapper
+        PropertyMapper propertyMapper,
+        TenantRepository tenantRepository,
+        PropertyRepository propertyRepository
     ) {
         this.tenantPropertyPreferencesRepository = tenantPropertyPreferencesRepository;
         this.tenantPropertyPreferencesMapper = tenantPropertyPreferencesMapper;
         this.propertyMapper = propertyMapper;
+        this.tenantRepository = tenantRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     @Override
@@ -116,5 +125,51 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
             )
         );
         return favoritePropertyDTO;
+    }
+
+    @Override
+    public TenantPropertyPreferencesDTO favoritePropertyForTenant(Long houseId, Long tenantId, boolean favorite) {
+        return favoriteThePropertyForTenant(houseId, tenantId, favorite);
+    }
+
+    @Override
+    public TenantPropertyPreferencesDTO alarmPropertyForTenant(Long houseId, Long tenantId, boolean reminder) {
+        return changeReminderOfProperty(houseId, tenantId, reminder);
+    }
+
+    private TenantPropertyPreferencesDTO favoriteThePropertyForTenant(Long houseId, Long tenantId, boolean isFavorite) {
+        var property = tenantPropertyPreferencesRepository.findTenantPropertyPreferencesByTenantIdAndHouseId(tenantId, houseId);
+        if (property.isPresent()) {
+            property.get().setFavorite(isFavorite);
+            property.get().setFavoriteDate(LocalDate.now());
+            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(property.get()));
+        } else {
+            TenantPropertyPreferences tenantPropertyPreferences = new TenantPropertyPreferences();
+            tenantPropertyPreferences.setFavorite(isFavorite);
+            tenantPropertyPreferences.setFavoriteDate(LocalDate.now());
+            tenantPropertyPreferences.setTenant(tenantRepository.findById(tenantId).orElseThrow());
+            tenantPropertyPreferences.setProperty(propertyRepository.findById(houseId).orElseThrow());
+            tenantPropertyPreferencesRepository.save(tenantPropertyPreferences);
+            return tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferences);
+        }
+        return null;
+    }
+
+    private TenantPropertyPreferencesDTO changeReminderOfProperty(Long houseId, Long tenantId, boolean isReminder) {
+        var property = tenantPropertyPreferencesRepository.findTenantPropertyPreferencesByTenantIdAndHouseId(tenantId, houseId);
+        if (property.isPresent()) {
+            property.get().setReminder(isReminder);
+            property.get().setReminderDate(LocalDate.now());
+            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(property.get()));
+        } else {
+            TenantPropertyPreferences tenantPropertyPreferences = new TenantPropertyPreferences();
+            tenantPropertyPreferences.setReminder(isReminder);
+            tenantPropertyPreferences.setReminderDate(LocalDate.now());
+            tenantPropertyPreferences.setTenant(tenantRepository.findById(tenantId).orElseThrow());
+            tenantPropertyPreferences.setProperty(propertyRepository.findById(houseId).orElseThrow());
+            tenantPropertyPreferencesRepository.save(tenantPropertyPreferences);
+            return tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferences);
+        }
+        return null;
     }
 }

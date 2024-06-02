@@ -13,8 +13,8 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface TenantPropertyPreferencesMapper extends EntityMapper<TenantPropertyPreferencesDTO, TenantPropertyPreferences> {
-    @Mapping(target = "property", source = "property", qualifiedByName = "propertyId")
-    @Mapping(target = "tenant", source = "tenant", qualifiedByName = "tenantId")
+    @Mapping(target = "property", ignore = true)
+    @Mapping(target = "tenant", ignore = true)
     TenantPropertyPreferencesDTO toDto(TenantPropertyPreferences s);
 
     @Named("propertyId")

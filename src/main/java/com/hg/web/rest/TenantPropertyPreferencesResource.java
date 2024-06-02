@@ -2,29 +2,15 @@ package com.hg.web.rest;
 
 import com.hg.repository.TenantPropertyPreferencesRepository;
 import com.hg.service.TenantPropertyPreferencesService;
-import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
 import com.hg.service.dto.mydto.FavoritePropertyDTO;
-import com.hg.service.dto.mydto.PropertyDossierDTO;
-import com.hg.web.rest.errors.BaseException;
+import com.hg.service.dto.mydto.HousePropertyDTO;
 import io.swagger.v3.oas.annotations.Hidden;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.hg.domain.TenantPropertyPreferences}.
@@ -201,6 +187,42 @@ public class TenantPropertyPreferencesResource {
     public ResponseEntity<FavoritePropertyDTO> getFavouriteAndAlarmHouses(@RequestParam(name = "tenantId") Long tenantId) {
         log.debug("REST request to getFavouriteAndAlarmHouses");
         FavoritePropertyDTO content = tenantPropertyPreferencesService.getFavouriteAndAlarmHouses(tenantId);
+        return ResponseEntity.ok().body(content);
+    }
+
+    /**
+     * POST  /favourite-house : Favorite a house for a given tenant.
+     *
+     * @param housePropertyDTO the house to favorite for the tenant.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the favorite house, or with status {@code 404 (Not Found)}.
+     */
+    @PostMapping("/favourite-house")
+    public ResponseEntity<TenantPropertyPreferencesDTO> favoriteHouse(@RequestBody HousePropertyDTO housePropertyDTO) {
+        log.debug("REST request to getFavouriteAndAlarmHouses");
+        TenantPropertyPreferencesDTO content = tenantPropertyPreferencesService.favoritePropertyForTenant(
+            housePropertyDTO.getHouseId(),
+            housePropertyDTO.getTenantId(),
+            housePropertyDTO.isFavorite()
+        );
+        return ResponseEntity.ok().body(content);
+    }
+
+    /**
+     * POST  /alarm-house : Alarm a house for a given tenant.
+     *
+     * @param housePropertyDTO the house to alarm for the tenant.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the alarm house, or with status {@code 404 (Not Found)}.
+     *
+     * @see #favoriteHouse(HousePropertyDTO)
+     */
+    @PostMapping("/alarm-house")
+    public ResponseEntity<TenantPropertyPreferencesDTO> alarmHouse(@RequestBody HousePropertyDTO housePropertyDTO) {
+        log.debug("REST request to getFavouriteAndAlarmHouses");
+        TenantPropertyPreferencesDTO content = tenantPropertyPreferencesService.alarmPropertyForTenant(
+            housePropertyDTO.getHouseId(),
+            housePropertyDTO.getTenantId(),
+            housePropertyDTO.isReminder()
+        );
         return ResponseEntity.ok().body(content);
     }
 }

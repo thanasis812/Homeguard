@@ -58,4 +58,7 @@ public interface TenantPropertyPreferencesService {
     void delete(Long id);
 
     FavoritePropertyDTO getFavouriteAndAlarmHouses(Long tenantId);
+
+    TenantPropertyPreferencesDTO favoritePropertyForTenant(Long houseId, Long tenantId, boolean favorite);
+    TenantPropertyPreferencesDTO alarmPropertyForTenant(Long houseId, Long tenantId, boolean reminder);
 }
