@@ -117,7 +117,7 @@ class PropertyCriteriaTest {
                 condition.apply(criteria.getNumberOfAirConditioner()) &&
                 condition.apply(criteria.getContractYears()) &&
                 condition.apply(criteria.getNextAvailableDateForRent()) &&
-                condition.apply(criteria.getHouseType()) &&
+                condition.apply(criteria.getCategory()) &&
                 condition.apply(criteria.getFloor()) &&
                 condition.apply(criteria.getNumberOfFlats()) &&
                 condition.apply(criteria.getEnergyClass()) &&
@@ -149,7 +149,7 @@ class PropertyCriteriaTest {
                 condition.apply(criteria.getNumberOfAirConditioner(), copy.getNumberOfAirConditioner()) &&
                 condition.apply(criteria.getContractYears(), copy.getContractYears()) &&
                 condition.apply(criteria.getNextAvailableDateForRent(), copy.getNextAvailableDateForRent()) &&
-                condition.apply(criteria.getHouseType(), copy.getHouseType()) &&
+                condition.apply(criteria.getCategory(), copy.getCategory()) &&
                 condition.apply(criteria.getFloor(), copy.getFloor()) &&
                 condition.apply(criteria.getNumberOfFlats(), copy.getNumberOfFlats()) &&
                 condition.apply(criteria.getEnergyClass(), copy.getEnergyClass()) &&

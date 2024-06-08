@@ -64,7 +64,7 @@ public class PropertyCriteria implements Serializable, Criteria {
 
     private LocalDateFilter nextAvailableDateForRent;
 
-    private StringFilter houseType;
+    private StringFilter category;
 
     private IntegerFilter floor;
 
@@ -105,7 +105,7 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.numberOfAirConditioner = other.optionalNumberOfAirConditioner().map(IntegerFilter::copy).orElse(null);
         this.contractYears = other.optionalContractYears().map(IntegerFilter::copy).orElse(null);
         this.nextAvailableDateForRent = other.optionalNextAvailableDateForRent().map(LocalDateFilter::copy).orElse(null);
-        this.houseType = other.optionalHouseType().map(StringFilter::copy).orElse(null);
+        this.category = other.optionalHouseType().map(StringFilter::copy).orElse(null);
         this.floor = other.optionalFloor().map(IntegerFilter::copy).orElse(null);
         this.numberOfFlats = other.optionalNumberOfFlats().map(IntegerFilter::copy).orElse(null);
         this.energyClass = other.optionalEnergyClass().map(StringFilter::copy).orElse(null);
@@ -353,23 +353,23 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.nextAvailableDateForRent = nextAvailableDateForRent;
     }
 
-    public StringFilter getHouseType() {
-        return houseType;
+    public StringFilter getCategory() {
+        return category;
     }
 
     public Optional<StringFilter> optionalHouseType() {
-        return Optional.ofNullable(houseType);
+        return Optional.ofNullable(category);
     }
 
     public StringFilter houseType() {
-        if (houseType == null) {
-            setHouseType(new StringFilter());
+        if (category == null) {
+            setCategory(new StringFilter());
         }
-        return houseType;
+        return category;
     }
 
-    public void setHouseType(StringFilter houseType) {
-        this.houseType = houseType;
+    public void setCategory(StringFilter category) {
+        this.category = category;
     }
 
     public IntegerFilter getFloor() {
@@ -622,7 +622,7 @@ public class PropertyCriteria implements Serializable, Criteria {
             Objects.equals(numberOfAirConditioner, that.numberOfAirConditioner) &&
             Objects.equals(contractYears, that.contractYears) &&
             Objects.equals(nextAvailableDateForRent, that.nextAvailableDateForRent) &&
-            Objects.equals(houseType, that.houseType) &&
+            Objects.equals(category, that.category) &&
             Objects.equals(floor, that.floor) &&
             Objects.equals(numberOfFlats, that.numberOfFlats) &&
             Objects.equals(energyClass, that.energyClass) &&
@@ -653,7 +653,7 @@ public class PropertyCriteria implements Serializable, Criteria {
             numberOfAirConditioner,
             contractYears,
             nextAvailableDateForRent,
-            houseType,
+            category,
             floor,
             numberOfFlats,
             energyClass,

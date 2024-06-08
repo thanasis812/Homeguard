@@ -115,8 +115,8 @@ public class PropertyQueryService extends QueryService<Property> {
                     buildRangeSpecification(criteria.getNextAvailableDateForRent(), Property_.nextAvailableDateForRent)
                 );
             }
-            if (criteria.getHouseType() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getHouseType(), Property_.houseType));
+            if (criteria.getCategory() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCategory(), Property_.houseType));
             }
             if (criteria.getFloor() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFloor(), Property_.floor));
