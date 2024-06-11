@@ -4,6 +4,8 @@ import static com.hg.security.SecurityUtils.AUTHORITIES_KEY;
 import static com.hg.security.SecurityUtils.JWT_ALGORITHM;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hg.domain.Tenant;
+import com.hg.service.UserService;
 import com.hg.web.rest.vm.LoginVM;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -46,9 +48,16 @@ public class AuthenticateController {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthenticateController(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final UserService userService;
+
+    public AuthenticateController(
+        JwtEncoder jwtEncoder,
+        AuthenticationManagerBuilder authenticationManagerBuilder,
+        UserService userService
+    ) {
         this.jwtEncoder = jwtEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
@@ -60,7 +69,9 @@ public class AuthenticateController {
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = this.createToken(authentication, loginVM.isRememberMe());
+
+        Tenant tenant = userService.getUserWithAuthorities().orElseThrow().getTenant();
+        String jwt = this.createToken(authentication, loginVM.isRememberMe(), tenant.getId());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
@@ -78,7 +89,7 @@ public class AuthenticateController {
         return request.getRemoteUser();
     }
 
-    public String createToken(Authentication authentication, boolean rememberMe) {
+    public String createToken(Authentication authentication, boolean rememberMe, Long tenantId) {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
 
         Instant now = Instant.now();
@@ -95,6 +106,7 @@ public class AuthenticateController {
             .expiresAt(validity)
             .subject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
+            .claim("tenantId", tenantId)
             .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();

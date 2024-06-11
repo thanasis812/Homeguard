@@ -4,16 +4,13 @@ import com.hg.repository.PropertyRepository;
 import com.hg.service.PropertyQueryService;
 import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
-import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.web.rest.errors.BaseException;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +29,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.hg.domain.Property}.
  */
 @RestController
-@RequestMapping("/api/properties")
+@RequestMapping("/api/houses-api/houses/searchProperties")
 public class PropertyResource {
 
     private final Logger log = LoggerFactory.getLogger(PropertyResource.class);
@@ -253,6 +250,7 @@ public class PropertyResource {
     /**
      * {@code GET  /properties/:id} : get the "id" property.
      * environment.endpoints.houses.houseDetails + "/" + ":id",
+     *
      * @param id the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
@@ -278,6 +276,7 @@ public class PropertyResource {
 
     /**
      * {@code GET  /properties/:propertyId/landlord/:landlordId} : get if landlord is certified
+     *
      * @param propertyId the property ID whom to fetch for
      * @param landlordId the landlord ID  whom to fetch for
      * @return Boolean value if property and landlord is certified

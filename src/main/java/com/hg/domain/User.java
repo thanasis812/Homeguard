@@ -79,6 +79,12 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Tenant tenant;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private LandLord landlord;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -192,6 +198,22 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    public LandLord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(LandLord landlord) {
+        this.landlord = landlord;
     }
 
     @Override
