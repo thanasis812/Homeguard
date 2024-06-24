@@ -7,6 +7,7 @@ import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.web.rest.errors.BaseException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,15 +45,18 @@ public class PropertyResource {
     private final PropertyRepository propertyRepository;
 
     private final PropertyQueryService propertyQueryService;
+    private final HGTokenService tokenService;
 
     public PropertyResource(
         PropertyService propertyService,
         PropertyRepository propertyRepository,
-        PropertyQueryService propertyQueryService
+        PropertyQueryService propertyQueryService,
+        HGTokenService tokenService
     ) {
         this.propertyService = propertyService;
         this.propertyRepository = propertyRepository;
         this.propertyQueryService = propertyQueryService;
+        this.tokenService = tokenService;
     }
 
     //    /**
@@ -250,13 +254,16 @@ public class PropertyResource {
     /**
      * {@code GET  /properties/} : get the "id" property.
      * environment.endpoints.houses.houseDetails + "/" + ":id",
-     * @param id the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(@PathVariable("id") Long id) {
-        log.debug("REST request to get Property : {}", id);
-        Optional<PropertyDossierDTO> propertyDTO = propertyService.getPropertyById(id);
+    @GetMapping("")
+    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
+        Long tenantId = tokenService.getTenantId(request);
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
+        log.debug("REST request to get Property : {}", tenantId);
+        Optional<PropertyDossierDTO> propertyDTO = propertyService.getPropertyById(tenantId);
         return ResponseUtil.wrapOrNotFound(propertyDTO);
     }
 

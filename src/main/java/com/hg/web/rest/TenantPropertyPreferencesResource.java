@@ -6,6 +6,7 @@ import com.hg.service.dto.TenantPropertyPreferencesDTO;
 import com.hg.service.dto.mydto.FavoritePropertyDTO;
 import com.hg.service.dto.mydto.HousePropertyDTO;
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,13 +31,16 @@ public class TenantPropertyPreferencesResource {
     private final TenantPropertyPreferencesService tenantPropertyPreferencesService;
 
     private final TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository;
+    private final HGTokenService tokenService;
 
     public TenantPropertyPreferencesResource(
         TenantPropertyPreferencesService tenantPropertyPreferencesService,
-        TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository
+        TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository,
+        HGTokenService tokenService
     ) {
         this.tenantPropertyPreferencesService = tenantPropertyPreferencesService;
         this.tenantPropertyPreferencesRepository = tenantPropertyPreferencesRepository;
+        this.tokenService = tokenService;
     }
 
     //    /**
@@ -180,11 +184,14 @@ public class TenantPropertyPreferencesResource {
     /**
      * GET  /favourite-house : get the favourite and alarm houses for a given tenant.
      *
-     * @param tenantId the id of the tenant to retrieve the favourite and alarm houses for.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the favourite and alarm houses, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/favourite-house")
-    public ResponseEntity<FavoritePropertyDTO> getFavouriteAndAlarmHouses(@RequestParam(name = "tenantId") Long tenantId) {
+    public ResponseEntity<FavoritePropertyDTO> getFavouriteAndAlarmHouses(HttpServletRequest request) {
+        Long tenantId = tokenService.getTenantId(request);
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
         log.debug("REST request to getFavouriteAndAlarmHouses");
         FavoritePropertyDTO content = tenantPropertyPreferencesService.getFavouriteAndAlarmHouses(tenantId);
         return ResponseEntity.ok().body(content);

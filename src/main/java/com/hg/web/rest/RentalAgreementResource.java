@@ -6,25 +6,15 @@ import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import com.hg.service.dto.mydto.RentalAgreementSaveDTO;
 import com.hg.service.dto.mydto.RentalApplicationStatusDTO;
-import com.hg.web.rest.errors.BaseException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -44,10 +34,16 @@ public class RentalAgreementResource {
     private final RentalAgreementService rentalAgreementService;
 
     private final RentalAgreementRepository rentalAgreementRepository;
+    private final HGTokenService tokenService;
 
-    public RentalAgreementResource(RentalAgreementService rentalAgreementService, RentalAgreementRepository rentalAgreementRepository) {
+    public RentalAgreementResource(
+        RentalAgreementService rentalAgreementService,
+        RentalAgreementRepository rentalAgreementRepository,
+        HGTokenService tokenService
+    ) {
         this.rentalAgreementService = rentalAgreementService;
         this.rentalAgreementRepository = rentalAgreementRepository;
+        this.tokenService = tokenService;
     }
 
     //    /**
@@ -220,12 +216,16 @@ public class RentalAgreementResource {
      * {@code GET  /properties/tenant/:tenantId} : get the "tenantId" property.
      * environment.endpoints.houses.userHouses + "/" + ":id",
      *
-     * @param tenantId the id of the propertyDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("property/tenant/{tenantId}")
-    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(@PathVariable("tenantId") Long tenantId) {
+    @GetMapping("property/tenant}")
+    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
+        Long tenantId = tokenService.getTenantId(request);
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
         log.debug("REST request to get Property for tenantId : {}", tenantId);
+
         Optional<PropertyDossierDTO> propertyDTO = rentalAgreementService.getPropertyByTenantId(tenantId);
         return ResponseUtil.wrapOrNotFound(propertyDTO);
     }
