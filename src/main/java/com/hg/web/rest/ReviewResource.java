@@ -24,19 +24,12 @@ public class ReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(ReviewResource.class);
 
-    private static final String ENTITY_NAME = "review";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final ReviewService reviewService;
 
-    private final ReviewRepository reviewRepository;
     private final HGTokenService tokenService;
 
-    public ReviewResource(ReviewService reviewService, ReviewRepository reviewRepository, HGTokenService tokenService) {
+    public ReviewResource(ReviewService reviewService, HGTokenService tokenService) {
         this.reviewService = reviewService;
-        this.reviewRepository = reviewRepository;
         this.tokenService = tokenService;
     }
 

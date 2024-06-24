@@ -81,8 +81,8 @@ class LocationResourceIT {
     private static final String ENTITY_API_URL = "/api/locations";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
-    private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final Random random = new Random();
+    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
 
     @Autowired
     private ObjectMapper om;
@@ -103,7 +103,6 @@ class LocationResourceIT {
 
     /**
      * Create an entity for this test.
-     *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -129,7 +128,6 @@ class LocationResourceIT {
 
     /**
      * Create an updated entity for this test.
-     *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */

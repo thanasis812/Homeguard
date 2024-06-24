@@ -26,23 +26,12 @@ public class RentalAgreementResource {
 
     private final Logger log = LoggerFactory.getLogger(RentalAgreementResource.class);
 
-    private static final String ENTITY_NAME = "rentalAgreement";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final RentalAgreementService rentalAgreementService;
 
-    private final RentalAgreementRepository rentalAgreementRepository;
     private final HGTokenService tokenService;
 
-    public RentalAgreementResource(
-        RentalAgreementService rentalAgreementService,
-        RentalAgreementRepository rentalAgreementRepository,
-        HGTokenService tokenService
-    ) {
+    public RentalAgreementResource(RentalAgreementService rentalAgreementService, HGTokenService tokenService) {
         this.rentalAgreementService = rentalAgreementService;
-        this.rentalAgreementRepository = rentalAgreementRepository;
         this.tokenService = tokenService;
     }
 
@@ -63,7 +52,6 @@ public class RentalAgreementResource {
 
     /**
      * {@code GET  /rental-agreements/checkRentApplication/{tenantId}/property/{propertyId} : get rental agreement status for selected tenant and property
-     *
      * @param tenantId   the id of the tenant id to retrieve.
      * @param propertyId the id of the property to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.
@@ -80,7 +68,6 @@ public class RentalAgreementResource {
 
     /**
      * {@code GET  /rental-agreements/privateAgreementsTerms/{propertyId} : get private agreement terms for selected property
-     *
      * @param tenantId   the id of the tenant id to retrieve.
      * @param propertyId the id of the property to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rentalAgreementDTO, or with status {@code 404 (Not Found)}.

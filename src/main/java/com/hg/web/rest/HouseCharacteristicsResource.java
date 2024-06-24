@@ -24,22 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HouseCharacteristicsResource {
 
     private final Logger log = LoggerFactory.getLogger(HouseCharacteristicsResource.class);
-
-    private static final String ENTITY_NAME = "houseCharacteristics";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final HouseCharacteristicsService houseCharacteristicsService;
 
-    private final HouseCharacteristicsRepository houseCharacteristicsRepository;
-
-    public HouseCharacteristicsResource(
-        HouseCharacteristicsService houseCharacteristicsService,
-        HouseCharacteristicsRepository houseCharacteristicsRepository
-    ) {
+    public HouseCharacteristicsResource(HouseCharacteristicsService houseCharacteristicsService) {
         this.houseCharacteristicsService = houseCharacteristicsService;
-        this.houseCharacteristicsRepository = houseCharacteristicsRepository;
     }
 
     /**

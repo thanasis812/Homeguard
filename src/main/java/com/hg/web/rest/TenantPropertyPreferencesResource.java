@@ -23,23 +23,15 @@ public class TenantPropertyPreferencesResource {
 
     private final Logger log = LoggerFactory.getLogger(TenantPropertyPreferencesResource.class);
 
-    private static final String ENTITY_NAME = "tenantPropertyPreferences";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final TenantPropertyPreferencesService tenantPropertyPreferencesService;
 
-    private final TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository;
     private final HGTokenService tokenService;
 
     public TenantPropertyPreferencesResource(
         TenantPropertyPreferencesService tenantPropertyPreferencesService,
-        TenantPropertyPreferencesRepository tenantPropertyPreferencesRepository,
         HGTokenService tokenService
     ) {
         this.tenantPropertyPreferencesService = tenantPropertyPreferencesService;
-        this.tenantPropertyPreferencesRepository = tenantPropertyPreferencesRepository;
         this.tokenService = tokenService;
     }
 

@@ -42,19 +42,11 @@ public class PropertyResource {
 
     private final PropertyService propertyService;
 
-    private final PropertyRepository propertyRepository;
-
     private final PropertyQueryService propertyQueryService;
     private final HGTokenService tokenService;
 
-    public PropertyResource(
-        PropertyService propertyService,
-        PropertyRepository propertyRepository,
-        PropertyQueryService propertyQueryService,
-        HGTokenService tokenService
-    ) {
+    public PropertyResource(PropertyService propertyService, PropertyQueryService propertyQueryService, HGTokenService tokenService) {
         this.propertyService = propertyService;
-        this.propertyRepository = propertyRepository;
         this.propertyQueryService = propertyQueryService;
         this.tokenService = tokenService;
     }
@@ -124,10 +116,6 @@ public class PropertyResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
-
-    /**
-     * This might be used in the future
-     */
 
     /**
      * {@code GET  /properties/search} : get all the properties by criteria

@@ -25,18 +25,10 @@ public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
 
-    private static final String ENTITY_NAME = "image";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final ImageService imageService;
 
-    private final ImageRepository imageRepository;
-
-    public ImageResource(ImageService imageService, ImageRepository imageRepository) {
+    public ImageResource(ImageService imageService) {
         this.imageService = imageService;
-        this.imageRepository = imageRepository;
     }
 
     /**

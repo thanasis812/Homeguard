@@ -24,21 +24,11 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/payments")
 public class PaymentResource {
 
-    private final Logger log = LoggerFactory.getLogger(PaymentResource.class);
-
-    private static final String ENTITY_NAME = "payment";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final PaymentService paymentService;
-
-    private final PaymentRepository paymentRepository;
     private final HGTokenService tokenService;
 
-    public PaymentResource(PaymentService paymentService, PaymentRepository paymentRepository, HGTokenService tokenService) {
+    public PaymentResource(PaymentService paymentService, HGTokenService tokenService) {
         this.paymentService = paymentService;
-        this.paymentRepository = paymentRepository;
         this.tokenService = tokenService;
     }
 
