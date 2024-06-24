@@ -140,9 +140,10 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
     private TenantPropertyPreferencesDTO favoriteThePropertyForTenant(Long houseId, Long tenantId, boolean isFavorite) {
         var property = tenantPropertyPreferencesRepository.findTenantPropertyPreferencesByTenantIdAndHouseId(tenantId, houseId);
         if (property.isPresent()) {
-            property.get().setFavorite(isFavorite);
-            property.get().setFavoriteDate(LocalDate.now());
-            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(property.get()));
+            TenantPropertyPreferences tenantPropertyPreferences = property.orElseThrow();
+            tenantPropertyPreferences.setFavorite(isFavorite);
+            tenantPropertyPreferences.setFavoriteDate(LocalDate.now());
+            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(tenantPropertyPreferences));
         } else {
             TenantPropertyPreferences tenantPropertyPreferences = new TenantPropertyPreferences();
             tenantPropertyPreferences.setFavorite(isFavorite);
@@ -158,9 +159,10 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
     private TenantPropertyPreferencesDTO changeReminderOfProperty(Long houseId, Long tenantId, boolean isReminder) {
         var property = tenantPropertyPreferencesRepository.findTenantPropertyPreferencesByTenantIdAndHouseId(tenantId, houseId);
         if (property.isPresent()) {
-            property.get().setReminder(isReminder);
-            property.get().setReminderDate(LocalDate.now());
-            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(property.get()));
+            TenantPropertyPreferences tenantPropertyPreferences = property.orElseThrow();
+            tenantPropertyPreferences.setReminder(isReminder);
+            tenantPropertyPreferences.setReminderDate(LocalDate.now());
+            tenantPropertyPreferencesMapper.toDto(tenantPropertyPreferencesRepository.save(tenantPropertyPreferences));
         } else {
             TenantPropertyPreferences tenantPropertyPreferences = new TenantPropertyPreferences();
             tenantPropertyPreferences.setReminder(isReminder);
