@@ -59,26 +59,6 @@ public class PropertyResource {
         this.tokenService = tokenService;
     }
 
-    //    /**
-    //     * THIS IS THE DIRECT SAVE THE OLD ONE
-    //     * {@code POST  /properties/crud} : Create a new property with db schema.
-    //     *
-    //     * @param propertyDTO the propertyDTO to create.
-    //     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new propertyDTO, or with status {@code 400 (Bad Request)} if the property has already an ID.
-    //     * @throws URISyntaxException if the Location URI syntax is incorrect.
-    //     */
-    //    @PostMapping("OLD")
-    //    public ResponseEntity<PropertyDTO> createPropertyCrud(@Valid @RequestBody PropertyDTO propertyDTO) throws URISyntaxException {
-    //        log.debug("REST request to save Property : {}", propertyDTO);
-    //        if (propertyDTO.getId() != null) {
-    //            throw new BaseException("A new property cannot already have an ID", ENTITY_NAME, "idexists");
-    //        }
-    //        propertyDTO = propertyService.save(propertyDTO);
-    //        return ResponseEntity.created(new URI("/api/properties/" + propertyDTO.getId()))
-    //            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, propertyDTO.getId().toString()))
-    //            .body(propertyDTO);
-    //    }
-
     /**
      * {@code POST  /properties} : Create a new property.
      *
@@ -98,75 +78,6 @@ public class PropertyResource {
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, newHouseRequestDTO.getId().toString()))
             .body(newHouseRequestDTO);
     }
-
-    //    /**
-    //     * {@code PUT  /properties/:id} : Updates an existing property.
-    //     *
-    //     * @param id the id of the propertyDTO to save.
-    //     * @param propertyDTO the propertyDTO to update.
-    //     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated propertyDTO,
-    //     * or with status {@code 400 (Bad Request)} if the propertyDTO is not valid,
-    //     * or with status {@code 500 (Internal Server Error)} if the propertyDTO couldn't be updated.
-    //     * @throws URISyntaxException if the Location URI syntax is incorrect.
-    //     */
-    //    @PutMapping("/{id}")
-    //    public ResponseEntity<PropertyDTO> updateProperty(
-    //        @PathVariable(value = "id", required = false) final Long id,
-    //        @Valid @RequestBody PropertyDTO propertyDTO
-    //    ) throws URISyntaxException {
-    //        log.debug("REST request to update Property : {}, {}", id, propertyDTO);
-    //        if (propertyDTO.getId() == null) {
-    //            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
-    //        }
-    //        if (!Objects.equals(id, propertyDTO.getId())) {
-    //            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
-    //        }
-    //
-    //        if (!propertyRepository.existsById(id)) {
-    //            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
-    //        }
-    //
-    //        propertyDTO = propertyService.update(propertyDTO);
-    //        return ResponseEntity.ok()
-    //            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, propertyDTO.getId().toString()))
-    //            .body(propertyDTO);
-    //    }
-
-    //    /**
-    //     * {@code PATCH  /properties/:id} : Partial updates given fields of an existing property, field will ignore if it is null
-    //     *
-    //     * @param id the id of the propertyDTO to save.
-    //     * @param propertyDTO the propertyDTO to update.
-    //     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated propertyDTO,
-    //     * or with status {@code 400 (Bad Request)} if the propertyDTO is not valid,
-    //     * or with status {@code 404 (Not Found)} if the propertyDTO is not found,
-    //     * or with status {@code 500 (Internal Server Error)} if the propertyDTO couldn't be updated.
-    //     * @throws URISyntaxException if the Location URI syntax is incorrect.
-    //     */
-    //    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    //    public ResponseEntity<PropertyDTO> partialUpdateProperty(
-    //        @PathVariable(value = "id", required = false) final Long id,
-    //        @NotNull @RequestBody PropertyDTO propertyDTO
-    //    ) throws URISyntaxException {
-    //        log.debug("REST request to partial update Property partially : {}, {}", id, propertyDTO);
-    //        if (propertyDTO.getId() == null) {
-    //            throw new BaseException("Invalid id", ENTITY_NAME, "idnull");
-    //        }
-    //        if (!Objects.equals(id, propertyDTO.getId())) {
-    //            throw new BaseException("Invalid ID", ENTITY_NAME, "idinvalid");
-    //        }
-    //
-    //        if (!propertyRepository.existsById(id)) {
-    //            throw new BaseException("Entity not found", ENTITY_NAME, "idnotfound");
-    //        }
-    //
-    //        Optional<PropertyDTO> result = propertyService.partialUpdate(propertyDTO);
-    //
-    //        return ResponseUtil.wrapOrNotFound(
-    //            result,
-    //            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, propertyDTO.getId().toString())
-    //        );
-    //    }
 
     /**
      * {@code GET  /properties} : get all the properties by criteria
@@ -198,20 +109,6 @@ public class PropertyResource {
         log.debug("REST request to count Properties by criteria: {}", criteria);
         return ResponseEntity.ok().body(propertyQueryService.countByCriteria(criteria));
     }
-
-    //    /**
-    //     * {@code GET  /properties/crud/:id} : get the "id" property.
-    //     * This differs from /properties/:id with fetching the vanilla object
-    //     *
-    //     * @param id the id of the propertyDTO to retrieve.
-    //     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
-    //     */
-    //    @GetMapping("crud/{id}")
-    //    public ResponseEntity<PropertyDTO> getProperty(@PathVariable("id") Long id) {
-    //        log.debug("REST request to get Property : {}", id);
-    //        Optional<PropertyDTO> propertyDTO = propertyService.findOne(id);
-    //        return ResponseUtil.wrapOrNotFound(propertyDTO);
-    //    }
 
     /**
      * {@code DELETE  /properties/:id} : delete the "id" property.

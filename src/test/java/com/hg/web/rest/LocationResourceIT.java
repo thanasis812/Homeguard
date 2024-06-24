@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link LocationResource} REST controller.
+ * Integration tests for the REST controller.
  */
 @IntegrationTest
 @AutoConfigureMockMvc
