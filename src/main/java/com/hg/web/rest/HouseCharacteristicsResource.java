@@ -1,14 +1,12 @@
 package com.hg.web.rest;
 
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
-import com.hg.repository.HouseCharacteristicsRepository;
 import com.hg.service.HouseCharacteristicsService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

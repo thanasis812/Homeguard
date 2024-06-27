@@ -1,6 +1,5 @@
 package com.hg.web.rest;
 
-import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.RentalAgreementService;
 import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
@@ -12,7 +11,6 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.ResponseUtil;
@@ -85,7 +83,7 @@ public class RentalAgreementResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("property/tenant}")
+    @GetMapping("property/tenant")
     public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
         Long tenantId = tokenService.getTenantId(request);
         if (tenantId == null) {

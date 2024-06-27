@@ -1,15 +1,11 @@
 package com.hg.web.rest;
 
-import com.hg.repository.PaymentRepository;
 import com.hg.service.PaymentService;
 import com.hg.service.dto.mydto.UserPaymentDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

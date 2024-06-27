@@ -1,6 +1,5 @@
 package com.hg.web.rest;
 
-import com.hg.repository.PropertyRepository;
 import com.hg.service.PropertyQueryService;
 import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
@@ -141,7 +140,7 @@ public class PropertyResource {
      * environment.endpoints.houses.houseDetails + "/" + ":id",
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("")
+    @GetMapping("tenant")
     public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
         Long tenantId = tokenService.getTenantId(request);
         if (tenantId == null) {
