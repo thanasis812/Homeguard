@@ -3,6 +3,7 @@ package com.hg.service;
 import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
+import com.hg.service.dto.mydto.UserPropertiesDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,14 @@ public interface PropertyService {
      * @return the entity.
      */
     Optional<PropertyDossierDTO> findOneDto(Long id);
+
+    /**
+     * Get the "id" property.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    Optional<UserPropertiesDTO> findUserProperties(Long id);
 
     /**
      * Get the "id" of the property with the UI schema.

@@ -5,6 +5,7 @@ import com.hg.service.PropertyService;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
+import com.hg.service.dto.mydto.UserPropertiesDTO;
 import com.hg.web.rest.errors.BaseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -144,8 +145,24 @@ public class PropertyResource {
     @GetMapping("houseDetails/{propertyId}")
     public ResponseEntity<PropertyDossierDTO> getSelectedHouse(@PathVariable("propertyId") Long propertyId) {
         log.debug("REST request to get property with id: {}", propertyId);
-
         Optional<PropertyDossierDTO> propertyDossierDTO = propertyService.findOneDto(propertyId);
+        return ResponseUtil.wrapOrNotFound(propertyDossierDTO);
+    }
+
+    /**
+     * Retrieves a user's rented and owned properties.
+     *
+     * @param request the HTTP request containing the tenant's token
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the user's properties in body, or with status {@code 404 (Not Found)} if the user is not found
+     */
+    @GetMapping("usersHouses")
+    public ResponseEntity<UserPropertiesDTO> getUserRentAndOwnedProperties(HttpServletRequest request) {
+        Long tenantId = tokenService.getTenantId(request);
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
+        log.debug("REST request to get available properties with tenant id: {}", tenantId);
+        Optional<UserPropertiesDTO> propertyDossierDTO = propertyService.findUserProperties(tenantId);
         return ResponseUtil.wrapOrNotFound(propertyDossierDTO);
     }
 

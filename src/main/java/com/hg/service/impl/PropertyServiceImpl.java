@@ -5,11 +5,13 @@ import com.hg.domain.Property;
 import com.hg.repository.HouseCharacteristicsRepository;
 import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
+import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.PropertyService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
+import com.hg.service.dto.mydto.UserPropertiesDTO;
 import com.hg.service.mapper.HouseCharacteristicsMapper;
 import com.hg.service.mapper.PropertyMapper;
 import com.hg.web.rest.errors.NotFoundException;
@@ -36,6 +38,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyRepository propertyRepository;
     private final LandLordRepository landlordRepository;
     private final HouseCharacteristicsRepository houseCharacteristicsRepository;
+    private final RentalAgreementRepository rentalAgreementRepository;
     private final HouseCharacteristicsMapper houseCharacteristicsMapper;
     private final PropertyMapper propertyMapper;
 
@@ -43,12 +46,14 @@ public class PropertyServiceImpl implements PropertyService {
         PropertyRepository propertyRepository,
         LandLordRepository landlordRepository,
         HouseCharacteristicsRepository houseCharacteristicsRepository,
+        RentalAgreementRepository rentalAgreementRepository,
         HouseCharacteristicsMapper houseCharacteristicsMapper,
         PropertyMapper propertyMapper
     ) {
         this.propertyRepository = propertyRepository;
         this.landlordRepository = landlordRepository;
         this.houseCharacteristicsRepository = houseCharacteristicsRepository;
+        this.rentalAgreementRepository = rentalAgreementRepository;
         this.houseCharacteristicsMapper = houseCharacteristicsMapper;
         this.propertyMapper = propertyMapper;
     }
@@ -108,6 +113,12 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Optional<PropertyDossierDTO> findOneDto(Long id) {
         return propertyRepository.findById(id).map(propertyMapper::toUiDto);
+    }
+
+    @Override
+    public Optional<UserPropertiesDTO> findUserProperties(Long id) {
+        //        rentalAgreementRepository.findByStatusAndTenant().get().get
+        return Optional.empty();
     }
 
     @Override

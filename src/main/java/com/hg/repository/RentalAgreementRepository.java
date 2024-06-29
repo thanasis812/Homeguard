@@ -15,6 +15,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RentalAgreementRepository extends JpaRepository<RentalAgreement, Long> {
     Optional<RentalAgreement> findByStatusAndTenant(RentalAgreementStatusEnum status, Tenant tenant);
+
+    @Query("SELECT tpp FROM RentalAgreement tpp where tpp.tenant.id= :tenantId and  tpp.status= :status")
+    Optional<RentalAgreement> findByStatusAndTenant(RentalAgreementStatusEnum status, Long tenantId);
+
     Optional<RentalAgreement> findByTenantAndProperty(Tenant tenant, Property property);
     Optional<RentalAgreement> findFirstByPropertyOrderByCreatedDateDesc(Property property);
 }
