@@ -123,7 +123,7 @@ public class PropertyResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
      */
-    @GetMapping("search")
+    @GetMapping("landlordHouses")
     public ResponseEntity<List<PropertyDossierDTO>> searchProperties(
         PropertyCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -136,11 +136,26 @@ public class PropertyResource {
     }
 
     /**
+     * Retrieves a property by its ID.
+     *
+     * @param propertyId the ID of the property to retrieve
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the propertyDTO in body, or with status {@code 404 (Not Found)} if the property is not found
+     */
+    @GetMapping("houseDetails/{propertyId}")
+    public ResponseEntity<PropertyDossierDTO> getSelectedHouse(@PathVariable("propertyId") Long propertyId) {
+        log.debug("REST request to get property with id: {}", propertyId);
+
+        Optional<PropertyDossierDTO> propertyDossierDTO = propertyService.findOneDto(propertyId);
+        return ResponseUtil.wrapOrNotFound(propertyDossierDTO);
+    }
+
+    /**
      * {@code GET  /properties/} : get the "id" property.
      * environment.endpoints.houses.houseDetails + "/" + ":id",
+     *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("tenant")
+    @GetMapping("tenantHouse")
     public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
         Long tenantId = tokenService.getTenantId(request);
         if (tenantId == null) {
@@ -166,6 +181,7 @@ public class PropertyResource {
 
     /**
      * {@code GET  /properties/:propertyId/landlord/:landlordId} : get if landlord is certified
+     *
      * @param propertyId the property ID whom to fetch for
      * @param landlordId the landlord ID  whom to fetch for
      * @return Boolean value if property and landlord is certified

@@ -50,6 +50,14 @@ public interface PropertyService {
     Optional<PropertyDTO> findOne(Long id);
 
     /**
+     * Get the "id" property.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    Optional<PropertyDossierDTO> findOneDto(Long id);
+
+    /**
      * Get the "id" of the property with the UI schema.
      *
      * @param id the id of the entity.
