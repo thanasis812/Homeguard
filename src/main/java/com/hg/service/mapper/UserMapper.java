@@ -4,6 +4,7 @@ import com.hg.domain.Authority;
 import com.hg.domain.User;
 import com.hg.service.dto.AdminUserDTO;
 import com.hg.service.dto.UserDTO;
+import com.hg.service.dto.mydto.UserDetailDTO;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
@@ -56,6 +57,24 @@ public class UserMapper {
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;
+        }
+    }
+
+    public UserDetailDTO toUserDetailDto(User user) {
+        if (user == null) {
+            return null;
+        } else {
+            UserDetailDTO userDetailDTO = new UserDetailDTO();
+            userDetailDTO.setCategory("TODO "); //TODO
+            userDetailDTO.setImage(userDetailDTO.getImage());
+            userDetailDTO.setPhone(userDetailDTO.getPhone());
+            userDetailDTO.setEmail(userDetailDTO.getEmail());
+            userDetailDTO.setHaveEconomicRelationship(false); //TODO
+            userDetailDTO.setPhoneAvailable(true); //TODO
+            userDetailDTO.setFirstName(userDetailDTO.getFirstName());
+            userDetailDTO.setLastName(userDetailDTO.getLastName());
+            userDetailDTO.setPhoneAvailable(false);
+            return userDetailDTO;
         }
     }
 

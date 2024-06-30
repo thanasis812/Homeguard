@@ -2,9 +2,11 @@ package com.hg.web.rest;
 
 import com.hg.service.ReviewService;
 import com.hg.service.TenantPropertyPreferencesService;
+import com.hg.service.UserService;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
 import com.hg.service.dto.mydto.FavoritePropertyDTO;
 import com.hg.service.dto.mydto.HousePropertyDTO;
+import com.hg.service.dto.mydto.UserDetailDTO;
 import com.hg.service.dto.mydto.UserReviewDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,16 +30,19 @@ public class HMUserResource {
 
     private final ReviewService reviewService;
     private final TenantPropertyPreferencesService tenantPropertyPreferencesService;
+    private final UserService userService;
 
     private final HGTokenService tokenService;
 
     public HMUserResource(
         ReviewService reviewService,
         TenantPropertyPreferencesService tenantPropertyPreferencesService,
+        UserService userService,
         HGTokenService tokenService
     ) {
         this.reviewService = reviewService;
         this.tenantPropertyPreferencesService = tenantPropertyPreferencesService;
+        this.userService = userService;
         this.tokenService = tokenService;
     }
 
@@ -110,9 +115,11 @@ public class HMUserResource {
     }
 
     //TODO: 6/30/24 implement this
-    @GetMapping("profile-preview")
-    public ResponseEntity<List<UserReviewDTO>> getProfilePreview() {
-        throw new RuntimeException("Not implemented");
+    @GetMapping("profile-preview/{id}")
+    public ResponseEntity<UserDetailDTO> getProfilePreview(@PathVariable("id") Long id) {
+        log.debug("REST request to getProfilePreview for id {}", id);
+        var profilePreview = userService.findById(id);
+        return ResponseUtil.wrapOrNotFound(profilePreview);
     }
 
     //TODO: 6/30/24 implement this

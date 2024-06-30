@@ -13,6 +13,10 @@ entity Tenant {
     deleted Boolean
 }
 
+//add category to user
+//add setPhoneAvailable to user
+//add setHaveEconomicRelationship to user
+
 enum SubscriptionEnum {
     BASIC, ADVANCED
 }

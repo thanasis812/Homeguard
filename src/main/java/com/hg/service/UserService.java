@@ -9,6 +9,8 @@ import com.hg.security.AuthoritiesConstants;
 import com.hg.security.SecurityUtils;
 import com.hg.service.dto.AdminUserDTO;
 import com.hg.service.dto.UserDTO;
+import com.hg.service.dto.mydto.UserDetailDTO;
+import com.hg.service.mapper.UserMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -34,6 +36,7 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -43,11 +46,13 @@ public class UserService {
 
     public UserService(
         UserRepository userRepository,
+        UserMapper userMapper,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager
     ) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
@@ -320,5 +325,9 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    public Optional<UserDetailDTO> findById(Long id) {
+        return userRepository.findById(id).map(userMapper::toUserDetailDto);
     }
 }
