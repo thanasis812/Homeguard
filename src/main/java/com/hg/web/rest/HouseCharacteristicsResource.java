@@ -27,24 +27,4 @@ public class HouseCharacteristicsResource {
     public HouseCharacteristicsResource(HouseCharacteristicsService houseCharacteristicsService) {
         this.houseCharacteristicsService = houseCharacteristicsService;
     }
-
-    /**
-     * Retrieves the HouseCharacteristics for a specific property and group.
-     *
-     * @param id    the id of the property
-     * @param group the group of characteristics to retrieve
-     * @return a ResponseEntity containing a list of HouseCharacteristicsDTOs for the specified property and group
-     */
-    @GetMapping("houseChar/{id}")
-    public ResponseEntity<List<HouseCharacteristicsDTO>> getHouseCharacteristicsByGroupAndProperty(
-        @PathVariable("id") Long id,
-        HouseCharacteristicsGroupEnum group
-    ) {
-        log.debug("REST request to get HouseCharacteristics for property : {} and group {}", id, group.toString());
-        List<HouseCharacteristicsDTO> houseCharacteristicsDTO = houseCharacteristicsService.findByCharacteristicsByGroupAndProperty(
-            id,
-            group
-        );
-        return ResponseEntity.ok(houseCharacteristicsDTO);
-    }
 }
