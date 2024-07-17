@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,10 @@ public class AuthenticateController {
         this.userService = userService;
     }
 
+    //U: admin
+    //P: admin
+    //U: user
+    //P: user
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -84,9 +90,20 @@ public class AuthenticateController {
      * @return the login if the user is authenticated.
      */
     @GetMapping("/authenticate")
-    public String isAuthenticated(HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
-        return request.getRemoteUser();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String resp = request.getRemoteUser();
+
+        Map<String, String> response = new HashMap<>();
+        if (resp == null || resp.isEmpty()) {
+            response.put("message", "User not authenticated");
+            return new ResponseEntity<>(response, httpHeaders, HttpStatus.UNAUTHORIZED);
+        }
+
+        response.put("login", resp);
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
 
     public String createToken(Authentication authentication, boolean rememberMe, Long tenantId) {
