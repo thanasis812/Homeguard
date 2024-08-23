@@ -1,21 +1,19 @@
 package com.hg.web.rest;
 
+import com.hg.domain.UiPagination;
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
-import com.hg.service.HouseCharacteristicsService;
-import com.hg.service.PropertyQueryService;
-import com.hg.service.PropertyService;
-import com.hg.service.RentalAgreementService;
+import com.hg.service.*;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.RentalAgreementDTO;
 import com.hg.service.dto.mydto.*;
 import com.hg.web.rest.errors.BaseException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +31,8 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.hg.domain.Property}.
  */
 @RestController
-@RequestMapping("/api/properties")
+@RequiredArgsConstructor
+@RequestMapping("/api/houses")
 public class PropertyResource {
 
     private final Logger log = LoggerFactory.getLogger(PropertyResource.class);
@@ -48,21 +47,7 @@ public class PropertyResource {
     private final PropertyQueryService propertyQueryService;
     private final RentalAgreementService rentalAgreementService;
     private final HouseCharacteristicsService houseCharacteristicsService;
-    private final HGTokenService tokenService;
-
-    public PropertyResource(
-        PropertyService propertyService,
-        PropertyQueryService propertyQueryService,
-        RentalAgreementService rentalAgreementService,
-        HouseCharacteristicsService houseCharacteristicsService,
-        HGTokenService tokenService
-    ) {
-        this.propertyService = propertyService;
-        this.propertyQueryService = propertyQueryService;
-        this.rentalAgreementService = rentalAgreementService;
-        this.houseCharacteristicsService = houseCharacteristicsService;
-        this.tokenService = tokenService;
-    }
+    private final UserPrincipalService userPrincipalService;
 
     /**
      * {@code POST  /properties} : Create a new property.
@@ -137,8 +122,8 @@ public class PropertyResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of properties in body.
      */
-    @GetMapping("landlordHouses")
-    public ResponseEntity<List<PropertyDossierDTO>> searchProperties(
+    @GetMapping("searchProperties")
+    public ResponseEntity<UiPagination<List<PropertyDossierDTO>>> searchProperties(
         PropertyCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
@@ -146,7 +131,7 @@ public class PropertyResource {
 
         Page<PropertyDossierDTO> page = propertyQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return ResponseEntity.ok().headers(headers).body(new UiPagination<>(page.getTotalPages(), page.getNumber(), page.getContent()));
     }
 
     /**
@@ -165,17 +150,17 @@ public class PropertyResource {
     /**
      * Retrieves a user's rented and owned properties.
      *
-     * @param request the HTTP request containing the tenant's token
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the user's properties in body, or with status {@code 404 (Not Found)} if the user is not found
      */
     @GetMapping("usersHouses")
-    public ResponseEntity<UserPropertiesDTO> getUserRentAndOwnedProperties(HttpServletRequest request) {
-        Long tenantId = tokenService.getTenantId(request);
+    public ResponseEntity<UserPropertiesDTO> getUserRentAndOwnedProperties() {
+        Long tenantId = userPrincipalService.getTenantId();
+        Long userId = userPrincipalService.getUserId();
         if (tenantId == null) {
             return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
         }
         log.debug("REST request to get available properties with tenant id: {}", tenantId);
-        Optional<UserPropertiesDTO> propertyDossierDTO = propertyService.findUserProperties(tenantId);
+        Optional<UserPropertiesDTO> propertyDossierDTO = propertyService.findUserProperties(tenantId, userId);
         return ResponseUtil.wrapOrNotFound(propertyDossierDTO);
     }
 
@@ -186,8 +171,8 @@ public class PropertyResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the propertyDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("tenantHouse")
-    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId(HttpServletRequest request) {
-        Long tenantId = tokenService.getTenantId(request);
+    public ResponseEntity<PropertyDossierDTO> getPropertyByTenantId() {
+        Long tenantId = userPrincipalService.getTenantId();
         if (tenantId == null) {
             return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
         }

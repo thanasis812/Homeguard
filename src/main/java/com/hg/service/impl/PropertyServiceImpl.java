@@ -2,29 +2,30 @@ package com.hg.service.impl;
 
 import com.hg.domain.LandLord;
 import com.hg.domain.Property;
+import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.repository.HouseCharacteristicsRepository;
 import com.hg.repository.LandLordRepository;
 import com.hg.repository.PropertyRepository;
 import com.hg.repository.RentalAgreementRepository;
 import com.hg.service.PropertyService;
 import com.hg.service.dto.HouseCharacteristicsDTO;
+import com.hg.service.dto.LocationDTO;
 import com.hg.service.dto.PropertyDTO;
-import com.hg.service.dto.mydto.NewHouseRequestDTO;
-import com.hg.service.dto.mydto.PropertyDossierDTO;
-import com.hg.service.dto.mydto.UserPropertiesDTO;
+import com.hg.service.dto.mydto.*;
 import com.hg.service.mapper.HouseCharacteristicsMapper;
 import com.hg.service.mapper.PropertyMapper;
+import com.hg.web.rest.errors.BaseException;
 import com.hg.web.rest.errors.NotFoundException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * Service Implementation for managing {@link com.hg.domain.Property}.
@@ -116,9 +117,21 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Optional<UserPropertiesDTO> findUserProperties(Long id) {
-        //        rentalAgreementRepository.findByStatusAndTenant().get().get
-        return Optional.empty();
+    public Optional<UserPropertiesDTO> findUserProperties(Long id, Long userId) {
+        var rentedHouses = rentalAgreementRepository
+            .findByStatusAndTenant(RentalAgreementStatusEnum.ACTIVE, id)
+            .stream()
+            .findFirst()
+            .orElseThrow(() -> new BaseException("There can be only one rented house", "", ""));
+        //todo how to find this?
+        var ownedHouses = propertyRepository.findByUserId(id);
+
+        return Optional.of(
+            UserPropertiesDTO.builder()
+                .ofRentHouse(propertyMapper.toDto(rentedHouses))
+                .ofOwnHouses(Collections.singletonList(propertyMapper.toDto(rentedHouses)))
+                .build()
+        );
     }
 
     @Override
@@ -169,6 +182,84 @@ public class PropertyServiceImpl implements PropertyService {
         var toSaveObject = propertyMapper.toInternalSchemaNewProperty(newHouseRequestDTO);
         toSaveObject.setLandLord(landLord);
         return propertyMapper.toExternalSchemaNewProperty(propertyRepository.save(toSaveObject));
+    }
+
+    @Override
+    public AdminHouseDTO newHouseApprove(Long tenantId) {
+        var property = propertyRepository.findById(1L).orElse(null);
+        AdminHouseDTO adminHouseDTO = new AdminHouseDTO();
+        adminHouseDTO.setId(1L);
+        adminHouseDTO.setVerified(true);
+        adminHouseDTO.setOwnerId(101L);
+        adminHouseDTO.setTenantId(202L);
+        adminHouseDTO.setTenantGuarantee(303L);
+        adminHouseDTO.setName("Beautiful Villa");
+        adminHouseDTO.setPrice(new BigDecimal("1200000.00"));
+        adminHouseDTO.setDescription("A luxurious villa with stunning views.");
+        adminHouseDTO.setSquareMeters(new BigDecimal("350.00"));
+        adminHouseDTO.setPlotSquareMeters(new BigDecimal("500.00"));
+
+        // Dummy house characteristics
+        Set<HouseCharacteristicsDTO> characteristics = new HashSet<>();
+        HouseCharacteristicsDTO characteristic = new HouseCharacteristicsDTO();
+        // Set properties for characteristic if needed
+        characteristics.add(characteristic);
+        adminHouseDTO.setCharacteristics(characteristics);
+
+        adminHouseDTO.setNumberOfBathrooms(3);
+        adminHouseDTO.setNumberOfBedrooms(5);
+        adminHouseDTO.setNumberOfKitchens(1);
+        adminHouseDTO.setNumberOfAirConditioner(4);
+        adminHouseDTO.setHouseRules("No loud music after 10 PM.");
+        adminHouseDTO.setContractYears(2);
+        adminHouseDTO.setNextAvailableDateForRent(LocalDate.now().plusMonths(3));
+
+        adminHouseDTO.setThumbnail(505L);
+        adminHouseDTO.setHouseType("Villa");
+        adminHouseDTO.setFloor(2);
+        adminHouseDTO.setNumberOfFlats(1);
+        adminHouseDTO.setEnergyClass("A+");
+        adminHouseDTO.setYearOfManufacture(2021);
+        adminHouseDTO.setYearOfRenovation(2023);
+        adminHouseDTO.setPropertyCode("VILLA-123");
+        adminHouseDTO.setFurnitured(true);
+        adminHouseDTO.setFurnituredDescription("Fully furnished with modern amenities.");
+        adminHouseDTO.setDeleted(false);
+
+        // Dummy address data
+        LocationDTO address = new LocationDTO();
+        // Set properties for address if needed
+        adminHouseDTO.setAddress(address);
+
+        // Dummy images
+        Set<byte[]> images = new HashSet<>();
+        images.add(new byte[] { /* some byte data */ });
+        adminHouseDTO.setImages(images);
+
+        // Dummy reviews
+        Set<UserReviewDTO> reviews = new HashSet<>();
+        UserReviewDTO review = new UserReviewDTO();
+        // Set properties for review if needed
+        reviews.add(review);
+        adminHouseDTO.setReviews(reviews);
+        adminHouseDTO.setOwnerName("admin");
+        adminHouseDTO.setPrivateAgreement("private agreement");
+        return adminHouseDTO;
+    }
+
+    @Override
+    public Optional<LandLordHouseInfo> getLandlordHouseInfo(Long houseId) {
+        return propertyRepository
+            .findById(houseId)
+            .map(houseInfo -> {
+                Assert.notNull(houseInfo.getLandLord(), () -> "LandLord not found");
+                Assert.notNull(houseInfo.getLandLord().getUser(), () -> "LandLord is null");
+                return LandLordHouseInfo.builder()
+                    .ofImage(houseInfo.getLandLord().getUser().getImageUrl())
+                    .ofFirstName(houseInfo.getLandLord().getUser().getFirstName())
+                    .ofLastName(houseInfo.getLandLord().getUser().getLastName())
+                    .build();
+            });
     }
 
     private void saveCharacteristics(NewHouseRequestDTO newHouseRequestDTO, NewHouseRequestDTO savedObject) {

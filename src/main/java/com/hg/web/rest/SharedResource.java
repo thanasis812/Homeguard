@@ -1,9 +1,10 @@
 package com.hg.web.rest;
 
 import com.hg.service.ImageService;
+import com.hg.service.UserPrincipalService;
 import com.hg.service.dto.mydto.UploadImageDTO;
-import io.swagger.v3.oas.annotations.Hidden;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +14,15 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.hg.domain.Image}.
  */
-@Hidden
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/shared")
 public class SharedResource {
 
     private final Logger log = LoggerFactory.getLogger(SharedResource.class);
 
     private final ImageService imageService;
-
-    public SharedResource(ImageService imageService) {
-        this.imageService = imageService;
-    }
+    private final UserPrincipalService userPrincipalService;
 
     /**
      * {@code GET  /images/:id} : get the "id" image.
@@ -32,10 +30,10 @@ public class SharedResource {
      * @param id the id of the imageDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the imageDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/shared/{id}")
+    @GetMapping("image/{id}")
     public ResponseEntity<UploadImageDTO> getSharedImage(@PathVariable("id") Long id) {
         log.debug("REST request to get Image : {}", id);
-        Optional<UploadImageDTO> imageDTO = imageService.findOneShared(id);
+        Optional<UploadImageDTO> imageDTO = imageService.findOneShared(1L);
         return ResponseUtil.wrapOrNotFound(imageDTO);
     }
 
@@ -45,7 +43,7 @@ public class SharedResource {
      * @param id the id of the imageDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the imageDTO, or with status {@code 404 (Not Found)}.
      */
-    @PostMapping("/shared/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<UploadImageDTO> postSharedImages(@PathVariable("id") Long id) {
         log.debug("REST request to get Image : {}", id);
         Optional<UploadImageDTO> imageDTO = imageService.findOneShared(id);

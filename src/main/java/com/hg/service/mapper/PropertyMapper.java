@@ -7,6 +7,7 @@ import com.hg.domain.RentalAgreement;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import com.hg.service.dto.LocationDTO;
 import com.hg.service.dto.PropertyDTO;
+import com.hg.service.dto.mydto.HousePropertyDTO;
 import com.hg.service.dto.mydto.NewHouseRequestDTO;
 import com.hg.service.dto.mydto.PropertyDossierDTO;
 import java.util.Comparator;
@@ -14,10 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link Property} and its DTO {@link PropertyDTO}.
@@ -63,13 +61,13 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
                 .max(Comparator.comparing(RentalAgreement::getCreatedDate));
             var rentalAgreement = rentalAgreementOptional.orElseThrow();
 
-            if (rentalAgreementOptional.filter(staus -> staus.getStatus().equals(RentalAgreementStatusEnum.ACTIVE)).isPresent()) {
+            if (rentalAgreementOptional.filter(status -> status.getStatus().equals(RentalAgreementStatusEnum.ACTIVE)).isPresent()) {
                 availability.setAvailableFrom(rentalAgreement.getExpirationDate());
                 availability.setLastUpdate(rentalAgreement.getLatest());
-                availability.setCurrentlyRented("Yes");
+                availability.setCurrentlyRented("RENTED");
             }
             availability.setAvailableFrom(rentalAgreement.getExpirationDate());
-            availability.setCurrentlyRented("NO");
+            availability.setCurrentlyRented("FREE");
             availability.setLastUpdate(rentalAgreement.getLatest());
         }
         return availability;
@@ -95,4 +93,14 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
         location.setStreetAddress(source.getAddress());
         return location;
     }
+
+    @Mappings(
+        {
+            @Mapping(source = "rentedHouses.property.id", target = "houseId"),
+            @Mapping(source = "rentedHouses.property.tenantPropertyPreferences.favorite", target = "favorite"),
+            @Mapping(source = "rentedHouses.property.tenantPropertyPreferences.reminder", target = "reminder"),
+            @Mapping(source = "rentedHouses.tenant.id", target = "tenantId"),
+        }
+    )
+    HousePropertyDTO toDto(RentalAgreement rentedHouses);
 }

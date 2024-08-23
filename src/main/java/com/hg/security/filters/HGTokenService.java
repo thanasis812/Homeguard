@@ -1,4 +1,4 @@
-package com.hg.web.rest;
+package com.hg.security.filters;
 
 import com.hg.web.rest.errors.TokenParsingException;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HGTokenService {
+class HGTokenService {
 
     private final Logger log = LoggerFactory.getLogger(HGTokenService.class);
 
@@ -45,7 +45,25 @@ public class HGTokenService {
         throw new TokenParsingException("Error parsing JWT token. missing claim", "Token parsing", "tokenFailure");
     }
 
+    public Long getLandLordId(HttpServletRequest request) {
+        Object landLordId = getClaims(request).get(CustomClaimEnum.landLordId.name());
+        if (landLordId instanceof Long) {
+            return (Long) landLordId;
+        }
+        throw new TokenParsingException("Error parsing JWT token. missing claim", "Token parsing", "tokenFailure");
+    }
+
+    public Long getUserId(HttpServletRequest request) {
+        Object userId = getClaims(request).get(CustomClaimEnum.userId.name());
+        if (userId instanceof Long) {
+            return (Long) userId;
+        }
+        throw new TokenParsingException("Error parsing JWT token. missing claim", "Token parsing", "tokenFailure");
+    }
+
     private enum CustomClaimEnum {
         tenantId,
+        landLordId,
+        userId,
     }
 }

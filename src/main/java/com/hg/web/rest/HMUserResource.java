@@ -1,17 +1,13 @@
 package com.hg.web.rest;
 
-import com.hg.service.ReviewService;
-import com.hg.service.TenantPropertyPreferencesService;
-import com.hg.service.UserService;
+import com.hg.service.*;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
-import com.hg.service.dto.mydto.FavoritePropertyDTO;
-import com.hg.service.dto.mydto.HousePropertyDTO;
-import com.hg.service.dto.mydto.UserDetailDTO;
-import com.hg.service.dto.mydto.UserReviewDTO;
+import com.hg.service.dto.mydto.*;
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +19,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @Hidden
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/users")
 public class HMUserResource {
 
@@ -31,30 +28,19 @@ public class HMUserResource {
     private final ReviewService reviewService;
     private final TenantPropertyPreferencesService tenantPropertyPreferencesService;
     private final UserService userService;
-
-    private final HGTokenService tokenService;
-
-    public HMUserResource(
-        ReviewService reviewService,
-        TenantPropertyPreferencesService tenantPropertyPreferencesService,
-        UserService userService,
-        HGTokenService tokenService
-    ) {
-        this.reviewService = reviewService;
-        this.tenantPropertyPreferencesService = tenantPropertyPreferencesService;
-        this.userService = userService;
-        this.tokenService = tokenService;
-    }
+    private final PropertyService propertyService;
+    private final UserPrincipalService principalService;
 
     /**
      * {@code GET  /reviews/tenant/id} : get all the reviews for selected tenant.
      * /users/reviews
+     *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reviews in body.
      */
     @GetMapping("reviews")
-    public ResponseEntity<List<UserReviewDTO>> findReviewsByTenantId(HttpServletRequest request) {
+    public ResponseEntity<List<UserReviewDTO>> findReviewsByTenantId() {
         log.debug("REST request to get tenant reviews");
-        Long tenantId = tokenService.getTenantId(request);
+        Long tenantId = principalService.getTenantId();
         if (tenantId == null) {
             return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
         }
@@ -68,8 +54,8 @@ public class HMUserResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the favourite and alarm houses, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/favourite-house")
-    public ResponseEntity<FavoritePropertyDTO> getFavouriteAndAlarmHouses(HttpServletRequest request) {
-        Long tenantId = tokenService.getTenantId(request);
+    public ResponseEntity<FavoritePropertyDTO> getFavouriteAndAlarmHouses() {
+        Long tenantId = principalService.getTenantId();
         if (tenantId == null) {
             return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
         }
@@ -87,9 +73,13 @@ public class HMUserResource {
     @PostMapping("/favourite-house")
     public ResponseEntity<TenantPropertyPreferencesDTO> favoriteHouse(@RequestBody HousePropertyDTO housePropertyDTO) {
         log.debug("REST request to getFavouriteAndAlarmHouses");
+        Long tenantId = principalService.getTenantId();
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
         TenantPropertyPreferencesDTO content = tenantPropertyPreferencesService.favoritePropertyForTenant(
             housePropertyDTO.getHouseId(),
-            housePropertyDTO.getTenantId(),
+            tenantId,
             housePropertyDTO.isFavorite()
         );
         return ResponseEntity.ok().body(content);
@@ -100,15 +90,18 @@ public class HMUserResource {
      *
      * @param housePropertyDTO the house to alarm for the tenant.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the alarm house, or with status {@code 404 (Not Found)}.
-     *
      * @see #favoriteHouse(HousePropertyDTO)
      */
     @PostMapping("/alarm-house")
     public ResponseEntity<TenantPropertyPreferencesDTO> alarmHouse(@RequestBody HousePropertyDTO housePropertyDTO) {
         log.debug("REST request to getFavouriteAndAlarmHouses");
+        Long tenantId = principalService.getTenantId();
+        if (tenantId == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no tenant ID found
+        }
         TenantPropertyPreferencesDTO content = tenantPropertyPreferencesService.alarmPropertyForTenant(
             housePropertyDTO.getHouseId(),
-            housePropertyDTO.getTenantId(),
+            tenantId,
             housePropertyDTO.isReminder()
         );
         return ResponseEntity.ok().body(content);
@@ -122,10 +115,10 @@ public class HMUserResource {
         return ResponseUtil.wrapOrNotFound(profilePreview);
     }
 
-    //TODO: 6/30/24 implement this
-    @GetMapping("landlord-house-info")
-    public ResponseEntity<List<UserReviewDTO>> getLandlordHouseInfo() {
-        throw new RuntimeException("Not implemented");
+    @GetMapping("landlord-house-info/{houseId}")
+    public ResponseEntity<LandLordHouseInfo> getLandlordHouseInfo(@PathVariable Long houseId) {
+        log.debug("REST request to getLandlordHouseInfo for house id  {}", houseId);
+        return ResponseUtil.wrapOrNotFound(propertyService.getLandlordHouseInfo(houseId));
     }
 
     //TODO: 6/30/24 implement this
@@ -144,8 +137,63 @@ public class HMUserResource {
 
     //TODO: 6/30/24 implement this
     @GetMapping("rent-requests")
-    public ResponseEntity<List<UserReviewDTO>> rentRequest() {
-        throw new RuntimeException("Not implemented");
+    public ResponseEntity<List<MessageDTO>> rentRequest() {
+        List<MessageDTO> messages = new ArrayList<>();
+
+        messages.add(
+            new MessageDTO(
+                "info",
+                "Information",
+                "This is an informational message.",
+                1,
+                "infoKey",
+                5000,
+                false,
+                true,
+                null,
+                "info-icon",
+                "info-content",
+                "info-style",
+                "close-info-icon"
+            )
+        );
+
+        messages.add(
+            new MessageDTO(
+                "warning",
+                "Warning",
+                "This is a warning message.",
+                2,
+                "warnKey",
+                7000,
+                true,
+                true,
+                null,
+                "warning-icon",
+                "warning-content",
+                "warning-style",
+                "close-warning-icon"
+            )
+        );
+
+        messages.add(
+            new MessageDTO(
+                "error",
+                "Error",
+                "This is an error message.",
+                3,
+                "errorKey",
+                10000,
+                false,
+                false,
+                null,
+                "error-icon",
+                "error-content",
+                "error-style",
+                "close-error-icon"
+            )
+        );
+        return ResponseEntity.ok(messages);
     }
 
     //TODO: 6/30/24 implement this

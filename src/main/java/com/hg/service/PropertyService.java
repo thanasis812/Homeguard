@@ -1,9 +1,7 @@
 package com.hg.service;
 
 import com.hg.service.dto.PropertyDTO;
-import com.hg.service.dto.mydto.NewHouseRequestDTO;
-import com.hg.service.dto.mydto.PropertyDossierDTO;
-import com.hg.service.dto.mydto.UserPropertiesDTO;
+import com.hg.service.dto.mydto.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,10 +59,11 @@ public interface PropertyService {
     /**
      * Get the "id" property.
      *
-     * @param id the id of the entity.
+     * @param id     the id of the entity.
+     * @param userId
      * @return the entity.
      */
-    Optional<UserPropertiesDTO> findUserProperties(Long id);
+    Optional<UserPropertiesDTO> findUserProperties(Long id, Long userId);
 
     /**
      * Get the "id" of the property with the UI schema.
@@ -102,4 +101,8 @@ public interface PropertyService {
      * @return the persisted new house request data.
      */
     NewHouseRequestDTO save(NewHouseRequestDTO newHouseRequestDTO);
+
+    AdminHouseDTO newHouseApprove(Long tenantId);
+
+    Optional<LandLordHouseInfo> getLandlordHouseInfo(Long houseId);
 }

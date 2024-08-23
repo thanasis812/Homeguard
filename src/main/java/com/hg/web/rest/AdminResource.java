@@ -1,54 +1,36 @@
 package com.hg.web.rest;
 
-import com.hg.repository.ReviewRepository;
-import com.hg.service.ReviewService;
-import com.hg.service.dto.ReviewDTO;
-import com.hg.service.dto.mydto.UserReviewDTO;
-import com.hg.web.rest.errors.BaseException;
+import com.hg.service.PropertyService;
+import com.hg.service.UserPrincipalService;
+import com.hg.service.dto.mydto.*;
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Collections;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing {@link com.hg.domain.Review}.
  */
 @Hidden
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminResource {
 
     private final Logger log = LoggerFactory.getLogger(AdminResource.class);
 
-    private static final String ENTITY_NAME = "review";
-
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final ReviewService reviewService;
-
-    private final ReviewRepository reviewRepository;
-
-    public AdminResource(ReviewService reviewService, ReviewRepository reviewRepository) {
-        this.reviewService = reviewService;
-        this.reviewRepository = reviewRepository;
-    }
+    private final PropertyService propertyService;
+    private final UserPrincipalService userPrincipalService;
 
     /**
      * Processes a request to approve a credit card.
@@ -57,36 +39,77 @@ public class AdminResource {
      * @return a {@link ResponseEntity} containing a success message and the approved credit card number.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/credit-card-approve")
-    public ResponseEntity<String> creditCardApprove(@Valid @RequestBody String creditInfo) throws URISyntaxException {
-        log.debug("REST request to creditCardApprove for credit : {}", creditInfo);
-        return ResponseEntity.ok().body("Credit card with number " + creditInfo + " approved");
+    @GetMapping("/credit-cards-request")
+    public ResponseEntity<AdminCreditCardDTO> creditCardApprove() throws URISyntaxException {
+        log.debug("REST request to creditCardApprove for credit : {}", "creditInfo");
+        AdminCreditCardDTO paymentDetails = new AdminCreditCardDTO();
+
+        paymentDetails.setUserId(12345L);
+        paymentDetails.setHouseId(67890L);
+        paymentDetails.setFullname("John Doe");
+        paymentDetails.setCardNumber(1234567890123456L);
+        paymentDetails.setCvv(123);
+        paymentDetails.setExpireDate("12/25");
+        paymentDetails.setPhone("+1234567890");
+        return ResponseEntity.ok().body(paymentDetails);
     }
 
     /**
      * Processes a request to approve a house.
      *
-     * @param houseId the ID of the house to be approved.
      * @return a {@link ResponseEntity} containing a success message and the approved house ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/new-house-approve")
-    public ResponseEntity<String> newHouseApprove(@Valid @RequestBody Long houseId) throws URISyntaxException {
-        log.debug("REST request to newHouseApprove to with id : {}", houseId);
-        return ResponseEntity.ok().body("House with ID " + houseId + " approved");
+    @GetMapping("/new-houses-requests")
+    public ResponseEntity<AdminHouseDTO> newHouseApprove() {
+        Long tenantId = userPrincipalService.getTenantId();
+        log.debug("REST request to newHouseApprove to with id : {}", tenantId);
+        return ResponseEntity.ok().body(propertyService.newHouseApprove(tenantId));
+    }
+
+    @GetMapping("/private-agreements-request")
+    public ResponseEntity<AdminPrivateAgreementsDTO> getPrivateAgreementsRequest() {
+        Long tenantId = userPrincipalService.getTenantId();
+        log.debug("REST request to newHouseApprove to with id : {}", tenantId);
+
+        AdminPrivateAgreementsDTO leaseAgreementDTO = new AdminPrivateAgreementsDTO();
+
+        leaseAgreementDTO.setId(1L);
+        leaseAgreementDTO.setHouseId(101L);
+        leaseAgreementDTO.setNumber(123456L);
+        leaseAgreementDTO.setOwnerName("John Doe");
+        leaseAgreementDTO.setTenantName("Jane Smith");
+        leaseAgreementDTO.setName("Lease Agreement for Unit 101");
+        leaseAgreementDTO.setPrice(1500);
+        leaseAgreementDTO.setGeneralTerms("The tenant agrees to pay rent on the 1st of every month.");
+        leaseAgreementDTO.setLandlordTerms("The landlord agrees to provide maintenance services.");
+        leaseAgreementDTO.setLanlordSignature(999L);
+        leaseAgreementDTO.setTenantSignature(888L);
+
+        return ResponseEntity.ok().body(leaseAgreementDTO);
     }
 
     /**
      * Processes a request to approve a house.
      *
-     * @param privateAgreementId the ID of the house to be approved.
      * @return a {@link ResponseEntity} containing a success message and the approved house ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/private-agreement-approve")
-    public ResponseEntity<String> privateAgreementApprove(@Valid @RequestBody Long privateAgreementId) throws URISyntaxException {
-        log.debug("REST request to privateAgreementApprove to with id : {}", privateAgreementId);
-        return ResponseEntity.ok().body("Private agreement with ID " + privateAgreementId + " approved");
+    @GetMapping("/salary-certificates-request")
+    public ResponseEntity<AdminSalaryCertificateDTO> salaryCertificateApprove() throws URISyntaxException {
+        log.debug("REST request to privateAgreementApprove to with id : {}", "id");
+        return ResponseEntity.ok()
+            .body(
+                AdminSalaryCertificateDTO.builder()
+                    .ofId(1L)
+                    .ofUserId(101L)
+                    .ofHouseId(201L)
+                    .ofSalarySlips(Collections.singletonList("Sample Salary Slip".getBytes()))
+                    .ofGuarantorSalarySlips(Collections.singletonList("Sample Guarantor Salary Slip".getBytes()))
+                    .ofUserName("John Doe")
+                    .ofGuarantorChecked(true)
+                    .build()
+            );
     }
 
     /**
@@ -96,35 +119,40 @@ public class AdminResource {
      * @return a {@link ResponseEntity} containing a success message and the approved house ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/salary-certificate-approve")
-    public ResponseEntity<String> salaryCertificateApprove(@Valid @RequestBody Long id) throws URISyntaxException {
-        log.debug("REST request to privateAgreementApprove to with id : {}", id);
-        return ResponseEntity.ok().body("Salary certification with ID " + id + " approved");
-    }
+    @GetMapping("/taxid-certificates-and-ids-request")
+    public ResponseEntity<AdminTaxIdCertificateAndIdDTO> taxidCertificateApprove() throws URISyntaxException {
+        log.debug("REST request to privateAgreementApprove to with id : {}", "id");
+        AdminTaxIdCertificateAndIdDTO certificateAndId = new AdminTaxIdCertificateAndIdDTO();
 
-    /**
-     * Processes a request to approve a house.
-     *
-     * @param id the ID of the house to be approved.
-     * @return a {@link ResponseEntity} containing a success message and the approved house ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/taxid-certificate-approve")
-    public ResponseEntity<String> taxidCertificateApprove(@Valid @RequestBody Long id) throws URISyntaxException {
-        log.debug("REST request to privateAgreementApprove to with id : {}", id);
-        return ResponseEntity.ok().body("Tax ID certificate with ID " + id + " approved");
+        certificateAndId.setTaxidCertificateId(12345L);
+        certificateAndId.setIdCertificateId(67890L);
+        certificateAndId.setUserId(112233L);
+        certificateAndId.setIdCertificateFront(new byte[] { 0x01, 0x02, 0x03 });
+        certificateAndId.setIdCertificateBack(new byte[] { 0x04, 0x05, 0x06 });
+        certificateAndId.setTaxidCertificate(new byte[] { 0x07, 0x08, 0x09 });
+        certificateAndId.setTaxId(987654321L);
+        certificateAndId.setPersonalId("XYZ123456");
+        certificateAndId.setName("Alice");
+        certificateAndId.setSurname("Johnson");
+        certificateAndId.setGuarantorIdCertificateFront(new byte[] { 0x0A, 0x0B, 0x0C });
+        certificateAndId.setGuarantorIdCertificateBack(new byte[] { 0x0D, 0x0E, 0x0F });
+        certificateAndId.setGuarantorTaxidCertificate(new byte[] { 0x10, 0x11, 0x12 });
+        certificateAndId.setGuarantorTaxId(123456789L);
+        certificateAndId.setGuarantorPersonalId("ABC654321");
+        certificateAndId.setGuarantorName("Bob");
+        certificateAndId.setGuarantorSurname("Smith");
+        return ResponseEntity.ok().body(certificateAndId);
     }
-
-    /**
-     * Processes a request to approve a house.
-     *
-     * @param id the ID of the house to be approved.
-     * @return a {@link ResponseEntity} containing a success message and the approved house ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/taxisnet-document-approve")
-    public ResponseEntity<String> taxisnetDocumentApprove(@Valid @RequestBody Long id) throws URISyntaxException {
-        log.debug("REST request to privateAgreementApprove to with id : {}", id);
-        return ResponseEntity.ok().body("Taxis net with with ID " + id + " approved");
-    }
+    //    /**
+    //     * Processes a request to approve a house.
+    //     *
+    //     * @param id the ID of the house to be approved.
+    //     * @return a {@link ResponseEntity} containing a success message and the approved house ID.
+    //     * @throws URISyntaxException if the Location URI syntax is incorrect.
+    //     */
+    //    @GetMapping("/taxisnet-document-approve")
+    //    public ResponseEntity<String> taxisnetDocumentApprove() throws URISyntaxException {
+    //        log.debug("REST request to privateAgreementApprove to with id : {}", "id");
+    //        return ResponseEntity.ok().body("Taxis net with with ID " + "id" + " approved");
+    //    }
 }

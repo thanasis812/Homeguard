@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class AuthenticateController {
 
+    public static final String TENANT_ID = "tenantId";
+    public static final String USER_ID = "userId";
     private final Logger log = LoggerFactory.getLogger(AuthenticateController.class);
 
     private final JwtEncoder jwtEncoder;
@@ -77,7 +79,7 @@ public class AuthenticateController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Tenant tenant = userService.getUserWithAuthorities().orElseThrow().getTenant();
-        String jwt = this.createToken(authentication, loginVM.isRememberMe(), tenant.getId());
+        String jwt = this.createToken(authentication, loginVM.isRememberMe(), tenant.getId(), tenant.getUser().getId());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
@@ -106,7 +108,7 @@ public class AuthenticateController {
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
 
-    public String createToken(Authentication authentication, boolean rememberMe, Long tenantId) {
+    public String createToken(Authentication authentication, boolean rememberMe, Long tenantId, Long userId) {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
 
         Instant now = Instant.now();
@@ -123,7 +125,8 @@ public class AuthenticateController {
             .expiresAt(validity)
             .subject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
-            .claim("tenantId", tenantId)
+            .claim(TENANT_ID, tenantId)
+            .claim(USER_ID, userId)
             .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();

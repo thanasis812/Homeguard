@@ -11,6 +11,7 @@ import com.hg.service.mapper.PropertyMapper;
 import com.hg.service.mapper.TenantPropertyPreferencesMapper;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -110,6 +111,7 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
             propertyMapper.toDtoList(
                 tenantPropertyPreferences
                     .stream()
+                    .filter(reminder -> Objects.nonNull(reminder.getReminder()))
                     .filter(TenantPropertyPreferences::getReminder)
                     .map(TenantPropertyPreferences::getProperty)
                     .collect(Collectors.toList())
@@ -119,6 +121,7 @@ public class TenantPropertyPreferencesServiceImpl implements TenantPropertyPrefe
             propertyMapper.toDtoList(
                 tenantPropertyPreferences
                     .stream()
+                    .filter(reminder -> Objects.nonNull(reminder.getReminder()))
                     .filter(TenantPropertyPreferences::getFavorite)
                     .map(TenantPropertyPreferences::getProperty)
                     .collect(Collectors.toList())

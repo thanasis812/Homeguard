@@ -330,4 +330,8 @@ public class UserService {
     public Optional<UserDetailDTO> findById(Long id) {
         return userRepository.findById(id).map(userMapper::toUserDetailDto);
     }
+
+    public Optional<User> findByIdOptional(Long id) {
+        return userRepository.findById(id);
+    }
 }

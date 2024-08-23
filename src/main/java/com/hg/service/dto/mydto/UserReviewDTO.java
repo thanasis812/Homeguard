@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A User DTO for the {@link com.hg.domain.Review} entity.
