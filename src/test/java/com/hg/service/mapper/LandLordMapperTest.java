@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.LandLordAsserts.*;
-import static com.hg.domain.LandLordTestSamples.*;
+import static com.hg.domain.LandLordAsserts.assertLandLordAllPropertiesEquals;
+import static com.hg.domain.LandLordTestSamples.getLandLordSample1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

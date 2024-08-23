@@ -7,7 +7,10 @@ import com.hg.service.dto.PropertyDTO;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link HouseCharacteristics} and its DTO {@link HouseCharacteristicsDTO}.

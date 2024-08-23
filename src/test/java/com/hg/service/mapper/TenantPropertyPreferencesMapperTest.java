@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.TenantPropertyPreferencesAsserts.*;
-import static com.hg.domain.TenantPropertyPreferencesTestSamples.*;
+import static com.hg.domain.TenantPropertyPreferencesAsserts.assertTenantPropertyPreferencesAllPropertiesEquals;
+import static com.hg.domain.TenantPropertyPreferencesTestSamples.getTenantPropertyPreferencesSample1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

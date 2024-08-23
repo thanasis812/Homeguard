@@ -2,7 +2,10 @@ package com.hg.service.mapper;
 
 import com.hg.domain.*;
 import com.hg.service.dto.*;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link RentalAgreement} and its DTO {@link RentalAgreementDTO}.

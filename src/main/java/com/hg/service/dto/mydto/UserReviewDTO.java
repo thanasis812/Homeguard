@@ -1,17 +1,8 @@
 package com.hg.service.dto.mydto;
 
-import com.hg.domain.Image;
-import com.hg.service.dto.LandLordDTO;
-import com.hg.service.dto.PropertyDTO;
-import com.hg.service.dto.TenantDTO;
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A User DTO for the {@link com.hg.domain.Review} entity.

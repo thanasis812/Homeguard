@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.RentalAgreementAsserts.*;
-import static com.hg.domain.RentalAgreementTestSamples.*;
+import static com.hg.domain.RentalAgreementAsserts.assertRentalAgreementAllPropertiesEquals;
+import static com.hg.domain.RentalAgreementTestSamples.getRentalAgreementSample1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

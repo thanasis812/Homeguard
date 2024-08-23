@@ -1,6 +1,5 @@
 package com.hg.service.mapper;
 
-import com.hg.domain.LandLord;
 import com.hg.domain.Location;
 import com.hg.domain.Property;
 import com.hg.domain.RentalAgreement;

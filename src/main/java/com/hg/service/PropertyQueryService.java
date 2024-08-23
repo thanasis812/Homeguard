@@ -1,7 +1,8 @@
 package com.hg.service;
 
-import com.hg.domain.*; // for static metamodels
+import com.hg.domain.Location_;
 import com.hg.domain.Property;
+import com.hg.domain.Property_;
 import com.hg.repository.PropertyRepository;
 import com.hg.service.criteria.PropertyCriteria;
 import com.hg.service.dto.PropertyDTO;

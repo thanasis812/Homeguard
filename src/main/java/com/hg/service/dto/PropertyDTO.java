@@ -2,7 +2,7 @@ package com.hg.service.dto;
 
 import com.hg.domain.enumeration.ConstructionEnum;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -2,7 +2,7 @@ package com.hg.service.dto;
 
 import com.hg.domain.enumeration.HouseCharacteristicsEnum;
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 

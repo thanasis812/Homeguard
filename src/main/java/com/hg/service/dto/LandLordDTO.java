@@ -2,7 +2,9 @@ package com.hg.service.dto;
 
 import com.hg.domain.enumeration.UserCategoryEnum;
 import com.hg.domain.enumeration.UserStatusEnum;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.hg.service.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;

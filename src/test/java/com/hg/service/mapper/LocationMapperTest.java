@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.LocationAsserts.*;
-import static com.hg.domain.LocationTestSamples.*;
+import static com.hg.domain.LocationAsserts.assertLocationAllPropertiesEquals;
+import static com.hg.domain.LocationTestSamples.getLocationSample1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -8,7 +8,10 @@ import com.hg.service.dto.ImageDTO;
 import com.hg.service.dto.LandLordDTO;
 import com.hg.service.dto.TenantDTO;
 import com.hg.service.dto.UserDTO;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link LandLord} and its DTO {@link LandLordDTO}.

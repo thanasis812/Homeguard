@@ -6,7 +6,10 @@ import com.hg.domain.TenantPropertyPreferences;
 import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.TenantDTO;
 import com.hg.service.dto.TenantPropertyPreferencesDTO;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link TenantPropertyPreferences} and its DTO {@link TenantPropertyPreferencesDTO}.

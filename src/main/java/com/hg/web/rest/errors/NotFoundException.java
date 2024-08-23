@@ -1,7 +1,5 @@
 package com.hg.web.rest.errors;
 
-import java.net.URI;
-
 public class NotFoundException extends BaseException {
 
     private static final long serialVersionUID = 1L;

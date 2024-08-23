@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.HouseCharacteristicsEnum;
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

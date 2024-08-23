@@ -3,7 +3,7 @@ package com.hg.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.RentalAgreementStatusEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;

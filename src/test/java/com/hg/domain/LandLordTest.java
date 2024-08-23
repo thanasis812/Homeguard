@@ -1,11 +1,11 @@
 package com.hg.domain;
 
-import static com.hg.domain.ImageTestSamples.*;
+import static com.hg.domain.ImageTestSamples.getImageRandomSampleGenerator;
 import static com.hg.domain.LandLordTestSamples.*;
-import static com.hg.domain.PropertyTestSamples.*;
-import static com.hg.domain.RentalAgreementTestSamples.*;
-import static com.hg.domain.ReviewTestSamples.*;
-import static com.hg.domain.TenantTestSamples.*;
+import static com.hg.domain.PropertyTestSamples.getPropertyRandomSampleGenerator;
+import static com.hg.domain.RentalAgreementTestSamples.getRentalAgreementRandomSampleGenerator;
+import static com.hg.domain.ReviewTestSamples.getReviewRandomSampleGenerator;
+import static com.hg.domain.TenantTestSamples.getTenantRandomSampleGenerator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hg.web.rest.TestUtil;

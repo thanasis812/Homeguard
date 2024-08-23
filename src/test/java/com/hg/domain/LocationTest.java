@@ -1,8 +1,8 @@
 package com.hg.domain;
 
 import static com.hg.domain.LocationTestSamples.*;
-import static com.hg.domain.PropertyTestSamples.*;
-import static com.hg.domain.TenantTestSamples.*;
+import static com.hg.domain.PropertyTestSamples.getPropertyRandomSampleGenerator;
+import static com.hg.domain.TenantTestSamples.getTenantRandomSampleGenerator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hg.web.rest.TestUtil;

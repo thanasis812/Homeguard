@@ -1,6 +1,7 @@
 package com.hg.domain;
 
-import static com.hg.domain.AuthorityTestSamples.*;
+import static com.hg.domain.AuthorityTestSamples.getAuthoritySample1;
+import static com.hg.domain.AuthorityTestSamples.getAuthoritySample2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hg.web.rest.TestUtil;

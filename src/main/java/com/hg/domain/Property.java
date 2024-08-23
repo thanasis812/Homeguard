@@ -3,7 +3,7 @@ package com.hg.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.ConstructionEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;

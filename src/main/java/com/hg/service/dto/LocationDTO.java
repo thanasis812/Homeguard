@@ -1,7 +1,6 @@
 package com.hg.service.dto;
 
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 

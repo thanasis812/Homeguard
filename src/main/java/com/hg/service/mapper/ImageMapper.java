@@ -1,10 +1,8 @@
 package com.hg.service.mapper;
 
-import com.hg.domain.HouseCharacteristics;
 import com.hg.domain.Image;
 import com.hg.domain.Property;
 import com.hg.domain.Review;
-import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.ImageDTO;
 import com.hg.service.dto.PropertyDTO;
 import com.hg.service.dto.ReviewDTO;
@@ -13,7 +11,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 /**
  * Mapper for the entity {@link Image} and its DTO {@link ImageDTO}.

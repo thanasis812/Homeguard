@@ -1,8 +1,5 @@
 package com.hg.service.dto.mydto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class HousePropertyDTO {
 
     private Long houseId;
