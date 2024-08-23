@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSpecificationExecutor<Property> {
     List<Property> findByLandLord(LandLord landlordId);
+
+    @Query("SELECT tpp FROM Property tpp where tpp.landLord.user.id= :id")
+    List<Property> findByUserId(Long id);
 }
