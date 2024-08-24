@@ -11,6 +11,6 @@ import lombok.Setter;
 @Builder(setterPrefix = "of")
 public class UserPropertiesDTO implements Serializable {
 
-    private List<HousePropertyDTO> ownHouses;
-    private HousePropertyDTO rentHouse;
+    private List<PropertyDossierDTO> ownHouses;
+    private PropertyDossierDTO rentHouse;
 }

@@ -125,11 +125,10 @@ public class PropertyServiceImpl implements PropertyService {
             .orElseThrow(() -> new BaseException("There can be only one rented house", "", ""));
         //todo how to find this?
         var ownedHouses = propertyRepository.findByUserId(id);
-
         return Optional.of(
             UserPropertiesDTO.builder()
-                .ofRentHouse(propertyMapper.toDto(rentedHouses))
-                .ofOwnHouses(Collections.singletonList(propertyMapper.toDto(rentedHouses)))
+                .ofRentHouse(propertyMapper.toUiDto(rentedHouses.getProperty()))
+                .ofOwnHouses(Collections.singletonList(propertyMapper.toUiDto(rentedHouses.getProperty())))
                 .build()
         );
     }

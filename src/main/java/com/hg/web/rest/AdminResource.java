@@ -6,6 +6,7 @@ import com.hg.service.dto.mydto.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class AdminResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @GetMapping("/credit-cards-request")
-    public ResponseEntity<AdminCreditCardDTO> creditCardApprove() throws URISyntaxException {
+    public ResponseEntity<List<AdminCreditCardDTO>> creditCardApprove() throws URISyntaxException {
         log.debug("REST request to creditCardApprove for credit : {}", "creditInfo");
         AdminCreditCardDTO paymentDetails = new AdminCreditCardDTO();
 
@@ -51,7 +52,7 @@ public class AdminResource {
         paymentDetails.setCvv(123);
         paymentDetails.setExpireDate("12/25");
         paymentDetails.setPhone("+1234567890");
-        return ResponseEntity.ok().body(paymentDetails);
+        return ResponseEntity.ok().body(Collections.singletonList(paymentDetails));
     }
 
     /**
@@ -68,7 +69,7 @@ public class AdminResource {
     }
 
     @GetMapping("/private-agreements-request")
-    public ResponseEntity<AdminPrivateAgreementsDTO> getPrivateAgreementsRequest() {
+    public ResponseEntity<List<AdminPrivateAgreementsDTO>> getPrivateAgreementsRequest() {
         Long tenantId = userPrincipalService.getTenantId();
         log.debug("REST request to newHouseApprove to with id : {}", tenantId);
 
@@ -86,7 +87,7 @@ public class AdminResource {
         leaseAgreementDTO.setLanlordSignature(999L);
         leaseAgreementDTO.setTenantSignature(888L);
 
-        return ResponseEntity.ok().body(leaseAgreementDTO);
+        return ResponseEntity.ok().body(Collections.singletonList(leaseAgreementDTO));
     }
 
     /**
@@ -96,19 +97,21 @@ public class AdminResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @GetMapping("/salary-certificates-request")
-    public ResponseEntity<AdminSalaryCertificateDTO> salaryCertificateApprove() throws URISyntaxException {
+    public ResponseEntity<List<AdminSalaryCertificateDTO>> salaryCertificateApprove() throws URISyntaxException {
         log.debug("REST request to privateAgreementApprove to with id : {}", "id");
         return ResponseEntity.ok()
             .body(
-                AdminSalaryCertificateDTO.builder()
-                    .ofId(1L)
-                    .ofUserId(101L)
-                    .ofHouseId(201L)
-                    .ofSalarySlips(Collections.singletonList("Sample Salary Slip".getBytes()))
-                    .ofGuarantorSalarySlips(Collections.singletonList("Sample Guarantor Salary Slip".getBytes()))
-                    .ofUserName("John Doe")
-                    .ofGuarantorChecked(true)
-                    .build()
+                Collections.singletonList(
+                    AdminSalaryCertificateDTO.builder()
+                        .ofId(1L)
+                        .ofUserId(101L)
+                        .ofHouseId(201L)
+                        .ofSalarySlips(Collections.singletonList("Sample Salary Slip".getBytes()))
+                        .ofGuarantorSalarySlips(Collections.singletonList("Sample Guarantor Salary Slip".getBytes()))
+                        .ofUserName("John Doe")
+                        .ofGuarantorChecked(true)
+                        .build()
+                )
             );
     }
 
@@ -120,7 +123,7 @@ public class AdminResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @GetMapping("/taxid-certificates-and-ids-request")
-    public ResponseEntity<AdminTaxIdCertificateAndIdDTO> taxidCertificateApprove() throws URISyntaxException {
+    public ResponseEntity<List<AdminTaxIdCertificateAndIdDTO>> taxidCertificateApprove() throws URISyntaxException {
         log.debug("REST request to privateAgreementApprove to with id : {}", "id");
         AdminTaxIdCertificateAndIdDTO certificateAndId = new AdminTaxIdCertificateAndIdDTO();
 
@@ -141,7 +144,7 @@ public class AdminResource {
         certificateAndId.setGuarantorPersonalId("ABC654321");
         certificateAndId.setGuarantorName("Bob");
         certificateAndId.setGuarantorSurname("Smith");
-        return ResponseEntity.ok().body(certificateAndId);
+        return ResponseEntity.ok().body(Collections.singletonList(certificateAndId));
     }
     //    /**
     //     * Processes a request to approve a house.

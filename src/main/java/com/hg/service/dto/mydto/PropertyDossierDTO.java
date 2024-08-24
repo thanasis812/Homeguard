@@ -64,7 +64,7 @@ public class PropertyDossierDTO implements Serializable {
     private Integer yearOfManufacture;
 
     //todo why i need this on get?
-    private List<MonthsPaidDTO> monthsPaid = new ArrayList<>();
+    private MonthsPaidDTO monthsPaid;
 
     private Integer yearOfRenovation;
 
@@ -406,11 +406,11 @@ public class PropertyDossierDTO implements Serializable {
         this.availability = availability;
     }
 
-    public List<MonthsPaidDTO> getMonthsPaid() {
+    public MonthsPaidDTO getMonthsPaid() {
         return monthsPaid;
     }
 
-    public void setMonthsPaid(List<MonthsPaidDTO> monthsPaid) {
+    public void setMonthsPaid(MonthsPaidDTO monthsPaid) {
         this.monthsPaid = monthsPaid;
     }
 }
