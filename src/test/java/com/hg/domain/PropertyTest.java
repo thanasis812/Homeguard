@@ -1,13 +1,14 @@
 package com.hg.domain;
 
-import static com.hg.domain.HouseCharacteristicsTestSamples.getHouseCharacteristicsRandomSampleGenerator;
-import static com.hg.domain.ImageTestSamples.getImageRandomSampleGenerator;
-import static com.hg.domain.LandLordTestSamples.getLandLordRandomSampleGenerator;
-import static com.hg.domain.LocationTestSamples.getLocationRandomSampleGenerator;
+import static com.hg.domain.ApplicationRequestTestSamples.*;
+import static com.hg.domain.HouseCharacteristicsTestSamples.*;
+import static com.hg.domain.ImageTestSamples.*;
+import static com.hg.domain.LandLordTestSamples.*;
+import static com.hg.domain.LocationTestSamples.*;
 import static com.hg.domain.PropertyTestSamples.*;
-import static com.hg.domain.RentalAgreementTestSamples.getRentalAgreementRandomSampleGenerator;
-import static com.hg.domain.ReviewTestSamples.getReviewRandomSampleGenerator;
-import static com.hg.domain.TenantPropertyPreferencesTestSamples.getTenantPropertyPreferencesRandomSampleGenerator;
+import static com.hg.domain.RentalAgreementTestSamples.*;
+import static com.hg.domain.ReviewTestSamples.*;
+import static com.hg.domain.TenantPropertyPreferencesTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hg.web.rest.TestUtil;
@@ -129,6 +130,28 @@ class PropertyTest {
         property.setPropertysPhotos(new HashSet<>());
         assertThat(property.getPropertysPhotos()).doesNotContain(imageBack);
         assertThat(imageBack.getProperty()).isNull();
+    }
+
+    @Test
+    void applicationsTest() throws Exception {
+        Property property = getPropertyRandomSampleGenerator();
+        ApplicationRequest applicationRequestBack = getApplicationRequestRandomSampleGenerator();
+
+        property.addApplications(applicationRequestBack);
+        assertThat(property.getApplications()).containsOnly(applicationRequestBack);
+        assertThat(applicationRequestBack.getProperty()).isEqualTo(property);
+
+        property.removeApplications(applicationRequestBack);
+        assertThat(property.getApplications()).doesNotContain(applicationRequestBack);
+        assertThat(applicationRequestBack.getProperty()).isNull();
+
+        property.applications(new HashSet<>(Set.of(applicationRequestBack)));
+        assertThat(property.getApplications()).containsOnly(applicationRequestBack);
+        assertThat(applicationRequestBack.getProperty()).isEqualTo(property);
+
+        property.setApplications(new HashSet<>());
+        assertThat(property.getApplications()).doesNotContain(applicationRequestBack);
+        assertThat(applicationRequestBack.getProperty()).isNull();
     }
 
     @Test

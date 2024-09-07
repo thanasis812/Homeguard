@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.HouseCharacteristicsEnum;
 import com.hg.domain.enumeration.HouseCharacteristicsGroupEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -40,7 +40,16 @@ public class HouseCharacteristics implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
+        value = {
+            "location",
+            "rentals",
+            "houseCharacteristics",
+            "reviews",
+            "propertysPhotos",
+            "applications",
+            "landLord",
+            "tenantPropertyPreferences",
+        },
         allowSetters = true
     )
     private Property property;

@@ -2,14 +2,11 @@ package com.hg.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.SubscriptionEnum;
+import com.hg.domain.enumeration.TenantStatusEnum;
 import com.hg.domain.enumeration.UserCategoryEnum;
-import com.hg.domain.enumeration.UserStatusEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,44 +27,21 @@ public class Tenant implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @NotNull
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Max(value = 1)
-    @Column(name = "gender")
-    private Integer gender;
-
-    @Column(name = "afm")
-    private Integer afm;
-
-    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
-    @Column(name = "email")
-    private String email;
-
-    @Pattern(regexp = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})")
-    @Column(name = "phone")
-    private String phone;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private UserCategoryEnum category;
 
-    @Column(name = "created_date")
-    private LocalDate createdDate;
-
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private UserStatusEnum status;
+    @Column(name = "status", nullable = false)
+    private TenantStatusEnum status;
 
     @Column(name = "settings_metadata")
     private String settingsMetadata;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "subscription_type")
+    @Column(name = "subscription_type", nullable = false)
     private SubscriptionEnum subscriptionType;
 
     @Column(name = "deleted")
@@ -121,84 +95,6 @@ public class Tenant implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public Tenant firstName(String firstName) {
-        this.setFirstName(firstName);
-        return this;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public Tenant lastName(String lastName) {
-        this.setLastName(lastName);
-        return this;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getGender() {
-        return this.gender;
-    }
-
-    public Tenant gender(Integer gender) {
-        this.setGender(gender);
-        return this;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public Integer getAfm() {
-        return this.afm;
-    }
-
-    public Tenant afm(Integer afm) {
-        this.setAfm(afm);
-        return this;
-    }
-
-    public void setAfm(Integer afm) {
-        this.afm = afm;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public Tenant email(String email) {
-        this.setEmail(email);
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public Tenant phone(String phone) {
-        this.setPhone(phone);
-        return this;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public UserCategoryEnum getCategory() {
         return this.category;
     }
@@ -212,29 +108,16 @@ public class Tenant implements Serializable {
         this.category = category;
     }
 
-    public LocalDate getCreatedDate() {
-        return this.createdDate;
-    }
-
-    public Tenant createdDate(LocalDate createdDate) {
-        this.setCreatedDate(createdDate);
-        return this;
-    }
-
-    public void setCreatedDate(LocalDate createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public UserStatusEnum getStatus() {
+    public TenantStatusEnum getStatus() {
         return this.status;
     }
 
-    public Tenant status(UserStatusEnum status) {
+    public Tenant status(TenantStatusEnum status) {
         this.setStatus(status);
         return this;
     }
 
-    public void setStatus(UserStatusEnum status) {
+    public void setStatus(TenantStatusEnum status) {
         this.status = status;
     }
 
@@ -452,14 +335,7 @@ public class Tenant implements Serializable {
     public String toString() {
         return "Tenant{" +
             "id=" + getId() +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", gender=" + getGender() +
-            ", afm=" + getAfm() +
-            ", email='" + getEmail() + "'" +
-            ", phone='" + getPhone() + "'" +
             ", category='" + getCategory() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
             ", status='" + getStatus() + "'" +
             ", settingsMetadata='" + getSettingsMetadata() + "'" +
             ", subscriptionType='" + getSubscriptionType() + "'" +

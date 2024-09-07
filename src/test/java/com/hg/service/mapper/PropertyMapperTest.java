@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.PropertyAsserts.assertPropertyAllPropertiesEquals;
-import static com.hg.domain.PropertyTestSamples.getPropertySample1;
+import static com.hg.domain.PropertyAsserts.*;
+import static com.hg.domain.PropertyTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

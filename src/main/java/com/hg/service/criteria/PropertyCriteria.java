@@ -46,7 +46,7 @@ public class PropertyCriteria implements Serializable, Criteria {
 
     private StringFilter description;
 
-    private BigDecimalFilter price;
+    private IntegerFilter price;
 
     private BigDecimalFilter squareMeters;
 
@@ -96,7 +96,7 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.verified = other.optionalVerified().map(BooleanFilter::copy).orElse(null);
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
-        this.price = other.optionalPrice().map(BigDecimalFilter::copy).orElse(null);
+        this.price = other.optionalPrice().map(IntegerFilter::copy).orElse(null);
         this.squareMeters = other.optionalSquareMeters().map(BigDecimalFilter::copy).orElse(null);
         this.plotSquareMeters = other.optionalPlotSquareMeters().map(BigDecimalFilter::copy).orElse(null);
         this.numberOfBathrooms = other.optionalNumberOfBathrooms().map(IntegerFilter::copy).orElse(null);
@@ -182,22 +182,22 @@ public class PropertyCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
-    public BigDecimalFilter getPrice() {
+    public IntegerFilter getPrice() {
         return price;
     }
 
-    public Optional<BigDecimalFilter> optionalPrice() {
+    public Optional<IntegerFilter> optionalPrice() {
         return Optional.ofNullable(price);
     }
 
-    public BigDecimalFilter price() {
+    public IntegerFilter price() {
         if (price == null) {
-            setPrice(new BigDecimalFilter());
+            setPrice(new IntegerFilter());
         }
         return price;
     }
 
-    public void setPrice(BigDecimalFilter price) {
+    public void setPrice(IntegerFilter price) {
         this.price = price;
     }
 

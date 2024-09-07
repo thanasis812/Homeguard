@@ -58,7 +58,7 @@ public interface ReviewMapper extends EntityMapper<ReviewDTO, Review> {
 
     @Named("getUserName")
     default String getUserName(Review review) {
-        return Objects.nonNull(review.getTenant()) ? review.getTenant().getFirstName() : null;
+        return Objects.nonNull(review.getTenant()) ? review.getTenant().getUser().getFirstName() : null;
     }
 
     @Named("getReviewId")

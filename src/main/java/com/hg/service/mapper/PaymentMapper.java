@@ -44,7 +44,7 @@ public interface PaymentMapper extends EntityMapper<PaymentDTO, Payment> {
     @Named("extractLandLordName")
     default String extractLandLordName(Payment payment) {
         return payment != null && payment.getRentalAgreement() != null && payment.getRentalAgreement().getProperty() != null
-            ? payment.getRentalAgreement().getPropertyOwner().getFirstName()
+            ? payment.getRentalAgreement().getPropertyOwner().getUser().getFirstName()
             : null;
     }
 

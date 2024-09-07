@@ -25,14 +25,15 @@
       "HouseCharacteristics",
       "Review",
       "Payment",
-      "Image"
+      "Image",
+      "ApplicationRequest"
     ],
     "feignClient": null,
     "gradleEnterpriseHost": null,
     "jhipsterVersion": "8.2.1",
     "jwtSecretKey": "MTc3ZTkzZjZiMDYwZjEwMWUwMjU0YTQ4NDVhMThhYjdlOTRkY2E5YTFhOTA3ZjBmMWFkNDkzNjE4OWYyYjAxZjYxNjZhZWM0Y2Q5MDY2ODRiYzg5M2FjNTkxYWQxYjE3M2MyZTY1N2FmNzA4MDBiZTM4ZmMwZDA2ODQ3ODkwOWE=",
     "languages": ["en"],
-    "lastLiquibaseTimestamp": 1712413833000,
+    "lastLiquibaseTimestamp": 1725476283000,
     "messageBroker": false,
     "microfrontend": null,
     "microfrontends": [],

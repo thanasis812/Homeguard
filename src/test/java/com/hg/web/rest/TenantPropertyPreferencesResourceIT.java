@@ -313,8 +313,6 @@ class TenantPropertyPreferencesResourceIT {
         TenantPropertyPreferences partialUpdatedTenantPropertyPreferences = new TenantPropertyPreferences();
         partialUpdatedTenantPropertyPreferences.setId(tenantPropertyPreferences.getId());
 
-        partialUpdatedTenantPropertyPreferences.reminder(UPDATED_REMINDER).reminderDate(UPDATED_REMINDER_DATE);
-
         restTenantPropertyPreferencesMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedTenantPropertyPreferences.getId())

@@ -20,7 +20,8 @@
     {
       "fieldName": "imageFile",
       "fieldType": "byte[]",
-      "fieldTypeBlobContent": "image"
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["required"]
     }
   ],
   "name": "Image",

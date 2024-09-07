@@ -421,9 +421,10 @@ class RentalAgreementResourceIT {
         partialUpdatedRentalAgreement.setId(rentalAgreement.getId());
 
         partialUpdatedRentalAgreement
-            .agreements(UPDATED_AGREEMENTS)
             .tenantSign(UPDATED_TENANT_SIGN)
+            .status(UPDATED_STATUS)
             .expirationDate(UPDATED_EXPIRATION_DATE)
+            .latest(UPDATED_LATEST)
             .deleted(UPDATED_DELETED);
 
         restRentalAgreementMockMvc

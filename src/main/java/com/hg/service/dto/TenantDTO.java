@@ -1,13 +1,10 @@
 package com.hg.service.dto;
 
 import com.hg.domain.enumeration.SubscriptionEnum;
+import com.hg.domain.enumeration.TenantStatusEnum;
 import com.hg.domain.enumeration.UserCategoryEnum;
-import com.hg.domain.enumeration.UserStatusEnum;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -19,30 +16,14 @@ public class TenantDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String firstName;
-
-    @NotNull
-    private String lastName;
-
-    @Max(value = 1)
-    private Integer gender;
-
-    private Integer afm;
-
-    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
-    private String email;
-
-    @Pattern(regexp = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})")
-    private String phone;
-
     private UserCategoryEnum category;
 
-    private LocalDate createdDate;
-
-    private UserStatusEnum status;
+    @NotNull
+    private TenantStatusEnum status;
 
     private String settingsMetadata;
 
+    @NotNull
     private SubscriptionEnum subscriptionType;
 
     private Boolean deleted;
@@ -61,54 +42,6 @@ public class TenantDTO implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public Integer getAfm() {
-        return afm;
-    }
-
-    public void setAfm(Integer afm) {
-        this.afm = afm;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public UserCategoryEnum getCategory() {
         return category;
     }
@@ -117,19 +50,11 @@ public class TenantDTO implements Serializable {
         this.category = category;
     }
 
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDate createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public UserStatusEnum getStatus() {
+    public TenantStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(UserStatusEnum status) {
+    public void setStatus(TenantStatusEnum status) {
         this.status = status;
     }
 
@@ -207,14 +132,7 @@ public class TenantDTO implements Serializable {
     public String toString() {
         return "TenantDTO{" +
             "id=" + getId() +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", gender=" + getGender() +
-            ", afm=" + getAfm() +
-            ", email='" + getEmail() + "'" +
-            ", phone='" + getPhone() + "'" +
             ", category='" + getCategory() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
             ", status='" + getStatus() + "'" +
             ", settingsMetadata='" + getSettingsMetadata() + "'" +
             ", subscriptionType='" + getSubscriptionType() + "'" +

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
         Added the entity Tenant.
@@ -12,38 +14,17 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="first_name" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="last_name" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="gender" type="integer">
-                <constraints nullable="true" />
-            </column>
-            <column name="afm" type="integer">
-                <constraints nullable="true" />
-            </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="phone" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="category" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="created_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="status" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="settings_metadata" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="subscription_type" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="deleted" type="boolean">
                 <constraints nullable="true" />
@@ -78,14 +59,7 @@
                   tableName="tenant"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="first_name" type="string"/>
-            <column name="last_name" type="string"/>
-            <column name="gender" type="numeric"/>
-            <column name="afm" type="numeric"/>
-            <column name="email" type="string"/>
-            <column name="phone" type="string"/>
             <column name="category" type="string"/>
-            <column name="created_date" type="date"/>
             <column name="status" type="string"/>
             <column name="settings_metadata" type="string"/>
             <column name="subscription_type" type="string"/>

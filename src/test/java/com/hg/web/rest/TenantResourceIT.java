@@ -11,14 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hg.IntegrationTest;
 import com.hg.domain.Tenant;
 import com.hg.domain.enumeration.SubscriptionEnum;
+import com.hg.domain.enumeration.TenantStatusEnum;
 import com.hg.domain.enumeration.UserCategoryEnum;
-import com.hg.domain.enumeration.UserStatusEnum;
 import com.hg.repository.TenantRepository;
 import com.hg.service.dto.TenantDTO;
 import com.hg.service.mapper.TenantMapper;
 import jakarta.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,32 +36,11 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class TenantResourceIT {
 
-    private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_GENDER = 1;
-    private static final Integer UPDATED_GENDER = 0;
-
-    private static final Integer DEFAULT_AFM = 1;
-    private static final Integer UPDATED_AFM = 2;
-
-    private static final String DEFAULT_EMAIL = "f8@GyrAeS.xHp";
-    private static final String UPDATED_EMAIL = "6q9H@T.NUVYYfn";
-
-    private static final String DEFAULT_PHONE = "(130)-794-2762";
-    private static final String UPDATED_PHONE = "250)2003380";
-
     private static final UserCategoryEnum DEFAULT_CATEGORY = UserCategoryEnum.NORMAL;
     private static final UserCategoryEnum UPDATED_CATEGORY = UserCategoryEnum.OTHER;
 
-    private static final LocalDate DEFAULT_CREATED_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATED_DATE = LocalDate.now(ZoneId.systemDefault());
-
-    private static final UserStatusEnum DEFAULT_STATUS = UserStatusEnum.ACTIVE;
-    private static final UserStatusEnum UPDATED_STATUS = UserStatusEnum.INACTIVE;
+    private static final TenantStatusEnum DEFAULT_STATUS = TenantStatusEnum.ACTIVE;
+    private static final TenantStatusEnum UPDATED_STATUS = TenantStatusEnum.INACTIVE;
 
     private static final String DEFAULT_SETTINGS_METADATA = "AAAAAAAAAA";
     private static final String UPDATED_SETTINGS_METADATA = "BBBBBBBBBB";
@@ -105,14 +82,7 @@ class TenantResourceIT {
      */
     public static Tenant createEntity(EntityManager em) {
         Tenant tenant = new Tenant()
-            .firstName(DEFAULT_FIRST_NAME)
-            .lastName(DEFAULT_LAST_NAME)
-            .gender(DEFAULT_GENDER)
-            .afm(DEFAULT_AFM)
-            .email(DEFAULT_EMAIL)
-            .phone(DEFAULT_PHONE)
             .category(DEFAULT_CATEGORY)
-            .createdDate(DEFAULT_CREATED_DATE)
             .status(DEFAULT_STATUS)
             .settingsMetadata(DEFAULT_SETTINGS_METADATA)
             .subscriptionType(DEFAULT_SUBSCRIPTION_TYPE)
@@ -128,14 +98,7 @@ class TenantResourceIT {
      */
     public static Tenant createUpdatedEntity(EntityManager em) {
         Tenant tenant = new Tenant()
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .afm(UPDATED_AFM)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
-            .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
             .settingsMetadata(UPDATED_SETTINGS_METADATA)
             .subscriptionType(UPDATED_SUBSCRIPTION_TYPE)
@@ -190,10 +153,10 @@ class TenantResourceIT {
 
     @Test
     @Transactional
-    void checkFirstNameIsRequired() throws Exception {
+    void checkCategoryIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        tenant.setFirstName(null);
+        tenant.setCategory(null);
 
         // Create the Tenant, which fails.
         TenantDTO tenantDTO = tenantMapper.toDto(tenant);
@@ -207,10 +170,27 @@ class TenantResourceIT {
 
     @Test
     @Transactional
-    void checkLastNameIsRequired() throws Exception {
+    void checkStatusIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        tenant.setLastName(null);
+        tenant.setStatus(null);
+
+        // Create the Tenant, which fails.
+        TenantDTO tenantDTO = tenantMapper.toDto(tenant);
+
+        restTenantMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(tenantDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSubscriptionTypeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        tenant.setSubscriptionType(null);
 
         // Create the Tenant, which fails.
         TenantDTO tenantDTO = tenantMapper.toDto(tenant);
@@ -234,14 +214,7 @@ class TenantResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tenant.getId().intValue())))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].afm").value(hasItem(DEFAULT_AFM)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].settingsMetadata").value(hasItem(DEFAULT_SETTINGS_METADATA)))
             .andExpect(jsonPath("$.[*].subscriptionType").value(hasItem(DEFAULT_SUBSCRIPTION_TYPE.toString())))
@@ -260,14 +233,7 @@ class TenantResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(tenant.getId().intValue()))
-            .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
-            .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER))
-            .andExpect(jsonPath("$.afm").value(DEFAULT_AFM))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.settingsMetadata").value(DEFAULT_SETTINGS_METADATA))
             .andExpect(jsonPath("$.subscriptionType").value(DEFAULT_SUBSCRIPTION_TYPE.toString()))
@@ -294,14 +260,7 @@ class TenantResourceIT {
         // Disconnect from session so that the updates on updatedTenant are not directly saved in db
         em.detach(updatedTenant);
         updatedTenant
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .afm(UPDATED_AFM)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
-            .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
             .settingsMetadata(UPDATED_SETTINGS_METADATA)
             .subscriptionType(UPDATED_SUBSCRIPTION_TYPE)
@@ -391,15 +350,7 @@ class TenantResourceIT {
         Tenant partialUpdatedTenant = new Tenant();
         partialUpdatedTenant.setId(tenant.getId());
 
-        partialUpdatedTenant
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .phone(UPDATED_PHONE)
-            .createdDate(UPDATED_CREATED_DATE)
-            .status(UPDATED_STATUS)
-            .subscriptionType(UPDATED_SUBSCRIPTION_TYPE)
-            .deleted(UPDATED_DELETED);
+        partialUpdatedTenant.subscriptionType(UPDATED_SUBSCRIPTION_TYPE).deleted(UPDATED_DELETED);
 
         restTenantMockMvc
             .perform(
@@ -428,14 +379,7 @@ class TenantResourceIT {
         partialUpdatedTenant.setId(tenant.getId());
 
         partialUpdatedTenant
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .afm(UPDATED_AFM)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
-            .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
             .settingsMetadata(UPDATED_SETTINGS_METADATA)
             .subscriptionType(UPDATED_SUBSCRIPTION_TYPE)

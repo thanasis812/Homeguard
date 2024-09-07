@@ -314,11 +314,7 @@ class HouseCharacteristicsResourceIT {
         HouseCharacteristics partialUpdatedHouseCharacteristics = new HouseCharacteristics();
         partialUpdatedHouseCharacteristics.setId(houseCharacteristics.getId());
 
-        partialUpdatedHouseCharacteristics
-            .code(UPDATED_CODE)
-            .group(UPDATED_GROUP)
-            .primaryToUser(UPDATED_PRIMARY_TO_USER)
-            .deleted(UPDATED_DELETED);
+        partialUpdatedHouseCharacteristics.primaryToUser(UPDATED_PRIMARY_TO_USER);
 
         restHouseCharacteristicsMockMvc
             .perform(

@@ -2,7 +2,7 @@ package com.hg.service.dto;
 
 import com.hg.domain.enumeration.ConstructionEnum;
 import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public class PropertyDTO implements Serializable {
     private String description;
 
     @NotNull
-    private BigDecimal price;
+    private Integer price;
 
     private BigDecimal squareMeters;
 
@@ -104,11 +104,11 @@ public class PropertyDTO implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

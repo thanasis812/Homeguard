@@ -1,15 +1,14 @@
 entity Tenant {
-    firstName String required // todo already in user
-    lastName String required //todo already in user
-    gender Integer max(1) //todo add to user
-    afm Integer //todo add to user
-    email String pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) //todo add to user
-    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/) //todo add to user
-    category UserCategoryEnum
-    createdDate LocalDate //todo add to user
-    status UserStatusEnum
+//    firstName String required // todo already in user
+//    lastName String required //todo already in user
+//    gender Integer max(1) //todo add to user
+//    afm Integer //todo add to user
+//    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/) //todo add to user
+    category UserCategoryEnum required
+//    createdDate LocalDate //todo add to user
+    status TenantStatusEnum required
     settingsMetadata String
-    subscriptionType SubscriptionEnum
+    subscriptionType SubscriptionEnum required
     deleted Boolean
 }
 
@@ -22,19 +21,19 @@ enum SubscriptionEnum {
 }
 // maybe remove landlord at all?
 entity LandLord {
-    firstName String required // todo already in user
-    lastName String required// todo already in user
-    gender Integer max(1)// todo already in user
-    email String pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) // todo already in user
-    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+//    firstName String required // todo already in user
+//    lastName String required// todo already in user
+//    gender Integer max(1)// todo already in user
+//    email String pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) // todo already in user
+//    phone String pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
     category UserCategoryEnum
     createdDate LocalDate
-    status UserStatusEnum required
+    status TenantStatusEnum required
     settingsMetadata String
     deleted Boolean
 }
 
-enum UserStatusEnum {
+enum TenantStatusEnum {
     ACTIVE, INACTIVE, PENDING_VERIFY
 }
 
@@ -60,7 +59,7 @@ entity Property {
     verified Boolean ,
     name String,
     description String,
-    price BigDecimal required,
+    price Integer required,
     squareMeters BigDecimal,
     plotSquareMeters BigDecimal,
     numberOfBathrooms Integer,
@@ -158,18 +157,30 @@ entity Image {
     path String //path of image url on server
     createdDate LocalDate,
     updatedDate LocalDate
-    imageFile ImageBlob
+    imageFile ImageBlob required
 
 }
 
+entity ApplicationRequest {
+    payload String
+    type TApplicationRequestEnum required
+    status ApplicationRequestEnum required
+    createdDate LocalDate required
+    updatedDate LocalDate
+}
+
+enum ApplicationRequestEnum {
+    COMPLETED, ACTIVE, CANCELED
+}
+
+enum TApplicationRequestEnum {
+    SALARY_REQUEST, TAX_ID_REQUEST, PRIVATE_AGREEMENT_REQUEST, NEW_HOUSE_REQUEST
+}
 relationship OneToOne {
-    //Hold data of Property location
     Tenant to User with builtInEntity
     LandLord to User with builtInEntity
-
     Property{location} to Location,
     Tenant{location} to Location,
-    // Holds
     TenantPropertyPreferences{property} to Property
     LandLord{owner} to Tenant // remove this?
     Tenant{tenantImage} to Image,
@@ -192,6 +203,12 @@ relationship OneToMany {
     RentalAgreement{payment} to Payment,
     Tenant{rentedPropertysAgreement} to RentalAgreement{tenant}
     LandLord{rentalAgreement} to RentalAgreement{propertyOwner}
+
+    Property{applications} to ApplicationRequest
+}
+
+relationship ManyToOne {
+    ApplicationRequest to User with builtInEntity
 }
 
 service * with serviceClass

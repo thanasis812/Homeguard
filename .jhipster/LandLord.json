@@ -6,34 +6,6 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "firstName",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "lastName",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "gender",
-      "fieldType": "Integer",
-      "fieldValidateRules": ["max"],
-      "fieldValidateRulesMax": "1"
-    },
-    {
-      "fieldName": "email",
-      "fieldType": "String",
-      "fieldValidateRules": ["pattern"],
-      "fieldValidateRulesPattern": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
-    },
-    {
-      "fieldName": "phone",
-      "fieldType": "String",
-      "fieldValidateRules": ["pattern"],
-      "fieldValidateRulesPattern": "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})"
-    },
-    {
       "fieldName": "category",
       "fieldType": "UserCategoryEnum",
       "fieldValues": "NORMAL,OTHER"
@@ -44,7 +16,7 @@
     },
     {
       "fieldName": "status",
-      "fieldType": "UserStatusEnum",
+      "fieldType": "TenantStatusEnum",
       "fieldValidateRules": ["required"],
       "fieldValues": "ACTIVE,INACTIVE,PENDING_VERIFY"
     },

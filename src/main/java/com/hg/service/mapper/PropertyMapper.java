@@ -34,6 +34,7 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     @Mapping(target = "characteristics", source = "houseCharacteristics", qualifiedByName = "toDtoList")
     @Mapping(target = "images", source = "propertysPhotos", qualifiedByName = "toByteList")
     @Mapping(target = "availability", source = "property", qualifiedByName = "mapAvailability")
+    @Mapping(target = "address", source = "location", qualifiedByName = "mapLocation")
     //    @Mapping(target = "monthsPaid", source = "property", qualifiedByName = "mapMonthsPaid")
     //    @Mapping(target = "reviews", source = "reviews", qualifiedByName = "toUserDtoList")
     PropertyDossierDTO toUiDto(Property property);
@@ -70,6 +71,21 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
             availability.setLastUpdate(rentalAgreement.getLatest());
         }
         return availability;
+    }
+
+    @Named("mapLocation")
+    default LocationDTO mapLocation(Location location) {
+        if (location == null) {
+            return null;
+        }
+        LocationDTO locationDTO = new LocationDTO();
+        locationDTO.setCoordinates(locationDTO.getCoordinates());
+        locationDTO.setCity(location.getCity());
+        locationDTO.setPostalCode(location.getPostalCode());
+        locationDTO.setZipCode(location.getZipCode());
+        locationDTO.setCountry(location.getCountry());
+        locationDTO.setStreetAddress(location.getStreetAddress());
+        return locationDTO;
     }
 
     @Mapping(source = "newHouseRequestDTO", target = "location", qualifiedByName = "mapToLocation")

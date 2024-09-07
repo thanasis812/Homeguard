@@ -49,9 +49,9 @@ class PropertyResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
-    private static final BigDecimal UPDATED_PRICE = new BigDecimal(2);
-    private static final BigDecimal SMALLER_PRICE = new BigDecimal(1 - 1);
+    private static final Integer DEFAULT_PRICE = 1;
+    private static final Integer UPDATED_PRICE = 2;
+    private static final Integer SMALLER_PRICE = 1 - 1;
 
     private static final BigDecimal DEFAULT_SQUARE_METERS = new BigDecimal(1);
     private static final BigDecimal UPDATED_SQUARE_METERS = new BigDecimal(2);
@@ -301,7 +301,7 @@ class PropertyResourceIT {
             .andExpect(jsonPath("$.[*].verified").value(hasItem(DEFAULT_VERIFIED.booleanValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].squareMeters").value(hasItem(sameNumber(DEFAULT_SQUARE_METERS))))
             .andExpect(jsonPath("$.[*].plotSquareMeters").value(hasItem(sameNumber(DEFAULT_PLOT_SQUARE_METERS))))
             .andExpect(jsonPath("$.[*].numberOfBathrooms").value(hasItem(DEFAULT_NUMBER_OF_BATHROOMS)))
@@ -340,7 +340,7 @@ class PropertyResourceIT {
             .andExpect(jsonPath("$.verified").value(DEFAULT_VERIFIED.booleanValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.price").value(sameNumber(DEFAULT_PRICE)))
+            .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
             .andExpect(jsonPath("$.squareMeters").value(sameNumber(DEFAULT_SQUARE_METERS)))
             .andExpect(jsonPath("$.plotSquareMeters").value(sameNumber(DEFAULT_PLOT_SQUARE_METERS)))
             .andExpect(jsonPath("$.numberOfBathrooms").value(DEFAULT_NUMBER_OF_BATHROOMS))
@@ -2047,7 +2047,7 @@ class PropertyResourceIT {
             .andExpect(jsonPath("$.[*].verified").value(hasItem(DEFAULT_VERIFIED.booleanValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].squareMeters").value(hasItem(sameNumber(DEFAULT_SQUARE_METERS))))
             .andExpect(jsonPath("$.[*].plotSquareMeters").value(hasItem(sameNumber(DEFAULT_PLOT_SQUARE_METERS))))
             .andExpect(jsonPath("$.[*].numberOfBathrooms").value(hasItem(DEFAULT_NUMBER_OF_BATHROOMS)))
@@ -2233,18 +2233,14 @@ class PropertyResourceIT {
 
         partialUpdatedProperty
             .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
+            .price(UPDATED_PRICE)
             .squareMeters(UPDATED_SQUARE_METERS)
-            .numberOfBathrooms(UPDATED_NUMBER_OF_BATHROOMS)
             .numberOfBedrooms(UPDATED_NUMBER_OF_BEDROOMS)
-            .numberOfKitchens(UPDATED_NUMBER_OF_KITCHENS)
-            .nextAvailableDateForRent(UPDATED_NEXT_AVAILABLE_DATE_FOR_RENT)
-            .thumbnail(UPDATED_THUMBNAIL)
-            .floor(UPDATED_FLOOR)
+            .contractYears(UPDATED_CONTRACT_YEARS)
             .numberOfFlats(UPDATED_NUMBER_OF_FLATS)
-            .yearOfRenovation(UPDATED_YEAR_OF_RENOVATION)
-            .propertyCode(UPDATED_PROPERTY_CODE)
-            .furnitured(UPDATED_FURNITURED);
+            .construction(UPDATED_CONSTRUCTION)
+            .furnituredDescription(UPDATED_FURNITURED_DESCRIPTION)
+            .deleted(UPDATED_DELETED);
 
         restPropertyMockMvc
             .perform(

@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the REST controller.
+ * Integration tests for the {@link LocationResource} REST controller.
  */
 @IntegrationTest
 @AutoConfigureMockMvc
@@ -81,8 +81,8 @@ class LocationResourceIT {
     private static final String ENTITY_API_URL = "/api/locations";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
-    private static final Random random = new Random();
-    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
+    private static Random random = new Random();
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private ObjectMapper om;
@@ -103,6 +103,7 @@ class LocationResourceIT {
 
     /**
      * Create an entity for this test.
+     *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -128,6 +129,7 @@ class LocationResourceIT {
 
     /**
      * Create an updated entity for this test.
+     *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -498,10 +500,14 @@ class LocationResourceIT {
         partialUpdatedLocation.setId(location.getId());
 
         partialUpdatedLocation
-            .apartmentUnit(UPDATED_APARTMENT_UNIT)
-            .postalCode(UPDATED_POSTAL_CODE)
+            .streetAddress(UPDATED_STREET_ADDRESS)
+            .city(UPDATED_CITY)
+            .stateProvinceRegion(UPDATED_STATE_PROVINCE_REGION)
+            .latitude(UPDATED_LATITUDE)
             .longitude(UPDATED_LONGITUDE)
-            .localGeographicDivision(UPDATED_LOCAL_GEOGRAPHIC_DIVISION)
+            .additionalNotes(UPDATED_ADDITIONAL_NOTES)
+            .number(UPDATED_NUMBER)
+            .zipCode(UPDATED_ZIP_CODE)
             .floor(UPDATED_FLOOR);
 
         restLocationMockMvc

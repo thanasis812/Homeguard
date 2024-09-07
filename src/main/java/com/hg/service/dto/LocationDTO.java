@@ -28,12 +28,7 @@ public class LocationDTO implements Serializable {
     @NotNull
     private String country;
 
-    @NotNull
-    private Double latitude;
-
-    @NotNull
-    private Double longitude;
-
+    private CoordinatesDTO coordinates;
     private String localGeographicDivision;
 
     private String municipalCommunity;
@@ -105,20 +100,12 @@ public class LocationDTO implements Serializable {
         this.country = country;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public CoordinatesDTO getCoordinates() {
+        return coordinates;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setCoordinates(CoordinatesDTO coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getLocalGeographicDivision() {
@@ -209,8 +196,7 @@ public class LocationDTO implements Serializable {
             ", stateProvinceRegion='" + getStateProvinceRegion() + "'" +
             ", postalCode='" + getPostalCode() + "'" +
             ", country='" + getCountry() + "'" +
-            ", latitude=" + getLatitude() +
-            ", longitude=" + getLongitude() +
+            ", coordinates=" + getCoordinates() +
             ", localGeographicDivision='" + getLocalGeographicDivision() + "'" +
             ", municipalCommunity='" + getMunicipalCommunity() + "'" +
             ", additionalNotes='" + getAdditionalNotes() + "'" +
@@ -219,5 +205,27 @@ public class LocationDTO implements Serializable {
             ", floor=" + getFloor() +
             ", directions='" + getDirections() + "'" +
             "}";
+    }
+
+    public class CoordinatesDTO {
+
+        private Double lat;
+        private Double lon;
+
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+
+        public Double getLon() {
+            return lon;
+        }
+
+        public void setLon(Double lon) {
+            this.lon = lon;
+        }
     }
 }

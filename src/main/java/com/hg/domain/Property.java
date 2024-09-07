@@ -3,7 +3,7 @@ package com.hg.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hg.domain.enumeration.ConstructionEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,8 +36,8 @@ public class Property implements Serializable {
     private String description;
 
     @NotNull
-    @Column(name = "price", precision = 21, scale = 2, nullable = false)
-    private BigDecimal price;
+    @Column(name = "price", nullable = false)
+    private Integer price;
 
     @Column(name = "square_meters", precision = 21, scale = 2)
     private BigDecimal squareMeters;
@@ -124,6 +124,10 @@ public class Property implements Serializable {
     @JsonIgnoreProperties(value = { "tenant", "landLord", "property", "review" }, allowSetters = true)
     private Set<Image> propertysPhotos = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "property")
+    @JsonIgnoreProperties(value = { "user", "property" }, allowSetters = true)
+    private Set<ApplicationRequest> applications = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = { "user", "owner", "landLordImage", "propertys", "tenantReviews", "rentalAgreements" },
@@ -189,16 +193,16 @@ public class Property implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return this.price;
     }
 
-    public Property price(BigDecimal price) {
+    public Property price(Integer price) {
         this.setPrice(price);
         return this;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -609,6 +613,37 @@ public class Property implements Serializable {
     public Property removePropertysPhoto(Image image) {
         this.propertysPhotos.remove(image);
         image.setProperty(null);
+        return this;
+    }
+
+    public Set<ApplicationRequest> getApplications() {
+        return this.applications;
+    }
+
+    public void setApplications(Set<ApplicationRequest> applicationRequests) {
+        if (this.applications != null) {
+            this.applications.forEach(i -> i.setProperty(null));
+        }
+        if (applicationRequests != null) {
+            applicationRequests.forEach(i -> i.setProperty(this));
+        }
+        this.applications = applicationRequests;
+    }
+
+    public Property applications(Set<ApplicationRequest> applicationRequests) {
+        this.setApplications(applicationRequests);
+        return this;
+    }
+
+    public Property addApplications(ApplicationRequest applicationRequest) {
+        this.applications.add(applicationRequest);
+        applicationRequest.setProperty(this);
+        return this;
+    }
+
+    public Property removeApplications(ApplicationRequest applicationRequest) {
+        this.applications.remove(applicationRequest);
+        applicationRequest.setProperty(null);
         return this;
     }
 

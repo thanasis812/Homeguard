@@ -1,12 +1,10 @@
 package com.hg.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hg.domain.enumeration.TenantStatusEnum;
 import com.hg.domain.enumeration.UserCategoryEnum;
-import com.hg.domain.enumeration.UserStatusEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -28,26 +26,6 @@ public class LandLord implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @NotNull
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Max(value = 1)
-    @Column(name = "gender")
-    private Integer gender;
-
-    @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
-    @Column(name = "email")
-    private String email;
-
-    @Pattern(regexp = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})")
-    @Column(name = "phone")
-    private String phone;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private UserCategoryEnum category;
@@ -58,7 +36,7 @@ public class LandLord implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private UserStatusEnum status;
+    private TenantStatusEnum status;
 
     @Column(name = "settings_metadata")
     private String settingsMetadata;
@@ -85,7 +63,16 @@ public class LandLord implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "landLord")
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
+        value = {
+            "location",
+            "rentals",
+            "houseCharacteristics",
+            "reviews",
+            "propertysPhotos",
+            "applications",
+            "landLord",
+            "tenantPropertyPreferences",
+        },
         allowSetters = true
     )
     private Set<Property> propertys = new HashSet<>();
@@ -111,71 +98,6 @@ public class LandLord implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public LandLord firstName(String firstName) {
-        this.setFirstName(firstName);
-        return this;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public LandLord lastName(String lastName) {
-        this.setLastName(lastName);
-        return this;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getGender() {
-        return this.gender;
-    }
-
-    public LandLord gender(Integer gender) {
-        this.setGender(gender);
-        return this;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public LandLord email(String email) {
-        this.setEmail(email);
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public LandLord phone(String phone) {
-        this.setPhone(phone);
-        return this;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public UserCategoryEnum getCategory() {
@@ -204,16 +126,16 @@ public class LandLord implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public UserStatusEnum getStatus() {
+    public TenantStatusEnum getStatus() {
         return this.status;
     }
 
-    public LandLord status(UserStatusEnum status) {
+    public LandLord status(TenantStatusEnum status) {
         this.setStatus(status);
         return this;
     }
 
-    public void setStatus(UserStatusEnum status) {
+    public void setStatus(TenantStatusEnum status) {
         this.status = status;
     }
 
@@ -399,11 +321,6 @@ public class LandLord implements Serializable {
     public String toString() {
         return "LandLord{" +
             "id=" + getId() +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", gender=" + getGender() +
-            ", email='" + getEmail() + "'" +
-            ", phone='" + getPhone() + "'" +
             ", category='" + getCategory() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", status='" + getStatus() + "'" +

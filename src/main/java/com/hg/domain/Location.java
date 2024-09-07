@@ -2,7 +2,7 @@ package com.hg.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -81,7 +81,16 @@ public class Location implements Serializable {
     private Tenant tenant;
 
     @JsonIgnoreProperties(
-        value = { "location", "rentals", "houseCharacteristics", "reviews", "propertysPhotos", "landLord", "tenantPropertyPreferences" },
+        value = {
+            "location",
+            "rentals",
+            "houseCharacteristics",
+            "reviews",
+            "propertysPhotos",
+            "applications",
+            "landLord",
+            "tenantPropertyPreferences",
+        },
         allowSetters = true
     )
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")

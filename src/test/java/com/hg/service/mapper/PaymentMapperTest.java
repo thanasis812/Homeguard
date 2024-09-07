@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.PaymentAsserts.assertPaymentAllPropertiesEquals;
-import static com.hg.domain.PaymentTestSamples.getPaymentSample1;
+import static com.hg.domain.PaymentAsserts.*;
+import static com.hg.domain.PaymentTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

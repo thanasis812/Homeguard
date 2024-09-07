@@ -1,7 +1,7 @@
 package com.hg.domain;
 
 import static com.hg.domain.PaymentTestSamples.*;
-import static com.hg.domain.RentalAgreementTestSamples.getRentalAgreementRandomSampleGenerator;
+import static com.hg.domain.RentalAgreementTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hg.web.rest.TestUtil;

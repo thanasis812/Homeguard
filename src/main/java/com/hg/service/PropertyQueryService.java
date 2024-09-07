@@ -86,7 +86,7 @@ public class PropertyQueryService extends QueryService<Property> {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Property_.description));
             }
             if (criteria.getPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPrice(), Property_.price));
+                //                specification = specification.and(buildRangeSpecification(criteria.getPrice(), Property_.price));
             }
             if (criteria.getSquareMeters() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getSquareMeters(), Property_.squareMeters));

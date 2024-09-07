@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.ReviewAsserts.assertReviewAllPropertiesEquals;
-import static com.hg.domain.ReviewTestSamples.getReviewSample1;
+import static com.hg.domain.ReviewAsserts.*;
+import static com.hg.domain.ReviewTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

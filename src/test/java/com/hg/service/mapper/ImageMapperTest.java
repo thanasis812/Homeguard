@@ -1,7 +1,7 @@
 package com.hg.service.mapper;
 
-import static com.hg.domain.ImageAsserts.assertImageAllPropertiesEquals;
-import static com.hg.domain.ImageTestSamples.getImageSample1;
+import static com.hg.domain.ImageAsserts.*;
+import static com.hg.domain.ImageTestSamples.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

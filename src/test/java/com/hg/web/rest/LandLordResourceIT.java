@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hg.IntegrationTest;
 import com.hg.domain.LandLord;
+import com.hg.domain.enumeration.TenantStatusEnum;
 import com.hg.domain.enumeration.UserCategoryEnum;
-import com.hg.domain.enumeration.UserStatusEnum;
 import com.hg.repository.LandLordRepository;
 import com.hg.service.dto.LandLordDTO;
 import com.hg.service.mapper.LandLordMapper;
@@ -37,29 +37,14 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class LandLordResourceIT {
 
-    private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_GENDER = 1;
-    private static final Integer UPDATED_GENDER = 0;
-
-    private static final String DEFAULT_EMAIL = "4K6@PO.GlioHke";
-    private static final String UPDATED_EMAIL = "S2ZJ@uHUht.xQhVgpw";
-
-    private static final String DEFAULT_PHONE = "185).799.9200";
-    private static final String UPDATED_PHONE = "(826-439-3622";
-
     private static final UserCategoryEnum DEFAULT_CATEGORY = UserCategoryEnum.NORMAL;
     private static final UserCategoryEnum UPDATED_CATEGORY = UserCategoryEnum.OTHER;
 
     private static final LocalDate DEFAULT_CREATED_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CREATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final UserStatusEnum DEFAULT_STATUS = UserStatusEnum.ACTIVE;
-    private static final UserStatusEnum UPDATED_STATUS = UserStatusEnum.INACTIVE;
+    private static final TenantStatusEnum DEFAULT_STATUS = TenantStatusEnum.ACTIVE;
+    private static final TenantStatusEnum UPDATED_STATUS = TenantStatusEnum.INACTIVE;
 
     private static final String DEFAULT_SETTINGS_METADATA = "AAAAAAAAAA";
     private static final String UPDATED_SETTINGS_METADATA = "BBBBBBBBBB";
@@ -98,11 +83,6 @@ class LandLordResourceIT {
      */
     public static LandLord createEntity(EntityManager em) {
         LandLord landLord = new LandLord()
-            .firstName(DEFAULT_FIRST_NAME)
-            .lastName(DEFAULT_LAST_NAME)
-            .gender(DEFAULT_GENDER)
-            .email(DEFAULT_EMAIL)
-            .phone(DEFAULT_PHONE)
             .category(DEFAULT_CATEGORY)
             .createdDate(DEFAULT_CREATED_DATE)
             .status(DEFAULT_STATUS)
@@ -119,11 +99,6 @@ class LandLordResourceIT {
      */
     public static LandLord createUpdatedEntity(EntityManager em) {
         LandLord landLord = new LandLord()
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
             .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
@@ -179,40 +154,6 @@ class LandLordResourceIT {
 
     @Test
     @Transactional
-    void checkFirstNameIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        landLord.setFirstName(null);
-
-        // Create the LandLord, which fails.
-        LandLordDTO landLordDTO = landLordMapper.toDto(landLord);
-
-        restLandLordMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(landLordDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkLastNameIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        landLord.setLastName(null);
-
-        // Create the LandLord, which fails.
-        LandLordDTO landLordDTO = landLordMapper.toDto(landLord);
-
-        restLandLordMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(landLordDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void checkStatusIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
@@ -240,11 +181,6 @@ class LandLordResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(landLord.getId().intValue())))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
@@ -264,11 +200,6 @@ class LandLordResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(landLord.getId().intValue()))
-            .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
-            .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
@@ -296,11 +227,6 @@ class LandLordResourceIT {
         // Disconnect from session so that the updates on updatedLandLord are not directly saved in db
         em.detach(updatedLandLord);
         updatedLandLord
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
             .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
@@ -395,7 +321,11 @@ class LandLordResourceIT {
         LandLord partialUpdatedLandLord = new LandLord();
         partialUpdatedLandLord.setId(landLord.getId());
 
-        partialUpdatedLandLord.firstName(UPDATED_FIRST_NAME).email(UPDATED_EMAIL).settingsMetadata(UPDATED_SETTINGS_METADATA);
+        partialUpdatedLandLord
+            .category(UPDATED_CATEGORY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .status(UPDATED_STATUS)
+            .settingsMetadata(UPDATED_SETTINGS_METADATA);
 
         restLandLordMockMvc
             .perform(
@@ -424,11 +354,6 @@ class LandLordResourceIT {
         partialUpdatedLandLord.setId(landLord.getId());
 
         partialUpdatedLandLord
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .gender(UPDATED_GENDER)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
             .category(UPDATED_CATEGORY)
             .createdDate(UPDATED_CREATED_DATE)
             .status(UPDATED_STATUS)
