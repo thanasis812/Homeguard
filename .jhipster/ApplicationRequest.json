@@ -1,0 +1,48 @@
+{
+  "annotations": {
+    "changelogDate": "20240904185803"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "payload",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "TApplicationRequestEnum",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "SALARY_REQUEST,TAX_ID_REQUEST,PRIVATE_AGREEMENT_REQUEST,NEW_HOUSE_REQUEST"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "ApplicationRequestEnum",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "COMPLETED,ACTIVE,CANCELED"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "updatedDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "name": "ApplicationRequest",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "applicationRequest",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
