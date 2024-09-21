@@ -7,6 +7,5 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
-    @Mapping(target = "id", source = "id")
-    AdminUserDTO toDto(User user);
+    //    AdminUserDTO toDto(User user);
 }

@@ -54,6 +54,12 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(length = 254, unique = true)
     private String email;
 
+    @Column(length = 254, unique = true)
+    private String afm;
+
+    @Column(length = 20)
+    private String phone;
+
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
@@ -231,6 +237,22 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAfm() {
+        return afm;
+    }
+
+    public void setAfm(String afm) {
+        this.afm = afm;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     // prettier-ignore
