@@ -112,7 +112,7 @@ public class UserResource {
     public ResponseEntity<User> createUser(@Valid @RequestBody AdminUserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
-        if (userDTO.getId() != null) {
+        if (userDTO.getUserId() != null) {
             throw new BaseException("A new user cannot already have an ID", "userManagement", "idexists");
             // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
@@ -144,11 +144,11 @@ public class UserResource {
     ) {
         log.debug("REST request to update User : {}", userDTO);
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
+        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getUserId()))) {
             throw new EmailAlreadyUsedException();
         }
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
+        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getUserId()))) {
             throw new LoginAlreadyUsedException();
         }
         Optional<AdminUserDTO> updatedUser = userService.updateUser(userDTO);

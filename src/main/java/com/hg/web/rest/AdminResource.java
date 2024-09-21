@@ -1,5 +1,6 @@
 package com.hg.web.rest;
 
+import com.hg.service.ApplicationRequestService;
 import com.hg.service.PropertyService;
 import com.hg.service.UserPrincipalService;
 import com.hg.service.dto.mydto.*;
@@ -31,6 +32,7 @@ public class AdminResource {
     private String applicationName;
 
     private final PropertyService propertyService;
+    private final ApplicationRequestService applicationRequestService;
     private final UserPrincipalService userPrincipalService;
 
     /**

@@ -46,7 +46,7 @@ public class UserMapper {
             return null;
         } else {
             User user = new User();
-            user.setId(userDTO.getId());
+            user.setId(userDTO.getUserId());
             user.setLogin(userDTO.getLogin());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());

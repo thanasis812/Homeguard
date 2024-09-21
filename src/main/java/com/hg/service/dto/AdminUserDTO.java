@@ -3,12 +3,16 @@ package com.hg.service.dto;
 import com.hg.config.Constants;
 import com.hg.domain.Authority;
 import com.hg.domain.User;
+import com.hg.domain.enumeration.SubscriptionEnum;
+import com.hg.domain.enumeration.UserCategoryEnum;
+import com.hg.service.dto.mydto.AddressDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +23,7 @@ public class AdminUserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Long userId;
 
     @NotBlank
     @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -35,6 +39,18 @@ public class AdminUserDTO implements Serializable {
     @Email
     @Size(min = 5, max = 254)
     private String email;
+
+    private String phone;
+    private boolean rememberMe;
+    private UserCategoryEnum category;
+    private AddressDTO address;
+    private boolean emailVerified;
+    private boolean phoneAvailable;
+    private LocalDate tokenExpirationDate;
+    private boolean hasBothCategories;
+    private boolean hasRentedHouse;
+
+    private SubscriptionEnum subscription;
 
     @Size(max = 256)
     private String imageUrl;
@@ -59,7 +75,7 @@ public class AdminUserDTO implements Serializable {
     }
 
     public AdminUserDTO(User user) {
-        this.id = user.getId();
+        this.userId = user.getId();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -74,12 +90,12 @@ public class AdminUserDTO implements Serializable {
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {
@@ -179,21 +195,147 @@ public class AdminUserDTO implements Serializable {
     }
 
     // prettier-ignore
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+
+    public UserCategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(UserCategoryEnum category) {
+        this.category = category;
+    }
+
+    public AddressDTO getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDTO address) {
+        this.address = address;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public boolean isPhoneAvailable() {
+        return phoneAvailable;
+    }
+
+    public void setPhoneAvailable(boolean phoneAvailable) {
+        this.phoneAvailable = phoneAvailable;
+    }
+
+    public LocalDate getTokenExpirationDate() {
+        return tokenExpirationDate;
+    }
+
+    public void setTokenExpirationDate(LocalDate tokenExpirationDate) {
+        this.tokenExpirationDate = tokenExpirationDate;
+    }
+
+    public boolean isHasBothCategories() {
+        return hasBothCategories;
+    }
+
+    public void setHasBothCategories(boolean hasBothCategories) {
+        this.hasBothCategories = hasBothCategories;
+    }
+
+    public boolean isHasRentedHouse() {
+        return hasRentedHouse;
+    }
+
+    public void setHasRentedHouse(boolean hasRentedHouse) {
+        this.hasRentedHouse = hasRentedHouse;
+    }
+
+    public SubscriptionEnum getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(SubscriptionEnum subscription) {
+        this.subscription = subscription;
+    }
+
     @Override
     public String toString() {
-        return "AdminUserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+        return (
+            "AdminUserDTO{" +
+            "userId=" +
+            userId +
+            ", login='" +
+            login +
+            '\'' +
+            ", firstName='" +
+            firstName +
+            '\'' +
+            ", lastName='" +
+            lastName +
+            '\'' +
+            ", email='" +
+            email +
+            '\'' +
+            ", phone='" +
+            phone +
+            '\'' +
+            ", rememberMe=" +
+            rememberMe +
+            ", category=" +
+            category +
+            ", address=" +
+            address +
+            ", emailVerified=" +
+            emailVerified +
+            ", phoneAvailable=" +
+            phoneAvailable +
+            ", tokenExpirationDate=" +
+            tokenExpirationDate +
+            ", hasBothCategories=" +
+            hasBothCategories +
+            ", hasRentedHouse=" +
+            hasRentedHouse +
+            ", subscription=" +
+            subscription +
+            ", imageUrl='" +
+            imageUrl +
+            '\'' +
+            ", activated=" +
+            activated +
+            ", langKey='" +
+            langKey +
+            '\'' +
+            ", createdBy='" +
+            createdBy +
+            '\'' +
+            ", createdDate=" +
+            createdDate +
+            ", lastModifiedBy='" +
+            lastModifiedBy +
+            '\'' +
+            ", lastModifiedDate=" +
+            lastModifiedDate +
+            ", authorities=" +
+            authorities +
+            '}'
+        );
     }
 }

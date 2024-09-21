@@ -7,6 +7,7 @@ import com.hg.service.MailService;
 import com.hg.service.UserService;
 import com.hg.service.dto.AdminUserDTO;
 import com.hg.service.dto.PasswordChangeDTO;
+import com.hg.service.mapper.AccountMapper;
 import com.hg.web.rest.errors.EmailAlreadyUsedException;
 import com.hg.web.rest.errors.InvalidPasswordException;
 import com.hg.web.rest.errors.LoginAlreadyUsedException;
@@ -41,11 +42,13 @@ public class AccountResource {
     private final UserService userService;
 
     private final MailService mailService;
+    private final AccountMapper accountMapper;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, AccountMapper accountMapper) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.accountMapper = accountMapper;
     }
 
     /**
@@ -90,7 +93,7 @@ public class AccountResource {
     public AdminUserDTO getAccount() {
         return userService
             .getUserWithAuthorities()
-            .map(AdminUserDTO::new)
+            .map(accountMapper::toDto)
             .orElseThrow(() -> new AccountResourceException("User could not be found"));
     }
 

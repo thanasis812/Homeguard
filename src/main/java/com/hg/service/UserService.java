@@ -192,7 +192,7 @@ public class UserService {
      * @return updated user.
      */
     public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
-        return Optional.of(userRepository.findById(userDTO.getId()))
+        return Optional.of(userRepository.findById(userDTO.getUserId()))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
