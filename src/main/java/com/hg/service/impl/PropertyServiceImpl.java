@@ -199,8 +199,8 @@ public class PropertyServiceImpl implements PropertyService {
         adminHouseDTO.setPlotSquareMeters(new BigDecimal("500.00"));
 
         // Dummy house characteristics
-        Set<HouseCharacteristicsDTO> characteristics = new HashSet<>();
-        HouseCharacteristicsDTO characteristic = new HouseCharacteristicsDTO();
+        Set<PropertyCharacteristicsDTO> characteristics = new HashSet<>();
+        PropertyCharacteristicsDTO characteristic = new PropertyCharacteristicsDTO();
         // Set properties for characteristic if needed
         characteristics.add(characteristic);
         adminHouseDTO.setCharacteristics(characteristics);

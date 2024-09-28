@@ -1,22 +1,24 @@
 package com.hg.service.dto.mydto;
 
 import com.hg.domain.enumeration.ConstructionEnum;
+import com.hg.domain.enumeration.HouseApprovalEnum;
 import com.hg.service.dto.HouseCharacteristicsDTO;
 import com.hg.service.dto.LocationDTO;
 import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class PropertyDossierDTO implements Serializable {
 
     private Long id;
+    private Long houseId;
+    private Long energyClassId;
 
     private Boolean verified;
+    private HouseApprovalEnum disapprovalMessage;
     private Long ownerId;
     private Long tenantId; // todo why?
     private Long tenantGuarantee;
@@ -24,13 +26,17 @@ public class PropertyDossierDTO implements Serializable {
     private String name;
 
     private BigDecimal price;
+    private BigDecimal pricePerSquareMeter;
+    private LocalDate startedRentingDate;
+    private LocalDate endingRentingDate;
+    private int averageStars;
     private String description;
 
     private BigDecimal squareMeters;
 
     private BigDecimal plotSquareMeters;
 
-    private Set<HouseCharacteristicsDTO> characteristics = new HashSet<>();
+    private Set<PropertyCharacteristicsDTO> characteristics = new HashSet<>();
 
     private Integer numberOfBathrooms;
 
@@ -81,7 +87,7 @@ public class PropertyDossierDTO implements Serializable {
     private Set<byte[]> images;
     private Set<UserReviewDTO> reviews;
 
-    public class MonthsPaidDTO {
+    public class MonthsPaidDTO implements Serializable {
 
         private boolean paid;
         private LocalDate datePaid;
@@ -102,6 +108,8 @@ public class PropertyDossierDTO implements Serializable {
             this.datePaid = datePaid;
         }
     }
+
+    public class HouseAddress implements Serializable {}
 
     public static class AvailabilityDto {
 
@@ -390,11 +398,11 @@ public class PropertyDossierDTO implements Serializable {
         this.reviews = reviews;
     }
 
-    public Set<HouseCharacteristicsDTO> getCharacteristics() {
+    public Set<PropertyCharacteristicsDTO> getCharacteristics() {
         return characteristics;
     }
 
-    public void setCharacteristics(Set<HouseCharacteristicsDTO> characteristics) {
+    public void setCharacteristics(Set<PropertyCharacteristicsDTO> characteristics) {
         this.characteristics = characteristics;
     }
 
@@ -412,5 +420,61 @@ public class PropertyDossierDTO implements Serializable {
 
     public void setMonthsPaid(MonthsPaidDTO monthsPaid) {
         this.monthsPaid = monthsPaid;
+    }
+
+    public Long getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
+    }
+
+    public Long getEnergyClassId() {
+        return energyClassId;
+    }
+
+    public void setEnergyClassId(Long energyClassId) {
+        this.energyClassId = energyClassId;
+    }
+
+    public HouseApprovalEnum getDisapprovalMessage() {
+        return disapprovalMessage;
+    }
+
+    public void setDisapprovalMessage(HouseApprovalEnum disapprovalMessage) {
+        this.disapprovalMessage = disapprovalMessage;
+    }
+
+    public BigDecimal getPricePerSquareMeter() {
+        return pricePerSquareMeter;
+    }
+
+    public void setPricePerSquareMeter(BigDecimal pricePerSquareMeter) {
+        this.pricePerSquareMeter = pricePerSquareMeter;
+    }
+
+    public LocalDate getStartedRentingDate() {
+        return startedRentingDate;
+    }
+
+    public void setStartedRentingDate(LocalDate startedRentingDate) {
+        this.startedRentingDate = startedRentingDate;
+    }
+
+    public LocalDate getEndingRentingDate() {
+        return endingRentingDate;
+    }
+
+    public void setEndingRentingDate(LocalDate endingRentingDate) {
+        this.endingRentingDate = endingRentingDate;
+    }
+
+    public int getAverageStars() {
+        return averageStars;
+    }
+
+    public void setAverageStars(int averageStars) {
+        this.averageStars = averageStars;
     }
 }

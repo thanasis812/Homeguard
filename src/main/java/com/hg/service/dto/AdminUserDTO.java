@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,7 +46,7 @@ public class AdminUserDTO implements Serializable {
     private AddressDTO address;
     private boolean emailVerified;
     private boolean phoneAvailable;
-    private LocalDate tokenExpirationDate;
+    private Date tokenExpirationDate;
     private boolean hasBothCategories;
     private boolean hasRentedHouse;
 
@@ -244,11 +244,11 @@ public class AdminUserDTO implements Serializable {
         this.phoneAvailable = phoneAvailable;
     }
 
-    public LocalDate getTokenExpirationDate() {
+    public Date getTokenExpirationDate() {
         return tokenExpirationDate;
     }
 
-    public void setTokenExpirationDate(LocalDate tokenExpirationDate) {
+    public void setTokenExpirationDate(Date tokenExpirationDate) {
         this.tokenExpirationDate = tokenExpirationDate;
     }
 
