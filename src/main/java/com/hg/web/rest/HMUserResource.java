@@ -124,15 +124,15 @@ public class HMUserResource {
     //TODO: 6/30/24 implement this
 
     @PostMapping("landlord-registration")
-    public ResponseEntity<List<UserReviewDTO>> landLordRegistration() {
-        throw new RuntimeException("Not implemented");
+    public ResponseEntity landLordRegistration(@RequestBody LandLordRegistrationDTO landLordRegistrationDTO) {
+        return ResponseEntity.ok().build();
     }
 
     //TODO: 6/30/24 implement this
 
     @PostMapping("landlord-communication")
-    public ResponseEntity<List<UserReviewDTO>> landLordCommunication() {
-        throw new RuntimeException("Not implemented");
+    public ResponseEntity<List<UserReviewDTO>> landLordCommunication(@RequestBody LandLordCommunicationDTO landLordCommunicationDTO) {
+        return ResponseEntity.ok().build();
     }
 
     //TODO: 6/30/24 implement this

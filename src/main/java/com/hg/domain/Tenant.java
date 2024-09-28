@@ -52,7 +52,7 @@ public class Tenant implements Serializable {
     private User user;
 
     @JsonIgnoreProperties(value = { "tenant", "property" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
     private Location location;
 
@@ -69,7 +69,7 @@ public class Tenant implements Serializable {
     @JsonIgnoreProperties(value = { "images", "tenant", "landLord", "property" }, allowSetters = true)
     private Set<Review> apartmentReviews = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tenant")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenant")
     @JsonIgnoreProperties(value = { "payments", "tenant", "propertyOwner", "property" }, allowSetters = true)
     private Set<RentalAgreement> rentedPropertysAgreements = new HashSet<>();
 

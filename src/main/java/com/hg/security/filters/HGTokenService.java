@@ -5,6 +5,8 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,14 @@ class HGTokenService {
         throw new TokenParsingException("Error parsing JWT token. missing claim", "Token parsing", "tokenFailure");
     }
 
+    public Date getExpDate(HttpServletRequest request) {
+        Object expDate = getClaims(request).get(CustomClaimEnum.exp.name());
+        if (expDate instanceof Date) {
+            return (Date) expDate;
+        }
+        throw new TokenParsingException("Error parsing JWT token. missing claim", "Token parsing", "tokenFailure");
+    }
+
     public Long getUserId(HttpServletRequest request) {
         Object userId = getClaims(request).get(CustomClaimEnum.userId.name());
         if (userId instanceof Long) {
@@ -63,6 +73,7 @@ class HGTokenService {
 
     private enum CustomClaimEnum {
         tenantId,
+        exp,
         landLordId,
         userId,
     }

@@ -4,6 +4,7 @@ import com.hg.domain.User;
 import com.hg.repository.UserRepository;
 import com.hg.security.SecurityUtils;
 import com.hg.service.MailService;
+import com.hg.service.UserPrincipalService;
 import com.hg.service.UserService;
 import com.hg.service.dto.AdminUserDTO;
 import com.hg.service.dto.PasswordChangeDTO;
@@ -40,13 +41,21 @@ public class AccountResource {
     private final UserRepository userRepository;
 
     private final UserService userService;
+    private final UserPrincipalService principalService;
 
     private final MailService mailService;
     private final AccountMapper accountMapper;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, AccountMapper accountMapper) {
+    public AccountResource(
+        UserRepository userRepository,
+        UserService userService,
+        UserPrincipalService principalService,
+        MailService mailService,
+        AccountMapper accountMapper
+    ) {
         this.userRepository = userRepository;
         this.userService = userService;
+        this.principalService = principalService;
         this.mailService = mailService;
         this.accountMapper = accountMapper;
     }
@@ -93,7 +102,11 @@ public class AccountResource {
     public AdminUserDTO getAccount() {
         return userService
             .getUserWithAuthorities()
-            .map(AdminUserDTO::new)
+            .map(accountMapper::toDto)
+            .map(dto -> {
+                dto.setTokenExpirationDate(principalService.getTokenExpirationDate());
+                return dto;
+            })
             .orElseThrow(() -> new AccountResourceException("User could not be found"));
     }
 

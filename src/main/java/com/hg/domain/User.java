@@ -2,6 +2,7 @@ package com.hg.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hg.config.Constants;
+import com.hg.domain.enumeration.UserCategoryEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -82,6 +83,10 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @JsonIgnore
     private String resetKey;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private UserCategoryEnum category;
+
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
@@ -100,6 +105,14 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     )
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    public UserCategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(UserCategoryEnum category) {
+        this.category = category;
+    }
 
     public Long getId() {
         return id;
